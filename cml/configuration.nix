@@ -9,6 +9,10 @@
     vim
   ];
 
+  nix.settings.trusted-users = [ "jacfal" ];
+  deployment.targetUser = "root";
+  deployment.targetHost = "37.205.13.151";
+
   virtualisation.docker.enable = true;
   services.openssh.enable = true;
   services.openssh.permitRootLogin = "yes";

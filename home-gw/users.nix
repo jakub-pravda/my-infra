@@ -1,5 +1,8 @@
 { config, ... }:
 {
+  # users options
+  security.sudo.wheelNeedsPassword = false;
+
   users.users.jacfal = {
     isNormalUser  = true;
     home  = "/home/jacfal";

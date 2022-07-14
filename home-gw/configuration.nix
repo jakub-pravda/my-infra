@@ -3,13 +3,20 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-
 {
+  nixpkgs.system = "aarch64-linux";
+
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./users.nix
     ];
+
+  # remote deployment options
+
+  deployment.targetHost = "192.168.0.157";
+  deployment.targetUser = "jacfal";
+  nix.settings.trusted-users = [ "jacfal" ];
 
   # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)
   boot.loader.grub.enable = false;
@@ -55,6 +62,7 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+  services.openssh.permitRootLogin = "yes";
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 22 ];
