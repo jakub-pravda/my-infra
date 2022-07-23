@@ -10,14 +10,22 @@
   ];
 
   virtualisation.docker.enable = true;
-  services.openssh.enable = true;
-  services.openssh.permitRootLogin = "yes";
 
+  services.openssh = {
+    enable = true;
+    permitRootLogin = "no";
+  };
+
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 22 ];
+  };
+  
   systemd.extraConfig = ''
     DefaultTimeoutStartSec=900s
   '';
 
-  time.timeZone = "Europe/Amsterdam";
+  time.timeZone = "Europe/Prague";
 
   system.stateVersion = "22.05";
 }
