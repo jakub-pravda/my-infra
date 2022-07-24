@@ -3,6 +3,7 @@
   imports = [
     ./users.nix
     ./vpsadminos.nix
+    ./services/nginx.nix
   ];
 
   environment.systemPackages = with pkgs; [
@@ -18,7 +19,7 @@
 
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 22 ];
+    allowedTCPPorts = [ 80 443 ];
   };
   
   systemd.extraConfig = ''
