@@ -1,6 +1,5 @@
-{ config, ...}:
+{ config, ... }:
 {
-  # zigbee2mqtt service settings
   config.services.zigbee2mqtt = {
     enable = true;
     settings = 
@@ -14,15 +13,5 @@
       frontend.port = 8080;
       advanced.network_key = "GENERATE";
     };
-  };
-
-  # mqtt broker service settings
-  config.services.mosquitto = {
-    enable = true;
-    listeners = [ {
-      acl = [ "pattern readwrite #" ];
-      omitPasswordAuth = true;
-      settings.allow_anonymous = true;
-    } ];
   };
 }
