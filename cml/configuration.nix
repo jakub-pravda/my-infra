@@ -6,8 +6,11 @@
     ./services/nginx.nix
   ];
 
+  networking.hostName = "cml-jpr-net";
+
   environment.systemPackages = with pkgs; [
     vim
+    openssl
   ];
 
   virtualisation.docker.enable = true;
@@ -19,7 +22,7 @@
 
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 80 443 ];
+    allowedTCPPorts = [ 443 ];
   };
   
   systemd.extraConfig = ''
