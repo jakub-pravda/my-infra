@@ -1,5 +1,11 @@
 # NixOs - CheatSheet
 
+List NixOs system generations
+
+```bash
+nix-env --list-generations --profile /nix/var/nix/profiles/system
+```
+
 ## Installation
 
 Install package
