@@ -17,7 +17,7 @@
 
   services.openssh = {
     enable = true;
-    permitRootLogin = "no";
+    permitRootLogin = "prohibit-password";
   };
 
   networking.firewall = {
