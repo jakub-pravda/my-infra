@@ -6,12 +6,18 @@
   };
 
   config.services.nginx = {
-    enable = false;
+    enable = true;
     virtualHosts = {
       "cml.jakubpravda.net" = ({
         forceSSL = true;
         enableACME = true;
-        locations."/".proxyPass = "http://127.0.0.1:9000/";
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:9000/";
+          extraConfig = ''
+            auth_basic "Restricted Content";
+            auth_basic_user_file /etc/.htpasswd;
+          '';
+        };
       });
     };
   };
