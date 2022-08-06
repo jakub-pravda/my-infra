@@ -1,4 +1,7 @@
-{ config, ... }:
+{ config, pkgs, ... }:
+let
+  httpSecret = pkgs.callPackage ../../common/secret-management.nix { inherit pkgs; } /cml-http-endpoint;
+in
 {
   config.services.telegraf = {
     enable = true;
@@ -8,11 +11,13 @@
         servers = [ "tcp://127.0.0.1:1883" ];
         topics = [ "zigbee2mqtt/#" ];
         topic_tag = "topic";
-        data_format = "json"; 
+        data_format = "json";
       };
 
-      outputs.file = {
-        files = [ "stdout" ];
+      outputs.http = {
+        url = "https://cml.jakubpravda.net:4862/";
+        username = "${httpSecret.username}";
+        password = "${httpSecret.password}";
       };
     };
   };
