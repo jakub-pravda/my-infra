@@ -4,6 +4,7 @@
     ./users.nix
     ./vpsadminos.nix
     ./services/nginx.nix
+    ./containers.nix
   ];
 
   networking.hostName = "cml-jpr-net";
@@ -12,8 +13,6 @@
     vim
     openssl
   ];
-
-  virtualisation.docker.enable = true;
 
   services.openssh = {
     enable = true;

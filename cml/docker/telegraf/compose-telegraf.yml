@@ -1,8 +1,0 @@
-services:
-  telegraf-iot-listener:
-    image: telegraf:1.23
-    restart: always
-    ports:
-      - "127.0.0.1:2684:2684"
-    volumes:
-      - ./telegraf-iot-listener.conf:/etc/telegraf/telegraf.conf:ro
