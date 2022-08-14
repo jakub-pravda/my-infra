@@ -1,7 +1,13 @@
 { config, pkgs, ...}:
 let 
   telegrafIotListenerConfig = pkgs.callPackage ./config/telegraf-iot-listener.nix { inherit pkgs; };
+  telegrafQuestFeederConfig = pkgs.callPackage ./config/telegraf-iot-quest-feeder.nix { inherit pkgs; };
   dockerIotNetworkName = "iot-network";
+
+  # images
+  questDbVersion = "questdb/questdb";
+  rabbitMqVersion = "rabbitmq:3.10-management";
+  telegrafImageVersion = "telegraf:1.23";
 in {
   config.system.activationScripts = {
     createDockerNetwork = {
@@ -18,16 +24,24 @@ in {
   config.virtualisation.oci-containers.containers = {
     
     telegraf-iot-listener = {
-      image = "telegraf:1.23";
+      image = "${telegrafImageVersion}";
       ports = ["127.0.0.1:2684:2684"];
-      volumes = [ 
+      volumes = [
         "${telegrafIotListenerConfig}:/etc/telegraf/telegraf.conf:ro"
       ];
       extraOptions = ["--network=${dockerIotNetworkName}"];
     };
 
+    telegraf-iot-quest-feeder = {
+      image = "${telegrafImageVersion}";
+      volumes = [
+        "${telegrafQuestFeederConfig}:/etc/telegraf/telegraf.conf:ro"
+      ];
+      extraOptions = ["--network=${dockerIotNetworkName}"];
+    };
+
     rabbit-mq = {
-      image = "rabbitmq:3.10-management";
+      image = "${rabbitMqVersion}";
       ports = [
         "127.0.0.1:5672:5672"
         "127.0.0.1:15672:15672"
@@ -36,8 +50,8 @@ in {
     };
 
     quest-db = {
-      image = "questdb/questdb";
-      ports = [ "127.0.0.1:9000:9000" ];
+      image = "${questDbVersion}";
+      ports = [ "127.0.0.1:9000:9000" "127.0.0.1:9009:9009" ];
       extraOptions = ["--network=${dockerIotNetworkName}"];
     };
   };
