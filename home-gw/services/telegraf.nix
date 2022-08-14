@@ -16,6 +16,8 @@ in
 
       outputs.http = {
         url = "https://cml.jakubpravda.net:4862/";
+        method = "POST";
+        data_format = "influx";
         username = "${httpSecret.username}";
         password = "${httpSecret.password}";
       };

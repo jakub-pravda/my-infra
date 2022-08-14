@@ -12,6 +12,7 @@
   environment.systemPackages = with pkgs; [
     vim
     openssl
+    tcpdump
   ];
 
   services.openssh = {
@@ -21,7 +22,7 @@
 
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 443 4862 ];
+    allowedTCPPorts = [ 4862 ];
   };
   
   systemd.extraConfig = ''
