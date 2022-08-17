@@ -10,7 +10,7 @@ let
   telegrafImageVersion = "telegraf:1.23";
 in {
   config.system.activationScripts = {
-    createDockerNetwork = {
+    createDockerNetworks = {
       text = ''
       if [[ -z "$(${pkgs.docker}/bin/docker network ls -q --filter name=${dockerIotNetworkName})" ]]; then
         echo "Creating new docker network (${dockerIotNetworkName})"
@@ -51,7 +51,11 @@ in {
 
     quest-db = {
       image = "${questDbVersion}";
-      ports = [ "127.0.0.1:9000:9000" "127.0.0.1:9009:9009" ];
+      ports = [ 
+        "127.0.0.1:9000:9000" 
+        "127.0.0.1:9009:9009" 
+        "127.0.0.1:8812:8812" 
+      ];
       extraOptions = ["--network=${dockerIotNetworkName}"];
     };
   };

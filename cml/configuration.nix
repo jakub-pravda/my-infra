@@ -3,7 +3,7 @@
   imports = [
     ./users.nix
     ./vpsadminos.nix
-    ./services/nginx.nix
+    ./services/all.nix
     ./containers.nix
   ];
 
