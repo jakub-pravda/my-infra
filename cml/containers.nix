@@ -8,10 +8,17 @@ let
   questDbVersion = "questdb/questdb";
   rabbitMqVersion = "rabbitmq:3.10-management";
   telegrafImageVersion = "telegraf:1.23";
+
+  # volumes
+  questDbDataPath = "/var/lib/questdb-docker-vol";
 in {
   config.system.activationScripts = {
-    createDockerNetworks = {
+    dockerEnvInit = {
       text = ''
+      # prepare directories for volumes
+      mkdir -p ${questDbDataPath}
+
+      # create docker networks
       if [[ -z "$(${pkgs.docker}/bin/docker network ls -q --filter name=${dockerIotNetworkName})" ]]; then
         echo "Creating new docker network (${dockerIotNetworkName})"
         ${pkgs.docker}/bin/docker network create ${dockerIotNetworkName}
@@ -55,6 +62,9 @@ in {
         "127.0.0.1:9000:9000" 
         "127.0.0.1:9009:9009" 
         "127.0.0.1:8812:8812" 
+      ];
+      volumes = [
+        "${questDbDataPath}:/var/lib/questdb"
       ];
       extraOptions = ["--network=${dockerIotNetworkName}"];
     };
