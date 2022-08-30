@@ -1,10 +1,8 @@
 { config, pkgs, ... }:
 {
   imports = [
-    ./users.nix
     ./vpsadminos.nix
-    ./services/all.nix
-    ./containers.nix
+    ../../modules/iot-cml/default.nix # activate iot-cml
   ];
 
   networking.hostName = "cml-jpr-net";
