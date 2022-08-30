@@ -12,6 +12,6 @@ pkgs.writeText "telegraf-iot-listener.conf" ''
     exchange = "sensors-home-gw"
 
   # Debug
-  # [[outputs.file]]
-  #   files = ["stdout"]
+  [[outputs.file]]
+    files = ["stdout"]
 ''
