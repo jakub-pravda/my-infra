@@ -6,10 +6,11 @@ pkgs.writeText "telegraf-iot-listener.conf" ''
     methods = ["POST"]
     data_format = "influx"
 
-  # https://github.com/influxdata/telegraf/blob/master/plugins/outputs/amqp/README.md
-  [[outputs.amqp]]
-    brokers = ["amqp://rabbit-mq:5672"]
-    exchange = "sensors-home-gw"
+  # https://github.com/influxdata/telegraf/blob/release-1.9/plugins/outputs/kafka/README.md
+  [[outputs.kafka]]
+    brokers = ["redpanda-1:9092"]
+    topic = "sensors-raw"
+    data_format = "influx"
 
   # Debug
   [[outputs.file]]

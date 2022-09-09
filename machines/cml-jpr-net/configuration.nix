@@ -8,6 +8,7 @@
   networking.hostName = "cml-jpr-net";
 
   environment.systemPackages = with pkgs; [
+    kcat
     vim
     openssl
     tcpdump
