@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 let
-  httpSecret = pkgs.callPackage ../../common/secret-management.nix { inherit pkgs; } /cml-http-endpoint;
+  httpSecret = pkgs.callPackage ../../../common/secret-management.nix { inherit pkgs; } /cml-http-endpoint;
 in
 {
   config.services.telegraf = {

@@ -6,6 +6,18 @@ List NixOs system generations
 nix-env --list-generations --profile /nix/var/nix/profiles/system
 ```
 
+Rollback to previous generation
+
+```bash
+ nixos-rebuild switch --rollback
+```
+
+Rollback to N generation
+
+```bash
+/nix/var/nix/profiles/system-N-link/bin/switch-to-configuration switch
+```
+
 ## Installation
 
 Install package
