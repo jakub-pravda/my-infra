@@ -24,6 +24,8 @@ in
       # Components required to complete the onboarding
       "met"
       "radio_browser"
+      # Zigbee2mqtt
+      "mqtt"
     ];
   };
 }

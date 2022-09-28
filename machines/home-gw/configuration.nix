@@ -10,7 +10,7 @@
       ./hardware-configuration.nix
       ../../common/users.nix
       ../../modules/iot-gw/default.nix # activate io-gw module
-      ../../modules/home-assistant.nix
+      ../../modules/home-assistant
     ];
 
   # nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos:nixos-config=/etc/nixos/configuration.nix:/nix/var/nix/profiles/per-user/root/channels
