@@ -14,6 +14,11 @@ in
         data_format = "json";
       };
 
+      # debug options
+      outputs.file = {
+        files = ["stdout"];
+      };
+
       outputs.http = {
         url = "https://cml.jakubpravda.net:4862/";
         method = "POST";
