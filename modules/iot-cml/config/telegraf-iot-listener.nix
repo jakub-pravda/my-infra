@@ -11,6 +11,7 @@ pkgs.writeText "telegraf-iot-listener.conf" ''
     brokers = ["redpanda-1:9092"]
     topic = "sensors-raw"
     data_format = "influx"
+    version = "2.8.2" # redpanda supports only kafka 2 version
 
   # Debug
   [[outputs.file]]

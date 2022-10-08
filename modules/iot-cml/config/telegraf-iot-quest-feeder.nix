@@ -5,6 +5,7 @@ pkgs.writeText "telegraf-iot-quest-feeder.conf" ''
     brokers = ["redpanda-1:9092"]
     topics = ["sensors-raw"]
     max_message_len = 1000000
+    version = "2.8.2" # redpanda supports only kafka 2 version
     data_format = "influx"
 
   [[outputs.socket_writer]]
