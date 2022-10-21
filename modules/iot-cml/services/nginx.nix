@@ -22,14 +22,5 @@
         };
       });
     };
-    streamConfig = ''
-      server {
-        listen 8883;
-        proxy_pass 127.0.0.1:1883;
-        ssl_certificate /var/lib/acme/cml.jakubpravda.net/fullchain.pem;
-        ssl_certificate_key /var/lib/acme/cml.jakubpravda.net/key.pem;
-        ssl_trusted_certificate /var/lib/acme/cml.jakubpravda.net/chain.pem;
-      }
-    '';
   };
 }
