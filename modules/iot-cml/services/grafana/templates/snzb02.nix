@@ -453,7 +453,6 @@ in dataSourceUid: title: topic: pkgs.writeText "template" ''
   "timepicker": {},
   "timezone": "",
   "title": "${title}",
-  "uid": "VH7vRmSVz",
   "version": 6,
   "weekStart": ""
 }
