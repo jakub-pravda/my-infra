@@ -3,6 +3,7 @@
   imports = [
     ./vpsadminos.nix
     ../../modules/iot-cml/default.nix # activate iot-cml
+    ../../common/devices.nix
   ];
 
   networking.hostName = "cml-jpr-net";

@@ -1,5 +1,6 @@
 { config, pkgs, ... }:
 let
+  baseTopic = config.iot.hubName;
   httpSecret = pkgs.callPackage ../../../common/secret-management.nix { inherit pkgs; } /cml-http-endpoint;
 in
 {
@@ -9,7 +10,7 @@ in
 
       inputs.mqtt_consumer = {
         servers = [ "tcp://127.0.0.1:1883" ];
-        topics = [ "zigbee2mqtt/#" ];
+        topics = [ "${baseTopic}/#" ];
         topic_tag = "topic";
         data_format = "json";
       };

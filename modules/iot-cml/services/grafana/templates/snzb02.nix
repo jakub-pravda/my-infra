@@ -228,7 +228,7 @@ in dataSourceUid: title: topic: pkgs.writeText "template" ''
           "group": [],
           "metricColumn": "none",
           "rawQuery": false,
-          "rawSql": "SELECT\n  timestamp AS \"time\",\n  linkquality\nFROM mqtt_consumer\nORDER BY 1",
+          "rawSql": "SELECT\n  timestamp AS \"time\",\n  linkquality\nFROM mqtt_consumer\nWHERE topic in ('${topic}')\nORDER BY 1",
           "refId": "A",
           "select": [
             [
@@ -332,7 +332,7 @@ in dataSourceUid: title: topic: pkgs.writeText "template" ''
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  $__timeGroupAlias(timestamp,15m,previous),\n  humidity AS \"humidity\"\nFROM mqtt_consumer\nGROUP BY 1\nORDER BY 1",
+          "rawSql": "SELECT\n  $__timeGroupAlias(timestamp,15m,previous),\n  humidity AS \"humidity\"\nFROM mqtt_consumer\nWHERE topic in ('${topic}')\nGROUP BY 1\nORDER BY 1",
           "refId": "A",
           "select": [
             [
@@ -418,7 +418,7 @@ in dataSourceUid: title: topic: pkgs.writeText "template" ''
           "group": [],
           "metricColumn": "none",
           "rawQuery": false,
-          "rawSql": "SELECT\n  timestamp AS \"time\",\n  battery\nFROM mqtt_consumer\nORDER BY 1",
+          "rawSql": "SELECT\n  timestamp AS \"time\",\n  battery\nFROM mqtt_consumer\nWHERE topic in ('${topic}')\nORDER BY 1",
           "refId": "A",
           "select": [
             [

@@ -13,7 +13,7 @@ let
   };
 
   # ** DASHBOARDS **
-  snzb02SenzorDashboard = (import ./grafana/templates/snzb02dashboard.nix { inherit pkgs; });
+  snzb02SenzorDashboard = (import ./grafana/templates/snzb02dashboard.nix { inherit config; inherit pkgs; });
 in
 {
   config.services.grafana = {

@@ -1,13 +1,19 @@
-{ config, ... }:
-{
-  config.services.zigbee2mqtt = {
+{ config, lib, ... }:
+with lib;
+let
+  devicesMap = map (
+    device: { 
+      name  = device.id; 
+      value = { friendly_name="${device.location}/${device.name}"; }; 
+    }) config.iot.devices;
+
+in { config.services.zigbee2mqtt = {
     enable = true;
-    settings = 
-    {
+    settings = {
       homeassistant = config.services.home-assistant.enable;
       permit_join = true;
       mqtt = {
-        base_topic = "zigbee2mqtt";
+        base_topic = config.iot.hubName;
         server = "mqtt://localhost:1883";
       };
       serial.port = "/dev/ttyUSB0";
@@ -31,11 +37,7 @@
         27
       ];
 
-      devices = {
-      "0x00124b00251f6180" = {
-        friendly_name = "kitchen/son-sns-01";
-      };
-    };
+      devices = listToAttrs devicesMap;
     };
   };
 }
