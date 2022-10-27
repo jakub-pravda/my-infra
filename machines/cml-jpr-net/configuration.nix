@@ -22,7 +22,7 @@
 
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 4862 ];
+    allowedTCPPorts = [ 4862 80 443 ];
   };
   
   systemd.extraConfig = ''

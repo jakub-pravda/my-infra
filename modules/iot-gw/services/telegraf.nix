@@ -21,7 +21,7 @@ in
       };
 
       outputs.http = {
-        url = "https://cml.jakubpravda.net:4862/";
+        url = "https://cml.jakubpravda.net/";
         method = "POST";
         data_format = "influx";
         username = "${httpSecret.username}";
