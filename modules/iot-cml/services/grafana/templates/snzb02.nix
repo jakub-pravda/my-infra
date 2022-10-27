@@ -28,7 +28,6 @@ in dataSourceUid: title: topic: pkgs.writeText "template" ''
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 2,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -227,7 +226,7 @@ in dataSourceUid: title: topic: pkgs.writeText "template" ''
           "format": "time_series",
           "group": [],
           "metricColumn": "none",
-          "rawQuery": false,
+          "rawQuery": true,
           "rawSql": "SELECT\n  timestamp AS \"time\",\n  linkquality\nFROM mqtt_consumer\nWHERE topic in ('${topic}')\nORDER BY 1",
           "refId": "A",
           "select": [
@@ -417,7 +416,7 @@ in dataSourceUid: title: topic: pkgs.writeText "template" ''
           "format": "time_series",
           "group": [],
           "metricColumn": "none",
-          "rawQuery": false,
+          "rawQuery": true,
           "rawSql": "SELECT\n  timestamp AS \"time\",\n  battery\nFROM mqtt_consumer\nWHERE topic in ('${topic}')\nORDER BY 1",
           "refId": "A",
           "select": [
