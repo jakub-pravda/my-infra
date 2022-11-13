@@ -32,4 +32,13 @@
   time.timeZone = "Europe/Prague";
 
   system.stateVersion = "22.05";
+
+  # monitoring
+  services.datadog-agent = {
+    enable    = true;
+    hostname  = "cml-jpr-net";
+    site      = "datadoghq.eu";
+
+    apiKeyFile = /run/keys/datadog_api_key;
+  };
 }

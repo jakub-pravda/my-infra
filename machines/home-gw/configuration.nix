@@ -83,4 +83,13 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.05"; # Did you read the comment?
+
+  # monitoring
+  services.datadog-agent = {
+    enable    = true;
+    hostname  = "home-gw";
+    site      = "datadoghq.eu";
+
+    apiKeyFile = /run/keys/datadog_api_key;
+  };
 }
