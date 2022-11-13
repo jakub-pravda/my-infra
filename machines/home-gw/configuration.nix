@@ -64,7 +64,8 @@
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 
     22  
-    8080 #zigbee2mqtt frontend 
+    8080 # zigbee2mqtt frontend
+    8123 # home-automation
   ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
