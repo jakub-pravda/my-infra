@@ -18,6 +18,29 @@ Rollback to N generation
 /nix/var/nix/profiles/system-N-link/bin/switch-to-configuration switch
 ```
 
+Run repl with input arguments `{ pkgs, lib, ... }`
+
+```bash
+nix repl ./jacfal.wiki.nix --arg lib '<nixpkgs>' --arg pkgs '<nixpkgs>'
+```
+
+Run tests via build
+
+
+```bash
+nix-build ./test-jacfal-wiki.nix
+```
+
+RUn tests interactively within Python session
+
+```bash
+$(nix-build -A driverInteractive test-jacfal-wiki.nix)/bin/nixos-test-driver
+...
+>>> start_all()
+>>> server.shell_interact()
+```
+
+
 ## Installation
 
 Install package
@@ -66,6 +89,22 @@ Determine nixpkgs platform
 
 ```bash
 bash $(nix-build '<nixpkgs>' -A gnu-config)/config.guess
+```
+
+## Necessary manual steps
+
+Set httppasswd when iot pipeline enabled
+
+```sh
+sudo sh -c "echo -n 'sammy:' >> /etc/.htpasswd"
+sudo sh -c "openssl passwd -apr1 >> /etc/.htpasswd"
+```
+
+Set wiki access passwd when wiki enabled
+
+```sh
+sudo sh -c "echo -n 'sammy:' >> /etc/.wikipasswd"
+sudo sh -c "openssl passwd -apr1 >> /etc/.wikipasswd"
 ```
 
 # NixOps - CheatSheet

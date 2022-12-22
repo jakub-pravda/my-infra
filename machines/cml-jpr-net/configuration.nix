@@ -1,6 +1,6 @@
-{ config, pkgs, ... }:
-{
+{ config, pkgs, ... }: {
   imports = [
+    ../../modules/services
     ./vpsadminos.nix
     ../../modules/iot-cml/default.nix # activate iot-cml
     ../../common/devices.nix
@@ -8,12 +8,7 @@
 
   networking.hostName = "cml-jpr-net";
 
-  environment.systemPackages = with pkgs; [
-    kcat
-    vim
-    openssl
-    tcpdump
-  ];
+  environment.systemPackages = with pkgs; [ kcat vim openssl tcpdump ];
 
   services.openssh = {
     enable = true;
@@ -24,7 +19,7 @@
     enable = true;
     allowedTCPPorts = [ 4862 80 443 ];
   };
-  
+
   systemd.extraConfig = ''
     DefaultTimeoutStartSec=900s
   '';
@@ -33,12 +28,16 @@
 
   system.stateVersion = "22.05";
 
-  # monitoring
-  services.datadog-agent = {
-    enable    = true;
-    hostname  = "cml-jpr-net";
-    site      = "datadoghq.eu";
+  # allow machine specific services
+  services.jacfal-wiki.enable = true;
 
-    apiKeyFile = /run/keys/datadog_api_key;
-  };
+  # monitoring
+  # TODO bind key to nixos
+  # services.datadog-agent = {
+  #   enable    = true;
+  #   hostname  = "cml-jpr-net";
+  #   site      = "datadoghq.eu";
+
+  #   apiKeyFile = /run/keys/datadog_api_key;
+  # };
 }
