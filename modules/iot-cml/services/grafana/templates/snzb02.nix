@@ -1,7 +1,5 @@
 { pkgs, ... }:
-let
-  hello = "";
-in dataSourceUid: title: topic: pkgs.writeText "template" ''
+dataSourceUid: title: topic: pkgs.writeText "template" ''
 {
   "annotations": {
     "list": [

@@ -26,7 +26,13 @@
 
   time.timeZone = "Europe/Prague";
 
-  system.stateVersion = "22.05";
+  system = {
+    autoUpgrade = {
+      enable        = true;
+      allowReboot   = true;
+    };
+    stateVersion = "22.05";
+  };
 
   # allow machine specific services
   services.jacfal-wiki.enable = true;
