@@ -4,11 +4,23 @@
     ./vpsadminos.nix
     ../../modules/iot-cml/default.nix # activate iot-cml
     ../../common/devices.nix
+    ./wg-server.nix
   ];
 
   networking.hostName = "cml-jpr-net";
 
-  environment.systemPackages = with pkgs; [ kcat vim openssl tcpdump ];
+  environment.systemPackages = with pkgs; [ 
+    atop
+    kcat 
+    vim 
+    openssl 
+    tcpdump
+    wireguard-tools
+  ];
+
+  environment.etc."nixos/configuration.nix" = {
+    source = "/home/jacfal/my-infra/machines/cml-jpr-net/configuration.nix";
+  };
 
   services.openssh = {
     enable = true;
@@ -17,7 +29,13 @@
 
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 4862 80 443 ];
+    allowedTCPPorts = [ 
+      80    # http
+      443   # https
+    ];
+    allowedUDPPorts = [ 
+      51820 # wireguard VPN
+    ];
   };
 
   systemd.extraConfig = ''

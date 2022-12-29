@@ -49,7 +49,7 @@ Install package
 $ nix-env -i hello
 ```
 
-List generations 
+List generations sx
 
 ```bash
 $ nix-env --list-generations
