@@ -3,7 +3,7 @@
 {
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../../common/devices.nix
+    ../../common/sensor-node-conf.nix
     ../../common/users.nix
     ../../modules/iot-gw # activate io-gw module
     ../../modules/home-assistant

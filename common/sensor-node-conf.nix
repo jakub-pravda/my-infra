@@ -1,7 +1,9 @@
 { ... }:
-# All devices definition
+# Configuration of sensor node (my-home kr)
+# TODO move to the machine configuration
 {
-  iot = {
+  sensor-node = {
+    cmlHost = "10.100.0.1";
     hubName = "myhome-kr";
     devices = [
       {

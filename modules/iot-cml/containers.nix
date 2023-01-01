@@ -1,27 +1,30 @@
 { config, pkgs, ...}:
 let 
+  dockerIotNetworkName = "iot-network";
+  
   telegrafIotListenerConfig = pkgs.callPackage ./config/telegraf-iot-listener.nix { inherit pkgs; };
   telegrafQuestFeederConfig = pkgs.callPackage ./config/telegraf-iot-quest-feeder.nix { inherit pkgs; };
-  dockerIotNetworkName = "iot-network";
+  mosquittoConf = pkgs.callPackage ./config/mosquitto.nix { inherit pkgs; };
 
   # images
+  mosquittoVersion      = "eclipse-mosquitto:2.0.15";
   questDbVersion        = "questdb/questdb";
   redPandaVersion       = "docker.redpanda.com/vectorized/redpanda:latest";     
-  rabbitMqVersion       = "rabbitmq:3.10-management";
   telegrafImageVersion  = "telegraf:1.23";
 
   # volumes
   questDbDataPath   = "/var/lib/questdb-docker-vol"; # TODO docker volume
   redPandaDataPath  = "redpanda-1-docker-vol";
+  mosqittoDataPath  = "/var/lib/mosquitto-docker-vol";
 
-  # container specific
-  numOfRedpandaInstances = 3;
+  # mosquitto must be accessible from nodes
+  cmlNodeCfg = config.services.cml-node;
 in {
   config.system.activationScripts = {
     dockerEnvInit = {
       text = ''
       # prepare directories for volumes
-      mkdir -p ${questDbDataPath} ${redPandaDataPath}
+      mkdir -p ${questDbDataPath} ${mosqittoDataPath}
 
       # create docker networks
       if [[ -z "$(${pkgs.docker}/bin/docker network ls -q --filter name=${dockerIotNetworkName})" ]]; then
@@ -84,6 +87,16 @@ in {
         "${questDbDataPath}:/var/lib/questdb"
       ];
       extraOptions = ["--network=${dockerIotNetworkName}"];
+    };
+
+    mosquitto = {
+      image = "${mosquittoVersion}";
+      ports = [ "${cmlNodeCfg.wireguardInterfaceIp}:${toString cmlNodeCfg.mosquittoPort}:1883" ];
+      volumes = [
+        "${mosquittoConf}:/mosquitto/config/mosquitto.conf"
+        "${mosqittoDataPath}/data:/mosquitto/data"
+        "${mosqittoDataPath}/log:/mosquitto/log"
+      ];
     };
   };
 }

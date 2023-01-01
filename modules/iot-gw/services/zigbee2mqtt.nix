@@ -5,7 +5,7 @@ let
     device: { 
       name  = device.id; 
       value = { friendly_name="${device.location}/${device.name}"; }; 
-    }) config.iot.devices;
+    }) config.sensor-node.devices;
 
 in { config.services.zigbee2mqtt = {
     enable = true;
@@ -13,7 +13,7 @@ in { config.services.zigbee2mqtt = {
       homeassistant = config.services.home-assistant.enable;
       permit_join = true;
       mqtt = {
-        base_topic = config.iot.hubName;
+        base_topic = config.sensor-node.hubName;
         server = "mqtt://localhost:1883";
       };
       serial.port = "/dev/ttyUSB0";

@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 let
-  iotCfg      = config.iot;
+  iotCfg      = config.sensor-node;
   dashboardTemplate =  pkgs.callPackage ./snzb02.nix { } "P2596F1C8E12435D2"; # fixed datasource uid, need to update to unstable nix to have grafana with uid options
   snzbDevices = builtins.filter (device: device.type == "SNZB-02") iotCfg.devices;
 

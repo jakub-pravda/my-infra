@@ -1,19 +1,20 @@
 { config, pkgs, ... }: {
   imports = [
+    ../../modules/iot-gw/sensor-node.nix
     ../../modules/services
     ./vpsadminos.nix
     ../../modules/iot-cml/default.nix # activate iot-cml
-    ../../common/devices.nix
+    ../../common/sensor-node-conf.nix
     ./wg-server.nix
   ];
 
   networking.hostName = "cml-jpr-net";
 
-  environment.systemPackages = with pkgs; [ 
+  environment.systemPackages = with pkgs; [
     atop
-    kcat 
-    vim 
-    openssl 
+    kcat
+    vim
+    openssl
     tcpdump
     wireguard-tools
   ];
@@ -29,11 +30,12 @@
 
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 
+    allowedTCPPorts = [
       80    # http
       443   # https
+      1883  # mosquitto
     ];
-    allowedUDPPorts = [ 
+    allowedUDPPorts = [
       51820 # wireguard VPN
     ];
   };

@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 let
-  baseTopic = config.iot.hubName;
+  baseTopic = config.sensor-node.hubName;
   httpSecret = pkgs.callPackage ../../../common/secret-management.nix { inherit pkgs; } /cml-http-endpoint;
 in
 {

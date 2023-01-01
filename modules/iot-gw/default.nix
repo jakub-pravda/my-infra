@@ -1,7 +1,7 @@
 { ... }:
 {
-  imports = [ 
+  imports = [
+    ./sensor-node.nix 
     ./services/all.nix 
-    ../../common/iot.nix
   ];
 }
