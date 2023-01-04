@@ -2,9 +2,11 @@
 let 
   dockerIotNetworkName = "iot-network";
   
-  telegrafIotListenerConfig = pkgs.callPackage ./config/telegraf-iot-listener.nix { inherit pkgs; };
-  telegrafQuestFeederConfig = pkgs.callPackage ./config/telegraf-iot-quest-feeder.nix { inherit pkgs; };
-  mosquittoConf = pkgs.callPackage ./config/mosquitto.nix { inherit pkgs; };
+  # mosquitto must be accessible from nodes
+  cmlNodeCfg = config.services.cml-node;
+
+  telegrafQuestFeederConfig = pkgs.callPackage ./conf/telegraf-iot-quest-feeder.nix { inherit config; inherit pkgs; };
+  mosquittoConf = pkgs.callPackage ./conf/mosquitto.nix { inherit pkgs; };
 
   # images
   mosquittoVersion      = "eclipse-mosquitto:2.0.15";
@@ -16,9 +18,6 @@ let
   questDbDataPath   = "/var/lib/questdb-docker-vol"; # TODO docker volume
   redPandaDataPath  = "redpanda-1-docker-vol";
   mosqittoDataPath  = "/var/lib/mosquitto-docker-vol";
-
-  # mosquitto must be accessible from nodes
-  cmlNodeCfg = config.services.cml-node;
 in {
   config.system.activationScripts = {
     dockerEnvInit = {
@@ -87,6 +86,7 @@ in {
         "${mosqittoDataPath}/data:/mosquitto/data"
         "${mosqittoDataPath}/log:/mosquitto/log"
       ];
+      extraOptions = ["--network=${dockerIotNetworkName}"];
     };
   };
 }

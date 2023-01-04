@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs }:
 pkgs.writeText "mosquitto.conf" ''
 persistence true
 allow_anonymous true
