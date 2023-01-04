@@ -13,22 +13,6 @@ in {
   config.services.nginx = {
     enable = true;
     virtualHosts = {
-
-      "cml" = {
-        forceSSL = true;
-        serverName = "cml.jakubpravda.net";
-        enableACME = true;
-        locations = {
-          "/" = {
-            proxyPass = "http://127.0.0.1:2684/telegraf";
-            extraConfig = ''
-              auth_basic "Restricted Content";
-              auth_basic_user_file /etc/.htpasswd;
-            '';
-          };
-        };
-      };
-
       "wiki" = lib.mkIf wikiCfg.enable {
         forceSSL = true;
         serverName = "wiki.jakubpravda.net";

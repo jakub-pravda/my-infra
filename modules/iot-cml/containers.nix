@@ -37,16 +37,6 @@ in {
 
   config.virtualisation.oci-containers.backend = "docker";
   config.virtualisation.oci-containers.containers = {
-    
-    telegraf-iot-listener = {
-      image = "${telegrafImageVersion}";
-      ports = ["127.0.0.1:2684:2684"];
-      volumes = [
-        "${telegrafIotListenerConfig}:/etc/telegraf/telegraf.conf:ro"
-      ];
-      extraOptions = ["--network=${dockerIotNetworkName}"];
-    };
-
     telegraf-iot-quest-feeder = {
       image = "${telegrafImageVersion}";
       volumes = [
