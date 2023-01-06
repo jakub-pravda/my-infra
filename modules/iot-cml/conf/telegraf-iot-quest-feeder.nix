@@ -8,7 +8,16 @@ in pkgs.writeText "telegraf-iot-quest-feeder.conf" ''
     topics = [ "${sensorNode.hubName}/#" ]
     qos = 1
     data_format = "json"
-    fieldpass = ["battery", "humidity", "linkquality", "temperature" ]
+    fieldpass = [
+      "battery",
+      "linkquality", 
+      "humidity",
+      "temperature",
+      "external_measured_room_sensor",
+      "local_temperature",
+      "occupied_heating_setpoint_scheduled",
+      "pi_heating_demand"
+      ]
 
   [[outputs.socket_writer]]
     # Write metrics to a local QuestDB instance over TCP
