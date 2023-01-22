@@ -7,6 +7,7 @@
     ../../common/users.nix
     ../../modules/iot-gw # activate io-gw module
     ../../modules/home-assistant
+    ../../modules/services
     ./wg-client.nix
   ];
 
@@ -22,19 +23,24 @@
 
   environment.systemPackages = with pkgs; [
     atop
+    git
     tcpdump
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     wireguard-tools
   ];
 
-  services.openssh.enable = true;
+  services = {
+    openssh.enable = true;
+    iot-gw.enable = true;
+  };
+
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [
     22
     51820 # wireguard VPN
-    8080  # zigbee2mqtt frontend
-    8123  # home-automation
+    8080 # zigbee2mqtt frontend
+    8123 # home-automation
   ];
   system.stateVersion = "22.05"; # Did you read the comment?
   system.autoUpgrade = {

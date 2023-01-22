@@ -12,6 +12,7 @@
 
   environment.systemPackages = with pkgs; [
     atop
+    git
     kcat
     vim
     openssl
@@ -31,9 +32,9 @@
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [
-      80    # http
-      443   # https
-      1883  # mosquitto
+      80 # http
+      443 # https
+      1883 # mosquitto
     ];
     allowedUDPPorts = [
       51820 # wireguard VPN
@@ -48,8 +49,8 @@
 
   system = {
     autoUpgrade = {
-      enable        = true;
-      allowReboot   = true;
+      enable = true;
+      allowReboot = true;
     };
     stateVersion = "22.05";
   };
