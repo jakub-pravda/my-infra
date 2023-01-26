@@ -21,9 +21,9 @@ in {
             --broker tcp://${iotMosquittoCfg.address}:${
               toString iotMosquittoCfg.port
             } \
-            --sensor-topic myhome-kr/livingroom/son-sns-01 \
-            --trv-topic myhome-kr/livingroom/danfoss-thermo-01 \
-            --cron ${topicSyncCron}
+            --sensor-topic 'myhome-kr/livingroom/son-sns-01' \
+            --trv-topic 'myhome-kr/livingroom/danfoss-thermo-01' \
+            --cron '${topicSyncCron}'
         '';
       };
     };
