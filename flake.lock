@@ -15,18 +15,33 @@
         "type": "github"
       }
     },
+    "flake-utils_2": {
+      "locked": {
+        "lastModified": 1667395993,
+        "narHash": "sha256-nuEHfE/LcWyuSWnS8t12N1wc105Qtau+/OdUAjtQ0rA=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "5aed5285a952e0b949eb3ba02c12fa4fcfef535f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "go-home": {
       "inputs": {
-        "flake-utils": "flake-utils",
+        "flake-utils": "flake-utils_2",
         "gomod2nix": "gomod2nix",
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1674306114,
-        "narHash": "sha256-gEXnTjFN/+/OTNIMxwCgI8QSLD7bGVbsZSwFLVA+OpE=",
+        "lastModified": 1674765982,
+        "narHash": "sha256-kRmz4s4T96+rFtyp5ug3zY7WEGqPJvzhnphOaZeYtFU=",
         "owner": "jakub-pravda",
         "repo": "go-home",
-        "rev": "1bc5afab0c40ac944a99835f8222201b0d04dcc3",
+        "rev": "7dec2426b36c3753194ead6f7b698fa347a98f10",
         "type": "github"
       },
       "original": {
@@ -72,11 +87,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1674120619,
-        "narHash": "sha256-xLT1FQl7/jNPOEq5q/vmc3AExt1V9LtcjM+QY2+MUpA=",
+        "lastModified": 1674459583,
+        "narHash": "sha256-L0UZl/u2H3HGsrhN+by42c5kNYeKtdmJiPzIRvEVeiM=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "d7705c01ef0a39c8ef532d1033bace8845a07d35",
+        "rev": "1b1f50645af2a70dc93eae18bfd88d330bfbcf7f",
         "type": "github"
       },
       "original": {
@@ -88,11 +103,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1674242456,
-        "narHash": "sha256-yBy7rCH7EiBe9+CHZm9YB5ii5GRa+MOxeW0oDEBO8SE=",
+        "lastModified": 1674692158,
+        "narHash": "sha256-oqGpwVg4D+eMSgF7Th5Ve1ysCiH3H3g85vGJ3nvJsZQ=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "cdead16a444a3e5de7bc9b0af8e198b11bb01804",
+        "rev": "def9e420d27c951026d57dc96ce0218c3131f412",
         "type": "github"
       },
       "original": {
@@ -104,6 +119,7 @@
     },
     "root": {
       "inputs": {
+        "flake-utils": "flake-utils",
         "go-home": "go-home",
         "nixpkgs": "nixpkgs_3"
       }
