@@ -1,3 +1,9 @@
+# Home manager - Apply configuration
+
+```bash
+home-manager switch --flake './#jacob'
+```
+
 # NixOs - CheatSheet
 
 List NixOs system generations
