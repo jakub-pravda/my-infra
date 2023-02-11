@@ -3,9 +3,7 @@
 {
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../../common/sensor-node-conf.nix
     ../../common/users.nix
-    ../../modules/iot-gw # activate io-gw module
     ../../modules/home-assistant
     ../../modules/services
     ./wg-client.nix
@@ -32,7 +30,16 @@
 
   services = {
     openssh.enable = true;
-    iot-gw.enable = true;
+    iot-gw = {
+      enable = true;
+      cmlHost = {
+        host = "37.205.13.151";
+        hostInternal = "10.100.0.1";
+        mosquittoPort = 1883;
+      };
+      devices = import ./devices.nix;
+      hubName = "myhome-kr";
+    };
   };
 
   # Open ports in the firewall.
