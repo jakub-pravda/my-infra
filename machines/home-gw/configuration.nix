@@ -4,7 +4,6 @@
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../common/users.nix
-    ../../modules/home-assistant
     ../../modules/services
     ./wg-client.nix
   ];
@@ -40,6 +39,7 @@
       devices = import ./devices.nix;
       hubName = "myhome-kr";
     };
+    my-home-assistant.enable = true;
   };
 
   # Open ports in the firewall.

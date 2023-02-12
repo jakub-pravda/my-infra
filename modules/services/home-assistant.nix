@@ -1,6 +1,8 @@
 { config, lib, pkgs, ... }:
 with lib;
 let
+  cfg = config.services.my-home-assistant;
+  homeAssisatntCfg = config.services.my-home-assistant;
   homeAssistantConfig = {
     homeassistant = {
       name = "Home";
@@ -12,14 +14,19 @@ let
     frontend = { themes = "!include_dir_merge_named themes"; };
   };
 
-  homeAssistantConfigYaml = generators.toYAML { } homeAssistantConfig;
 in {
-  config.services.home-assistant = {
-    enable = true;
+
+  options.services.my-home-assistant = {
+    enable = mkEnableOption "my-home-assistant";
+  };
+
+  config.services.home-assistant = mkIf cfg.enable {
+    enable = homeAssisatntCfg.enable;
     config = homeAssistantConfig;
     configDir = "/var/lib/hass";
     extraComponents = [
       # Components required to complete the onboarding
+      "default_config"
       "met"
       "radio_browser"
       # Zigbee2mqtt
