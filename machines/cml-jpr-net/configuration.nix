@@ -1,10 +1,8 @@
 { config, pkgs, ... }: {
   imports = [
-    ../../modules/iot-gw/sensor-node.nix
     ../../modules/services
     ./vpsadminos.nix
     ../../modules/iot-cml/default.nix # activate iot-cml
-    ../../common/sensor-node-conf.nix
     ./wg-server.nix
   ];
 

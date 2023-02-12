@@ -19,11 +19,12 @@ in {
   };
 
   config = mkIf cfg.enable {
-    systemd.services."tss" = {
+    systemd.services."iot-tss" = {
       description = "TRV sensor synchronizer";
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];
       serviceConfig = {
+        Restart = "always";
         ExecStart = ''
           "${pkgs.go-home}/bin/tss" \
             --broker mqtt://${cfg.mosquittoBroker}:${

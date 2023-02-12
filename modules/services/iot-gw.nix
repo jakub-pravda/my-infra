@@ -59,6 +59,12 @@ in {
         mosquittoPort = cfg.mosquittoPort;
       };
 
+      trv-temp-scheduler = {
+        enable = true;
+        mosquittoBroker = cfg.mosquittoHost;
+        mosquittoPort = cfg.mosquittoPort;
+      };
+
       # zigbee2mqtt settings
       zigbee2mqtt = {
         enable = true;
