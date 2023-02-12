@@ -55,6 +55,12 @@
     allowReboot = true;
   };
 
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "-d";
+  };
+
   # monitoring
   # services.datadog-agent = {
   #   enable    = true;

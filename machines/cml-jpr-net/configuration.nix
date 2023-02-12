@@ -58,6 +58,12 @@
   # allow machine specific services
   services.jacfal-wiki.enable = true;
 
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "-d";
+  };
+
   # monitoring
   # TODO bind key to nixos
   # services.datadog-agent = {
