@@ -24,13 +24,7 @@ in {
     enable = homeAssisatntCfg.enable;
     config = homeAssistantConfig;
     configDir = "/var/lib/hass";
-    extraComponents = [
-      # Components required to complete the onboarding
-      "default_config"
-      "met"
-      "radio_browser"
-      # Zigbee2mqtt
-      "mqtt"
-    ];
+    extraComponents =
+      [ "default_config" "met" "radio_browser" "mqtt" "mobile_app" ];
   };
 }
