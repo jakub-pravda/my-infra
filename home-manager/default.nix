@@ -25,6 +25,7 @@
     pkgs.grpcurl
     pkgs.nil
     pkgs.wireshark
+    pkgs.whois
   ];
 
   programs = {
