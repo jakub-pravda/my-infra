@@ -1,4 +1,11 @@
 { ... }: {
-  imports =
-    [ ./iot-gw.nix ./jacfal-wiki.nix ./tss.nix ./tsc.nix ./home-assistant.nix ];
+  imports = [
+    ./iot-gw.nix
+    ./jacfal-wiki.nix
+    ./tss.nix
+    ./tsc.nix
+    ./home-assistant.nix
+    ./iot-cml
+    ./nginx.nix
+  ];
 }

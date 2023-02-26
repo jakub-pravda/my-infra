@@ -1,10 +1,6 @@
 { config, pkgs, ... }: {
-  imports = [
-    ../../modules/services
-    ./vpsadminos.nix
-    ../../modules/iot-cml/default.nix # activate iot-cml
-    ./wg-server.nix
-  ];
+  imports =
+    [ ../shared ../../modules/services ./vpsadminos.nix ./wg-server.nix ];
 
   networking.hostName = "cml-jpr-net";
 
@@ -20,11 +16,6 @@
 
   environment.etc."nixos/configuration.nix" = {
     source = "/home/jacfal/my-infra/machines/cml-jpr-net/configuration.nix";
-  };
-
-  services.openssh = {
-    enable = true;
-    permitRootLogin = "prohibit-password";
   };
 
   networking.firewall = {
@@ -54,7 +45,24 @@
   };
 
   # allow machine specific services
-  services.jacfal-wiki.enable = true;
+  services = {
+    openssh = {
+      enable = true;
+      permitRootLogin = "prohibit-password";
+    };
+
+    jacfal-wiki.enable = true;
+
+    iot-cml = {
+      enable = true;
+      hubConfigs =
+        let utils = pkgs.callPackage ../../machines/shared/utils.nix { };
+        in utils.getAllHubConfigs ../../machines;
+      wireguardInterfaceIp = "10.100.0.1";
+    };
+
+    my-nginx.enable = true;
+  };
 
   nix.gc = {
     automatic = true;

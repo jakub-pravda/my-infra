@@ -3,7 +3,7 @@
 Run nixos test/switch, whatever:
 
 ```sh
-sudo nixos-rebuild test -I nixos-config=/home/jacfal/my-infra/cml/configuration.nix
+sudo nixos-rebuild switch --flake .#vpsfree
 ```
 
 # Manual post-installation steps
