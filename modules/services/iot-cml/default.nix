@@ -3,11 +3,8 @@ with lib;
 let 
   cfg = config.services.iot-cml;
 in {
-  imports = [ # TODO enable this
-    ./containers.nix
-    ./users.nix
-  ];
-
+  imports = [ ./containers.nix ];
+ 
   options.services.iot-cml = {
     enable = mkEnableOption "iot-cml";
 

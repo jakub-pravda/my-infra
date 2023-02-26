@@ -36,8 +36,7 @@
         hostInternal = "10.100.0.1";
         mosquittoPort = 1883;
       };
-      devices = import ./devices.nix;
-      hubName = "myhome-kr";
+      hubConfig = import ./iot-hub.nix;
     };
     my-home-assistant.enable = true;
   };

@@ -5,7 +5,7 @@ let
   devicesMap = map (device: {
     name = device.id;
     value = { friendly_name = "${device.location}/${device.name}"; };
-  }) cfg.devices;
+  }) cfg.hubConfig.devices;
 in {
   options.services.iot-gw = {
     enable = mkEnableOption "iot-gw";
@@ -17,19 +17,11 @@ in {
       '';
     };
 
-    devices = mkOption {
+    hubConfig = mkOption {
       type =
-        types.listOf (types.submodule (import ../../submodules/device.nix));
+        types.submodule (import ../../submodules/iot-hub-host-options.nix);
       description = ''
         List of IoT devices to be configured on the gateway.
-      '';
-    };
-
-    hubName = mkOption {
-      type = types.str;
-      example = "myHome";
-      description = ''
-        Name of the IoT gateway hub (eg. home, office, cottage, ...).
       '';
     };
 
@@ -72,7 +64,7 @@ in {
           homeassistant = config.services.home-assistant.enable;
           permit_join = true;
           mqtt = {
-            base_topic = cfg.hubName;
+            base_topic = cfg.hubConfig.id;
             server = "mqtt://localhost:1883";
           };
           serial.port = "/dev/ttyUSB0";
@@ -115,7 +107,7 @@ in {
             address = cfg.cmlHost.hostInternal;
             port = cfg.cmlHost.mosquittoPort;
           }];
-          topics = [ "${cfg.hubName}/#" ];
+          topics = [ "${cfg.hubConfig.id}/#" ];
         };
       };
     };

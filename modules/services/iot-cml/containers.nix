@@ -1,4 +1,5 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
+with lib;
 let
   dockerIotNetworkName = "iot-network";
 
@@ -20,51 +21,53 @@ let
   questDbDataPath = "/var/lib/questdb-docker-vol"; # TODO docker volume
   mosqittoDataPath = "/var/lib/mosquitto-docker-vol";
 in {
-  config.system.activationScripts = {
-    dockerEnvInit = {
-      text = ''
-        # prepare directories for volumes
-        mkdir -p ${questDbDataPath} ${mosqittoDataPath}
+  config = mkIf cmlNodeCfg.enable {
+    system.activationScripts = {
+      dockerEnvInit = {
+        text = ''
+          # prepare directories for volumes
+          mkdir -p ${questDbDataPath} ${mosqittoDataPath}
 
-        # create docker networks
-        if [[ -z "$(${pkgs.docker}/bin/docker network ls -q --filter name=${dockerIotNetworkName})" ]]; then
-          echo "Creating new docker network (${dockerIotNetworkName})"
-          ${pkgs.docker}/bin/docker network create ${dockerIotNetworkName}
-        fi
-      '';
-    };
-  };
-
-  config.virtualisation.oci-containers.backend = "docker";
-  config.virtualisation.oci-containers.containers = {
-    telegraf-iot-quest-feeder = {
-      image = "${telegrafImageVersion}";
-      volumes =
-        [ "${telegrafQuestFeederConfig}:/etc/telegraf/telegraf.conf:ro" ];
-      extraOptions = [ "--network=${dockerIotNetworkName}" ];
+          # create docker networks
+          if [[ -z "$(${pkgs.docker}/bin/docker network ls -q --filter name=${dockerIotNetworkName})" ]]; then
+            echo "Creating new docker network (${dockerIotNetworkName})"
+            ${pkgs.docker}/bin/docker network create ${dockerIotNetworkName}
+          fi
+        '';
+      };
     };
 
-    quest-db = {
-      image = "${questDbVersion}";
-      ports =
-        [ "127.0.0.1:9000:9000" "127.0.0.1:9009:9009" "127.0.0.1:8812:8812" ];
-      volumes = [ "${questDbDataPath}:/var/lib/questdb" ];
-      extraOptions = [ "--network=${dockerIotNetworkName}" ];
-    };
+   virtualisation.oci-containers.backend = "docker";
+   virtualisation.oci-containers.containers = {
+     telegraf-iot-quest-feeder = {
+       image = "${telegrafImageVersion}";
+       volumes =
+         [ "${telegrafQuestFeederConfig}:/etc/telegraf/telegraf.conf:ro" ];
+       extraOptions = [ "--network=${dockerIotNetworkName}" ];
+     };
 
-    mosquitto = {
-      image = "${mosquittoVersion}";
-      ports = [
-        "${cmlNodeCfg.wireguardInterfaceIp}:${
-          toString cmlNodeCfg.mosquittoPort
-        }:1883"
-      ];
-      volumes = [
-        "${mosquittoConf}:/mosquitto/config/mosquitto.conf"
-        "${mosqittoDataPath}/data:/mosquitto/data"
-        "${mosqittoDataPath}/log:/mosquitto/log"
-      ];
-      extraOptions = [ "--network=${dockerIotNetworkName}" ];
-    };
+     quest-db = {
+       image = "${questDbVersion}";
+       ports =
+         [ "127.0.0.1:9000:9000" "127.0.0.1:9009:9009" "127.0.0.1:8812:8812" ];
+       volumes = [ "${questDbDataPath}:/var/lib/questdb" ];
+       extraOptions = [ "--network=${dockerIotNetworkName}" ];
+     };
+
+     mosquitto = {
+       image = "${mosquittoVersion}";
+       ports = [
+         "${cmlNodeCfg.wireguardInterfaceIp}:${
+           toString cmlNodeCfg.mosquittoPort
+         }:1883"
+       ];
+       volumes = [
+         "${mosquittoConf}:/mosquitto/config/mosquitto.conf"
+         "${mosqittoDataPath}/data:/mosquitto/data"
+         "${mosqittoDataPath}/log:/mosquitto/log"
+       ];
+       extraOptions = [ "--network=${dockerIotNetworkName}" ];
+     };
+   };
   };
 }
