@@ -3,7 +3,6 @@
 {
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../../common/users.nix
     ../../modules/services
     ./wg-client.nix
   ];
@@ -13,6 +12,8 @@
 
   networking.hostName = "home-gw"; # Define your hostname.
   time.timeZone = "Europe/Prague";
+
+  users = import ../shared/users.nix { };
 
   environment.etc."nixos/configuration.nix" = {
     source = "/home/jacfal/my-infra/machines/home-gw/configuration.nix";
