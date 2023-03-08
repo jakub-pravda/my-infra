@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
     ../../modules/services
     ./wg-client.nix
+    ../../users/jacob.nix
   ];
 
   boot.loader.grub.enable = false;
@@ -12,8 +13,6 @@
 
   networking.hostName = "home-gw"; # Define your hostname.
   time.timeZone = "Europe/Prague";
-
-  users = import ../shared/users.nix { };
 
   environment.etc."nixos/configuration.nix" = {
     source = "/home/jacfal/my-infra/machines/home-gw/configuration.nix";

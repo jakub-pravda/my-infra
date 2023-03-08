@@ -1,9 +1,13 @@
 { config, pkgs, ... }: {
-  imports =
-    [ ../shared ../../modules/services ./vpsadminos.nix ./wg-server.nix ];
+  imports = [
+    ../shared
+    ../../modules/services
+    ./vpsadminos.nix
+    ./wg-server.nix
+    ../../users/jacob.nix
+  ];
 
   networking.hostName = "cml-jpr-net";
-  users = import ../shared/users.nix { additionalUserGroups = [ "docker" ]; };
   environment.systemPackages = with pkgs; [
     atop
     git
