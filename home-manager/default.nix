@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
 {
+  imports = [ ./pkgs ];
+
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "jacob";
@@ -15,18 +17,6 @@
   # the Home Manager release notes for a list of state version
   # changes in each release.
   home.stateVersion = "22.05";
-
-  home.packages = [
-    pkgs.nixpkgs-fmt
-    pkgs.jetbrains.idea-community
-    pkgs.qemu_kvm
-    pkgs.atop
-    pkgs.go
-    pkgs.grpcurl
-    pkgs.nil
-    pkgs.wireshark
-    pkgs.whois
-  ];
 
   programs = {
     home-manager.enable = true;
