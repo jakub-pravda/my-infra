@@ -1,136 +1,82 @@
-# Home manager - Apply configuration
+# My Infra
+
+This repo contains mainly Nix(Os) configuration for my personal/work ntb and home servers. 
+
+## TODO
+ - [ ] Use home manager configuration also for server users (maybe split pkgs conf to desktop and server)
+
+## Useful commands
+
+* apply home manager configuration
 
 ```bash
-home-manager switch --flake './#jacob'
+$ home-manager switch --flake './#jacob'
 ```
 
-# NixOs - CheatSheet
-
-List NixOs system generations
+* list NixOs system generations
 
 ```bash
-nix-env --list-generations --profile /nix/var/nix/profiles/system
+$ nix-env --list-generations --profile /nix/var/nix/profiles/system
 ```
 
-Rollback to previous generation
+* rollback to previous generation
 
 ```bash
- nixos-rebuild switch --rollback
+$ nixos-rebuild switch --rollback
+# or rollback to the N generation
+$ nix-env -G 1
 ```
 
-Rollback to N generation
+* run repl with input arguments `{ pkgs, lib, ... }`
 
 ```bash
-/nix/var/nix/profiles/system-N-link/bin/switch-to-configuration switch
+$ nix repl ./jacfal.wiki.nix --arg lib '<nixpkgs>' --arg pkgs '<nixpkgs>'
 ```
 
-Run repl with input arguments `{ pkgs, lib, ... }`
+* run tests interactively within Python session
 
 ```bash
-nix repl ./jacfal.wiki.nix --arg lib '<nixpkgs>' --arg pkgs '<nixpkgs>'
-```
-
-Run tests via build
-
-
-```bash
-nix-build ./test-jacfal-wiki.nix
-```
-
-RUn tests interactively within Python session
-
-```bash
-$(nix-build -A driverInteractive test-jacfal-wiki.nix)/bin/nixos-test-driver
+$ $(nix-build -A driverInteractive test-jacfal-wiki.nix)/bin/nixos-test-driver
 ...
 >>> start_all()
 >>> server.shell_interact()
 ```
 
-
-## Installation
-
-Install package
-
-```bash
-$ nix-env -i hello
-```
-
-List generations sx
-
-```bash
-$ nix-env --list-generations
-```
-
-Listing installed derivations (with derivation paths)
+* listing installed derivations (with derivation paths)
 
 ```bash
 $ nix-env -q --out-path
 ```
 
-Rollback to the previous generation
+* list NIX channels
 
 ```bash
-nix-env -- rollback
+$ nix-channel --list
 ```
 
-Switch to the generation 
+* determine nixpkgs platform 
 
 ```bash
-nix-env -G 1
+$ bash $(nix-build '<nixpkgs>' -A gnu-config)/config.guess
 ```
 
-List NIX channels
+## Troubleshooting
+### Zigbee2mqtt
+
+When...
+
+```
+Configuration is not consistent with adapter state/backup!
+- PAN ID: configured=, adapter=
+- Extended PAN ID: configured=, adapter=
+- Network Key: configured=xy, adapter=zxt
+- Channel List: configured=11, adapter=11
+Zigbee2MQTT:error 2022-09-28 18:58:31: Error: startup failed - configuration-adapter mismatch - see logs above for more information
+```
+
+Network key regenerated during the startup. The solution is to remove the `coordinator_backup.json` and then repair all devices.
 
 ```bash
-nix-channel --list
+rm  /var/lib/zigbee2mqtt/coordinator_backup.json 
 ```
 
-Update NIX channels (similar to *apt-get update*)
-
-```bash
-nix-channel --update
-```
-
-Determine nixpkgs platform 
-
-```bash
-bash $(nix-build '<nixpkgs>' -A gnu-config)/config.guess
-```
-
-## Necessary manual steps
-
-Set httppasswd when iot pipeline enabled
-
-```sh
-sudo sh -c "echo -n 'sammy:' >> /etc/.htpasswd"
-sudo sh -c "openssl passwd -apr1 >> /etc/.htpasswd"
-```
-
-Set wiki access passwd when wiki enabled
-
-```sh
-sudo sh -c "echo -n 'sammy:' >> /etc/.wikipasswd"
-sudo sh -c "openssl passwd -apr1 >> /etc/.wikipasswd"
-```
-
-# NixOps - CheatSheet
-
-Some useful `nixOps` commands:
-
-Create fresh nixops deploy: 
-
-```bash
-nixops create -d [deploy-name]
-```
-
-List all available deployments
-
-```bash
-nixops list
-```
-
-Check status of deployment
-
-```bash
-nixops check -d [deploy-name]
-```

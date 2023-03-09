@@ -8,13 +8,6 @@ sudo nixos-rebuild switch --flake .#vpsfree
 
 # Manual post-installation steps
 
-Create `.htpasswd` for nginx http basic auth
-
-```sh
-sudo sh -c "echo -n 'sammy:' >> /etc/nginx/.htpasswd"       # user (sammy for this cmd)
-sudo sh -c "openssl passwd -apr1 >> /etc/nginx/.htpasswd"   # password
-```
-
 Create `.wikipasswd` for nginx wiki access
 
 ```sh
