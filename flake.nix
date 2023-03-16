@@ -33,7 +33,8 @@
         config.allowUnfree = false;
         overlays = [
           (_: _: { 
-            go-home = go-home.packages.${system}.default; 
+            go-home = go-home.packages.${system}.default;
+            zigbee2mqtt = nixpkgs-unstable.legacyPackages."${system}".zigbee2mqtt;
           })
         ];
       };
