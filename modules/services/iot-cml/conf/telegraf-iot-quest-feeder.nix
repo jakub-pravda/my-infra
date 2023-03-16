@@ -18,7 +18,8 @@ in pkgs.writeText "telegraf-iot-quest-feeder.conf" ''
       "external_measured_room_sensor",
       "local_temperature",
       "occupied_heating_setpoint_scheduled",
-      "pi_heating_demand"
+      "pi_heating_demand",
+      "pressure"
       ]
 
   [[outputs.socket_writer]]

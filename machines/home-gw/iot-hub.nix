@@ -45,5 +45,13 @@
       type = "IMM-LED";
       location = "bedroom";
     }
+
+    # outside
+    {
+      id = "0x00158d00091eb8df";
+      name = "out-01";
+      type = "WSDCGQ11LM";
+      location = "outside";
+    }
   ];
 }
