@@ -46,10 +46,17 @@
       location = "bedroom";
     }
 
+    {
+      id = "0xf082c0fffe99e1a0";
+      name = "danfoss-thermo-02";
+      type = "014G2461";
+      location = "bedroom";
+    }
+
     # outside
     {
       id = "0x00158d00091eb8df";
-      name = "out-01";
+      name = "xia-tmp-01";
       type = "WSDCGQ11LM";
       location = "outside";
     }
