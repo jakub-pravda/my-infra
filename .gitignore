@@ -2,4 +2,4 @@
 .vscode
 
 # nix related
-result/
+result
