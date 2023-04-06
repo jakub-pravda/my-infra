@@ -1,3 +1,3 @@
 { pkgs, ... }: {
-  home = { packages = with pkgs; [ azure-cli packer terraform ]; };
+  home = { packages = with pkgs; [ azure-cli packer tfswitch ]; };
 }
