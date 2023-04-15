@@ -6,6 +6,7 @@
     ../../modules/services
     ./wg-client.nix
     ../../users/jacob.nix
+    ./datadog.nix
   ];
 
   boot.loader.grub.enable = false;
@@ -59,13 +60,4 @@
     dates = "weekly";
     options = "-d";
   };
-
-  # monitoring
-  # services.datadog-agent = {
-  #   enable    = true;
-  #   hostname  = "home-gw";
-  #   site      = "datadoghq.eu";
-
-  #   apiKeyFile = /run/keys/datadog_api_key;
-  # };
 }
