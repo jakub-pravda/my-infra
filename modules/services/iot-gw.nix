@@ -40,6 +40,14 @@ in {
         Iot gateway mosquitto port
       '';
     };
+
+    permitJoin = mkOption {
+      type = types.bool;
+      default = false;
+      description = ''
+        Whether to allow new devices to join the zigbee network.
+       '';
+    };
   };
 
   config = mkIf cfg.enable {
@@ -62,7 +70,7 @@ in {
         enable = true;
         settings = {
           homeassistant = config.services.home-assistant.enable;
-          permit_join = true;
+          permit_join = cfg.permitJoin;
           mqtt = {
             base_topic = cfg.hubConfig.id;
             server = "mqtt://localhost:1883";
