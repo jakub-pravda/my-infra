@@ -6,6 +6,12 @@ Run nixos test/switch, whatever:
 sudo nixos-rebuild switch --flake .#vpsfree
 ```
 
+Build on the non nixos machine:
+
+```sh
+nix build .#nixosConfigurations.vpsfree.config.system.build.toplevel -L
+```
+
 # Manual post-installation steps
 
 Create `.wikipasswd` for nginx wiki access

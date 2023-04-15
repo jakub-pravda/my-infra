@@ -13,6 +13,23 @@ let
     }];
   };
 
+  bedroomScheduler = {
+    topic = "myhome-kr/bedroom/danfoss-thermo-02";
+    defaultTemperature = 20;
+    timeTable = [
+      {
+        start = "22:00";
+        end = "06:00";
+        temperature = 18;
+      }
+      {
+        start = "06:00";
+        end = "08:00";
+        temperature = 21;
+      }
+    ];
+  };
+
 in {
   options.services.trv-temp-scheduler = {
     enable = mkEnableOption "trv-temp-scheduler";
@@ -40,7 +57,10 @@ in {
             cli.toGNUCommandLineShell { } {
               broker =
                 "mqtt://${cfg.mosquittoBroker}:${toString cfg.mosquittoPort}";
-              scheduler = builtins.toJSON livingRoomScheduler;
+              scheduler = [
+                (builtins.toJSON livingRoomScheduler)
+                (builtins.toJSON bedroomScheduler)
+              ];
             }
           }
         '';

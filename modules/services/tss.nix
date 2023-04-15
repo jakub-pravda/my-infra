@@ -30,9 +30,9 @@ in {
             --broker mqtt://${cfg.mosquittoBroker}:${
               toString cfg.mosquittoPort
             } \
-            --sensor-topic 'myhome-kr/livingroom/son-sns-01' \
-            --trv-topic 'myhome-kr/livingroom/danfoss-thermo-01' \
-            --cron '${topicSyncCron}'
+            --cron '${topicSyncCron}' \
+            --sync '{ "sensor-topic": "myhome-kr/livingroom/son-sns-01", "trv-topic": "myhome-kr/livingroom/danfoss-thermo-01" }' \
+            --sync '{ "sensor-topic": "myhome-kr/bedroom/son-sns-03", "trv-topic": "myhome-kr/bedroom/danfoss-thermo-02" }'
         '';
       };
     };

@@ -15,3 +15,11 @@ wg pubkey < ~/wireguard-keys/private > ~/wireguard-keys/public
 > nixos-rebuild dry-build --flake .#rpi
 > nixos-rebuild switch --flake .#rpi
 ```
+
+Build on the non nixos machine:
+
+```sh
+nix build .#nixosConfigurations.rpi.config.system.build.toplevel -L
+```
+
+
