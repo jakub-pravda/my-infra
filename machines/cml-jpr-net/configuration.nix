@@ -44,7 +44,7 @@
     autoUpgrade = {
       enable = true;
       allowReboot = true;
-      flake = "github:jakub-pravda/my-infra";
+      flake = "github:jakub-pravda/my-infra#vpsfree";
     };
     stateVersion = "22.05";
   };
