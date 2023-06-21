@@ -5,21 +5,19 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05-small";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
+    agenix.url = "github:ryantm/agenix";
     jacob-keys = {
       url = "https://github.com/jakub-pravda.keys";
       flake = false;
     };
-
     go-home = {
       url = "github:jakub-pravda/go-home";
       #follows = "nixpkgs";
     };
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     flake-utils.url = "github:numtide/flake-utils";
 
   };
@@ -65,7 +63,10 @@
           pkgs = sysPkgs "x86_64-linux";
           # Make inputs accessible ad module parameters
           specialArgs = { flake-self = self; } // inputs;
-          modules = [ machines/cml-jpr-net/configuration.nix ];
+          modules = [ 
+            machines/cml-jpr-net/configuration.nix 
+            agenix.nixosModules.default
+          ];
         };
 
         rpi = lib.nixosSystem {
@@ -73,7 +74,10 @@
           pkgs = sysPkgs "aarch64-linux";
           # Make inputs accessible ad module parameters
           specialArgs = { flake-self = self; } // inputs;
-          modules = [ machines/home-gw/configuration.nix ];
+          modules = [ 
+            machines/home-gw/configuration.nix 
+            agenix.nixosModules.default
+          ];
         };
       };
     };
