@@ -6,7 +6,7 @@
     ../../modules/services
     ./wg-client.nix
     ../../users/jacob.nix
-    ./datadog.nix
+    #./datadog.nix
   ];
 
   boot.loader.grub.enable = false;
