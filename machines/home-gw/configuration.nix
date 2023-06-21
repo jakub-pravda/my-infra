@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ age, config, pkgs, ... }:
 
 {
   imports = [ # Include the results of the hardware scan.
@@ -6,7 +6,7 @@
     ../../modules/services
     ./wg-client.nix
     ../../users/jacob.nix
-    #./datadog.nix
+    ./datadog.nix
   ];
 
   boot.loader.grub.enable = false;
@@ -60,4 +60,7 @@
     dates = "weekly";
     options = "-d";
   };
+
+  # secrets settings
+  age.secrets.datadog.file = ./secrets/datadog.age;
 }
