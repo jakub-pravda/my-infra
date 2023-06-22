@@ -74,7 +74,4 @@
     dates = "weekly";
     options = "-d";
   };
-
-  # secrets settings
-  age.secrets.datadog.file = ./secrets/datadog.age;
 }
