@@ -19,13 +19,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-utils.url = "github:numtide/flake-utils";
-
+    devshell.url = "github:numtide/devshell";
   };
 
   outputs = { self, ... }@inputs:
     with inputs;
     let
-      pkgs = nixpkgs-unstable.legacyPackages."x86_64-linux";
+      #pkgs = nixpkgs-unstable.legacyPackages."x86_64-linux";
       sysPkgs = system:
         import nixpkgs {
           inherit system;
@@ -53,8 +53,16 @@
         modules = [ ./home-manager ];
       };
 
+      # devshell configuration
       devShells."x86_64-linux".default =
-        pkgs.mkShell { buildInputs = [ pkgs.cowsay ]; };
+        let
+          pkgs = import nixpkgs {
+            system = "x86_64-linux";
+            overlays = [ devshell.overlays.default ];
+          };
+        in pkgs.devshell.mkShell {
+          imports = [ (pkgs.devshell.importTOML ./devshell.toml) ];
+        };
 
       # server confoguration
       nixosConfigurations = {
