@@ -3,6 +3,11 @@
 This repo contains mainly Nix(Os) configuration for my personal/work ntb and home servers. 
 
 ## TODO
+ - [ ] Fix non working auto updates
+ - [ ] Add ability to format code with `nixpkgs-fmt`
+ - [ ] Periodic flake update (with CI)
+ - [ ] CI Build (`flake.nix` clean)
+ - [ ] Make this README great again
  - [ ] Use home manager configuration also for server users (maybe split pkgs conf to desktop and server)
 
 ## Useful commands
