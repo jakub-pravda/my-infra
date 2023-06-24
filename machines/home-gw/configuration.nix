@@ -1,12 +1,12 @@
-{ config, pkgs, ... }:
+{ age, config, pkgs, ... }:
 
 {
   imports = [ # Include the results of the hardware scan.
+    ../shared
     ./hardware-configuration.nix
     ../../modules/services
     ./wg-client.nix
     ../../users/jacob.nix
-    ./datadog.nix
   ];
 
   boot.loader.grub.enable = false;
