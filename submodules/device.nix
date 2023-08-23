@@ -1,8 +1,6 @@
-{ lib, ... }:
-
-with lib;
-
-{ options = {
+{lib, ...}:
+with lib; {
+  options = {
     id = mkOption {
       type = types.str;
       example = "0x00124b00251f6180";

@@ -1,7 +1,7 @@
 {
   id = "myhome-kr";
   devices = [
-    # living room 
+    # living room
     {
       id = "0x00124b00251f6180";
       name = "son-sns-01";

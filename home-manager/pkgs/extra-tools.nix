@@ -1,5 +1,9 @@
 # additional linux tools and utilities
-{ config, pkgs, ... }: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   home = {
     packages = with pkgs; [
       duf # more intuitive disk config utility

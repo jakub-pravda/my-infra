@@ -1,10 +1,14 @@
-{ config, lib, pkgs, ... }:
-with lib;
-let 
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
   cfg = config.services.iot-cml;
 in {
-  imports = [ ./containers.nix ];
- 
+  imports = [./containers.nix];
+
   options.services.iot-cml = {
     enable = mkEnableOption "iot-cml";
 
@@ -31,8 +35,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.grafana = 
-    let
+    services.grafana = let
       # ** DATA SOURCES **
       questDb = {
         name = "QuestDB";
@@ -45,24 +48,24 @@ in {
           postgresVersion = 903;
           sslmode = "disable";
         };
-        secureJsonData = { password = "quest"; };
+        secureJsonData = {password = "quest";};
       };
 
-      snzb02SenzorDashboard = (import ./grafana/templates/snzb02dashboard.nix {
+      snzb02SenzorDashboard = import ./grafana/templates/snzb02dashboard.nix {
         inherit config;
         inherit pkgs;
-      });
+      };
     in {
+      enable = true;
+      settings = {
+        server.http_addr = "localhost";
+        server.http_port = 3000;
+      };
+      provision = {
         enable = true;
-        settings = {
-          server.http_addr = "localhost";
-          server.http_port = 3000;
-        };
-        provision = {
-          enable = true;
-          datasources.settings.datasources = [ questDb ];
-          dashboards.settings.providers = [ snzb02SenzorDashboard ];
-        };
+        datasources.settings.datasources = [questDb];
+        dashboards.settings.providers = [snzb02SenzorDashboard];
+      };
     };
   };
 }

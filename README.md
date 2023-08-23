@@ -4,7 +4,7 @@ This repo contains mainly Nix(Os) configuration for my personal/work ntb and hom
 
 ## TODO
  - [ ] Fix non working auto updates
- - [ ] Add ability to format code with `nixpkgs-fmt`
+ - [*] Add ability to format code with `nixpkgs-fmt`
  - [ ] Periodic flake update (with CI)
  - [ ] CI Build (`flake.nix` clean)
  - [ ] Make this README great again

@@ -1,8 +1,10 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
   cfg = config.services.jacfal-wiki;
 in {
   options.services.jacfal-wiki = {
@@ -14,7 +16,7 @@ in {
     # enable tiddly wiki server
     services.tiddlywiki = {
       enable = true;
-      listenOptions = { port = 3456; };
+      listenOptions = {port = 3456;};
     };
   };
 }

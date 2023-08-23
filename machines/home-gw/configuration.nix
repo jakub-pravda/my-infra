@@ -1,7 +1,11 @@
-{ age, config, pkgs, ... }:
-
 {
-  imports = [ # Include the results of the hardware scan.
+  age,
+  config,
+  pkgs,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
     ../shared
     ./hardware-configuration.nix
     ../../modules/services

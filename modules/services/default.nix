@@ -1,4 +1,4 @@
-{ ... }: {
+{...}: {
   imports = [
     ./iot-gw.nix
     ./jacfal-wiki.nix

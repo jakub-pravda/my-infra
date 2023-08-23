@@ -22,9 +22,8 @@
     devshell.url = "github:numtide/devshell";
   };
 
-  outputs = { self, ... }@inputs:
-    with inputs;
-    let
+  outputs = {self, ...} @ inputs:
+    with inputs; let
       #pkgs = nixpkgs-unstable.legacyPackages."x86_64-linux";
       sysPkgs = system:
         import nixpkgs {
@@ -50,19 +49,21 @@
 
         # Specify your home configuration modules here, for example,
         # the path to your home.nix.
-        modules = [ ./home-manager ];
+        modules = [./home-manager];
       };
 
       # devshell configuration
-      devShells."x86_64-linux".default =
-        let
-          pkgs = import nixpkgs {
-            system = "x86_64-linux";
-            overlays = [ devshell.overlays.default ];
-          };
-        in pkgs.devshell.mkShell {
-          imports = [ (pkgs.devshell.importTOML ./devshell.toml) ];
+      devShells."x86_64-linux".default = let
+        pkgs = import nixpkgs {
+          system = "x86_64-linux";
+          overlays = [devshell.overlays.default];
         };
+      in
+        pkgs.devshell.mkShell {
+          imports = [(pkgs.devshell.importTOML ./devshell.toml)];
+        };
+      # formatter settings
+      formatter."x86_64-linux" = nixpkgs.legacyPackages.x86_64-linux.alejandra;
 
       # server confoguration
       nixosConfigurations = {
@@ -70,9 +71,9 @@
           system = "x86_64-linux";
           pkgs = sysPkgs "x86_64-linux";
           # Make inputs accessible ad module parameters
-          specialArgs = { flake-self = self; } // inputs;
-          modules = [ 
-            machines/cml-jpr-net/configuration.nix 
+          specialArgs = {flake-self = self;} // inputs;
+          modules = [
+            machines/cml-jpr-net/configuration.nix
             agenix.nixosModules.default
           ];
         };
@@ -81,9 +82,9 @@
           system = "aarch64-linux";
           pkgs = sysPkgs "aarch64-linux";
           # Make inputs accessible ad module parameters
-          specialArgs = { flake-self = self; } // inputs;
-          modules = [ 
-            machines/home-gw/configuration.nix 
+          specialArgs = {flake-self = self;} // inputs;
+          modules = [
+            machines/home-gw/configuration.nix
             agenix.nixosModules.default
           ];
         };

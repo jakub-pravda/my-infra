@@ -1,6 +1,5 @@
-{ config, ... }: 
-let
- whoami = config.networking.hostName; 
+{config, ...}: let
+  whoami = config.networking.hostName;
 in {
   # load datadog secret
   config.age.secrets.datadog = {
@@ -8,7 +7,7 @@ in {
     owner = "datadog";
     group = "datadog";
   };
-  
+
   # service config
   config.services.datadog-agent = {
     enable = true;

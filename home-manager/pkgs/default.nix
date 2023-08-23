@@ -1,7 +1,7 @@
-{ pkgs, ... }:
+{pkgs, ...}:
 # Those are default packages enabled at my primary local
 {
-  imports = [ ./extra-tools.nix ./devops.nix ];
+  imports = [./extra-tools.nix ./devops.nix];
 
   home = {
     packages = with pkgs; [

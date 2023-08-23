@@ -1,9 +1,8 @@
-{ pkgs ? import <nixpkgs> {}, ... }:
-
-pkgs.nixosTest ({
+{pkgs ? import <nixpkgs> {}, ...}:
+pkgs.nixosTest {
   name = "jacfal-wiki";
   nodes = {
-    server = { ... }: {
+    server = {...}: {
       imports = [
         ../modules/services/jacfal-wiki.nix
       ];
@@ -16,8 +15,8 @@ pkgs.nixosTest ({
 
     start_all()
     server.wait_for_unit("clone-jacfal-wiki")
-  
+
     if os.path.exists("/srv/www/jacfal-wiki/personal-wiki.html"):
       raise Exception("Wiki file not exists")
   '';
-})
+}

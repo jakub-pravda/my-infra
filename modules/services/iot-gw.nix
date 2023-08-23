@@ -1,11 +1,17 @@
-{ config, lib, pkgs, ... }:
-with lib;
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
   cfg = config.services.iot-gw;
-  devicesMap = map (device: {
-    name = device.id;
-    value = { friendly_name = "${device.location}/${device.name}"; };
-  }) cfg.hubConfig.devices;
+  devicesMap =
+    map (device: {
+      name = device.id;
+      value = {friendly_name = "${device.location}/${device.name}";};
+    })
+    cfg.hubConfig.devices;
 in {
   options.services.iot-gw = {
     enable = mkEnableOption "iot-gw";
@@ -46,7 +52,7 @@ in {
       default = false;
       description = ''
         Whether to allow new devices to join the zigbee network.
-       '';
+      '';
     };
   };
 
@@ -77,7 +83,8 @@ in {
           };
           serial.port = "/dev/ttyUSB0";
           frontend.port = 8080;
-          advanced.network_key = [ # TODO more secret
+          advanced.network_key = [
+            # TODO more secret
             43
             75
             203
@@ -103,19 +110,23 @@ in {
       # mosquitto settings
       mosquitto = {
         enable = true;
-        listeners = [{
-          acl = [ "pattern readwrite #" ];
-          address = cfg.mosquittoHost;
-          port = cfg.mosquittoPort;
-          omitPasswordAuth = true;
-          settings.allow_anonymous = true;
-        }];
+        listeners = [
+          {
+            acl = ["pattern readwrite #"];
+            address = cfg.mosquittoHost;
+            port = cfg.mosquittoPort;
+            omitPasswordAuth = true;
+            settings.allow_anonymous = true;
+          }
+        ];
         bridges."cml" = {
-          addresses = [{
-            address = cfg.cmlHost.hostInternal;
-            port = cfg.cmlHost.mosquittoPort;
-          }];
-          topics = [ "${cfg.hubConfig.id}/#" ];
+          addresses = [
+            {
+              address = cfg.cmlHost.hostInternal;
+              port = cfg.cmlHost.mosquittoPort;
+            }
+          ];
+          topics = ["${cfg.hubConfig.id}/#"];
         };
       };
     };

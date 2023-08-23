@@ -1,6 +1,6 @@
-{ config, ... }: { 
-  imports = [ ./datadog.nix  ];
-  
+{config, ...}: {
+  imports = [./datadog.nix];
+
   # default config
-  config.programs.ssh.startAgent = true; 
+  config.programs.ssh.startAgent = true;
 }

@@ -1,8 +1,5 @@
-{ lib, ... }:
-
-with lib;
-
-{
+{lib, ...}:
+with lib; {
   options = {
     id = mkOption {
       type = types.str;
