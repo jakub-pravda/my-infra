@@ -13,7 +13,7 @@ jobs:
     - run: nix flake update
     - uses: EndBug/add-and-commit@v9
       with:
-        add: '["flake.nix", "flake.lock"]'
+        add: 'flake.lock'
         author_name: GitHub Actions
         author_email: jacfal.tech@protonmail.com
-        message: "Flake update"
+        message: "Github Actions: Update flake.lock"
