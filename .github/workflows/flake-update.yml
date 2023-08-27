@@ -1,7 +1,8 @@
 name: "Test"
 on:
-  pull_request:
-  push:
+  schedule:
+    # schedule: At 01:00 on Monday
+    - cron:  '0 1 * * 1'
 jobs:
   flake_update:
     runs-on: ubuntu-latest
