@@ -9,7 +9,16 @@ packages = [
 ]
 
 [[commands]]
-name = "hello"
+name = "build"
 category = "Infrastructure"
-help = "Just say hello"
-command = "echo hello"
+help = "Build the infrastructure"
+command = '''
+  nix build .#nixosConfigurations.vpsfree.config.system.build.toplevel -L
+  nix build .#nixosConfigurations.rpi.config.system.build.toplevel -L
+'''
+
+[[commands]]
+name = "fmt"
+category = "Infrastructure"
+help = "Format the nix files"
+command = "nix fmt"

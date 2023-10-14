@@ -1,6 +1,33 @@
 {pkgs}: hubNameList: let
   hubNamesSubscribeAll = map (hubName: ''"${hubName}/#"'') hubNameList;
   hubNamesFormatted = builtins.concatStringsSep "," hubNamesSubscribeAll;
+
+  allowedGeneralFields = [
+    "battery"
+    "linkquality"
+  ];
+
+  allowedTempSensorFields = [
+    "humidity"
+    "temperature"
+    "pressure"
+  ];
+
+  allowedTrvFields = [
+    "external_measured_room_sensor"
+    "local_temperature"
+    "occupied_heating_setpoint_scheduled"
+    "pi_heating_demand"
+  ];
+
+  allowedFields = builtins.concatLists [
+    allowedGeneralFields
+    allowedTempSensorFields
+    allowedTrvFields
+  ];
+
+  allowedFieldsConfig = builtins.concatStringsSep "," (map (field: ''"${field}"'') allowedFields);
+
 in
   pkgs.writeText "telegraf-iot-quest-feeder.conf" ''
     # https://github.com/influxdata/telegraf/blob/release-1.14/plugins/inputs/mqtt_consumer/README.md
@@ -9,17 +36,7 @@ in
       topics = [ ${hubNamesFormatted} ]
       qos = 1
       data_format = "json"
-      fieldpass = [
-        "battery",
-        "linkquality",
-        "humidity",
-        "temperature",
-        "external_measured_room_sensor",
-        "local_temperature",
-        "occupied_heating_setpoint_scheduled",
-        "pi_heating_demand",
-        "pressure"
-        ]
+      fieldpass = [${allowedFieldsConfig}]
 
     [[outputs.socket_writer]]
       # Write metrics to a local QuestDB instance over TCP

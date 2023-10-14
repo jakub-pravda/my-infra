@@ -22,7 +22,7 @@ with lib; let
   telegrafImageVersion = "telegraf:1.23";
 
   # volumes
-  questDbDataPath = "/var/lib/questdb-docker-vol"; # TODO docker volume
+  questDbDataPath = "/var/lib/questdb-docker-vol";
   mosqittoDataPath = "/var/lib/mosquitto-docker-vol";
 in {
   config = mkIf cmlNodeCfg.enable {
