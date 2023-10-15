@@ -27,7 +27,6 @@
   ];
 
   allowedFieldsConfig = builtins.concatStringsSep "," (map (field: ''"${field}"'') allowedFields);
-
 in
   pkgs.writeText "telegraf-iot-quest-feeder.conf" ''
     # https://github.com/influxdata/telegraf/blob/release-1.14/plugins/inputs/mqtt_consumer/README.md
