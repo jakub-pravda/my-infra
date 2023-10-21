@@ -17,9 +17,9 @@ with lib; let
   mosquittoConf = pkgs.callPackage ./conf/mosquitto.nix {inherit pkgs;};
 
   # images
-  mosquittoVersion = "eclipse-mosquitto:2.0.15";
-  questDbVersion = "questdb/questdb";
-  telegrafImageVersion = "telegraf:1.23";
+  mosquittoVersion = "eclipse-mosquitto:2.0.18";
+  questDbVersion = "questdb/questdb:7.3.3";
+  telegrafImageVersion = "telegraf:1.28";
 
   # volumes
   questDbDataPath = "/var/lib/questdb-docker-vol";
