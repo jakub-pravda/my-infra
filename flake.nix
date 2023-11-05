@@ -67,25 +67,31 @@
 
       # server confoguration
       nixosConfigurations = {
-        vpsfree = lib.nixosSystem {
+        vpsfree = lib.nixosSystem rec {
           system = "x86_64-linux";
           pkgs = sysPkgs "x86_64-linux";
           # Make inputs accessible ad module parameters
           specialArgs = {flake-self = self;} // inputs;
           modules = [
             machines/cml-jpr-net/configuration.nix
-            agenix.nixosModules.default
+            agenix.nixosModules.default # agenix module
+            {
+              environment.systemPackages = [agenix.packages.${system}.default]; # agenix cli
+            }
           ];
         };
 
-        rpi = lib.nixosSystem {
+        rpi = lib.nixosSystem rec {
           system = "aarch64-linux";
           pkgs = sysPkgs "aarch64-linux";
           # Make inputs accessible ad module parameters
           specialArgs = {flake-self = self;} // inputs;
           modules = [
             machines/home-gw/configuration.nix
-            agenix.nixosModules.default
+            agenix.nixosModules.default # agenix module
+            {
+              environment.systemPackages = [agenix.packages.${system}.default]; # agenix cli
+            }
           ];
         };
       };

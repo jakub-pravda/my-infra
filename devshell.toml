@@ -13,8 +13,8 @@ name = "build"
 category = "Infrastructure"
 help = "Build the infrastructure"
 command = '''
-  nix build .#nixosConfigurations.vpsfree.config.system.build.toplevel -L
-  nix build .#nixosConfigurations.rpi.config.system.build.toplevel -L
+  nix build --dry-run .#nixosConfigurations.vpsfree.config.system.build.toplevel -L
+  nix build --dry-run .#nixosConfigurations.rpi.config.system.build.toplevel -L
 '''
 
 [[commands]]

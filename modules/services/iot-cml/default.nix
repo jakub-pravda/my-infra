@@ -6,8 +6,12 @@
 }:
 with lib; let
   cfg = config.services.iot-cml;
+  influxdbCfg = config.services.iot-cml-influxdb;
 in {
-  imports = [./containers.nix];
+  imports = [
+    ./containers.nix
+    ./influxdb.nix
+  ];
 
   options.services.iot-cml = {
     enable = mkEnableOption "iot-cml";
@@ -35,6 +39,8 @@ in {
   };
 
   config = mkIf cfg.enable {
+    services.iot-cml-influxdb.enable = true;
+
     services.grafana = let
       # ** DATA SOURCES **
       questDb = {
