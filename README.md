@@ -3,8 +3,6 @@
 This repo contains mainly Nix(Os) configuration for my personal/work ntb and home servers. 
 
 ## TODO
- - [ ] Fix non working auto updates
- - [ ] Periodic flake update (with CI)
  - [ ] Make this README great again
  - [ ] Use home manager configuration also for server users (maybe split pkgs conf to desktop and server)
 
@@ -62,6 +60,44 @@ $ nix-channel --list
 ```bash
 $ bash $(nix-build '<nixpkgs>' -A gnu-config)/config.guess
 ```
+
+## Home manager
+
+Install home manager at your machine to use it with flakes. Following commands use flakes from path `~/my-infra`.
+
+```bash
+# choosing release branch depends on your nixpkgs version
+nix run home-manager/master -- init ~/my-infra
+```
+
+And then run, for config switch.
+
+```bash
+nix run home-manager/master -- init --switch
+```
+
+It also install the `home-manager`util, so next switch iteration can be done with.
+
+```bash
+home-manager switch --flake ~/my-infra
+```
+
+## Troubleshooting
+
+You can face the issue with the missing lock file (according to this github [issue](https://github.com/nix-community/home-manager/issues/3734), it can occurs pretty frequently)
+
+```
+error: opening lock file '/nix/var/nix/profiles/per-user/jacob/profile.lock': No such file or directory
+```
+
+The workaround is to create the missing directory.
+
+```bash
+$ sudo mkdir -m 0755 -p /nix/var/nix/{profiles,gcroots}/per-user/$USER
+$ sudo chown -R $USER:nixbld /nix/var/nix/profiles/per-user/$USER
+```
+
+And run the switch again.
 
 ## Troubleshooting
 ### Zigbee2mqtt
