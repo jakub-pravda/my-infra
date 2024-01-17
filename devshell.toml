@@ -22,3 +22,9 @@ name = "fmt"
 category = "Infrastructure"
 help = "Format the nix files"
 command = "nix fmt"
+
+[[commands]]
+name = "home-switch"
+category = "Infrastructure"
+help = "Switch home manager"
+command = "home-manager switch --flake './#jacob'"

@@ -61,7 +61,11 @@ $ nix-channel --list
 $ bash $(nix-build '<nixpkgs>' -A gnu-config)/config.guess
 ```
 
-## Home manager
+## Non-server configuration
+
+Use this configuration for desktop, notebook machines. I'm using `home-manager` for orchestraing my personal laptop(s) as I would like to keep user related packages separated.
+
+## Home manager configuration
 
 Install home manager at your machine to use it with flakes. Following commands use flakes from path `~/my-infra`.
 
@@ -76,7 +80,7 @@ And then run, for config switch.
 nix run home-manager/master -- init --switch
 ```
 
-It also install the `home-manager`util, so next switch iteration can be done with.
+Previous command installs home manager utils, so next switch iteration can be done with `home-manager` command.
 
 ```bash
 home-manager switch --flake ~/my-infra
