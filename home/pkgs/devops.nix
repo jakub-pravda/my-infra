@@ -1,7 +1,9 @@
 {pkgs, ...}: {
-  home = { packages = with pkgs; [
-    azure-cli 
-    packer 
-    tfswitch
-  ];};
+  home = {
+    packages = with pkgs; [
+      azure-cli
+      packer
+      tfswitch
+    ];
+  };
 }

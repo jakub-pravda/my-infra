@@ -12,9 +12,9 @@
       nil
       wireshark
       whois
-      duf     # more intuitive disk config utility
+      duf # more intuitive disk config utility
       du-dust # more intuitive disk usage utility
-      procs   # modern replacement for ps
+      procs # modern replacement for ps
     ];
   };
 }

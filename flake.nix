@@ -44,6 +44,8 @@
       homeConfigurations.jacob = home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs-unstable {
           config.allowUnfree = true;
+          programs.zsh.enable = true;
+          config.users.users."jacob".shell = pkgs.zsh;
           system = "x86_64-linux";
         };
 

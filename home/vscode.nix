@@ -2,9 +2,9 @@
   programs.vscode = {
     enable = true;
     extensions = with pkgs.vscode-extensions; [
-      dracula-theme.theme-dracula
-      vscodevim.vim
-      yzhang.markdown-all-in-one
+      github.copilot
+      github.copilot-chat
+      jnoortheen.nix-ide
     ];
   };
 }

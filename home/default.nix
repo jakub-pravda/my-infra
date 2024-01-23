@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: {
-  imports = [./pkgs ./git.nix ];
+  imports = [./pkgs ./vscode.nix ./git.nix ./zsh.nix];
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
