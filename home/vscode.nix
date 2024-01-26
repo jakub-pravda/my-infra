@@ -5,6 +5,7 @@
       github.copilot
       github.copilot-chat
       jnoortheen.nix-ide
+      timonwong.shellcheck
     ];
   };
 }
