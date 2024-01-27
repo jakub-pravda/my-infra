@@ -24,4 +24,9 @@
     home-manager.enable = true;
     neovim.enable = true;
   };
+
+  # Dotfiles
+  home.file = {
+    ".ssh/config".source = ./dotfiles/sshconfig;
+  };
 }
