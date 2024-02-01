@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: {
-  imports = [./pkgs];
+  imports = [./pkgs ./vscode.nix ./git.nix ./zsh.nix];
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -23,5 +23,10 @@
   programs = {
     home-manager.enable = true;
     neovim.enable = true;
+  };
+
+  # Dotfiles
+  home.file = {
+    ".ssh/config".source = ./dotfiles/sshconfig;
   };
 }

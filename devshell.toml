@@ -9,7 +9,7 @@ packages = [
 ]
 
 [[commands]]
-name = "build"
+name = "infra-build"
 category = "Infrastructure"
 help = "Build the infrastructure"
 command = '''
@@ -18,7 +18,22 @@ command = '''
 '''
 
 [[commands]]
-name = "fmt"
+name = "infra-fmt"
 category = "Infrastructure"
 help = "Format the nix files"
 command = "nix fmt"
+
+[[commands]]
+name = "home-switch"
+category = "Home"
+help = "Switch home manager"
+command = "home-manager switch --flake './#jacob'"
+
+[[commands]]
+name = "infra-update"
+category = "Infrastructure"
+help = "Update environment"
+command = '''
+  sudo -i nix upgrade-nix
+  nix flake update
+'''
