@@ -1,4 +1,6 @@
 #!/bin/bash
+set -euo pipefail
+
 NIX_INSTALLER_PATH=/tmp/nix-installer
 GITHUB_REPO_URL=https://github.com/jakub-pravda/my-infra.git
 SRC_REPO_PATH=~/Devel/repos/my-infra
@@ -8,7 +10,6 @@ function cleanup() {
     # Remove my-infra repo if empty
     [ "$(ls -A $SRC_REPO_PATH)" ] || rm -rf $SRC_REPO_PATH
     rm -rf $NIX_INSTALLER_PATH
-    exit
 }
 
 trap cleanup EXIT
@@ -61,14 +62,21 @@ function installHomeManager() {
     echo "Installing home/manager..."
     cd $SRC_REPO_PATH/home || exit
     echo "Home manager could not be found. Installing..."
-    nix run home-manager/master -- init
+    nix run home-manager/master -- init --switch
 }
 require "home-manager" || installHomeManager
 
 # Run home-manager switch
 echo "Running home manager switch..."
 cd $SRC_REPO_PATH || exit
-nix develop --command bash -c "home-switch"
+
+# git needed for home manager switch
+if require "git"; then
+    nix develop --command bash -c "home-switch"
+else
+    # use nix git for home manager switch
+    nix-shell -p git --run 'nix develop --command bash -c "home-switch"'
+fi
 
 echo "Setting zsh as degault shell"
 NIX_PROFILE_ZSH_PATH=/home/$USER/.nix-profile/bin/zsh

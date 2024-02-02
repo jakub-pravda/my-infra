@@ -10,11 +10,9 @@
       curl
       duf # more intuitive disk config utility
       du-dust # more intuitive disk usage utility
-      git
       grpcurl
       nil
       nixpkgs-fmt
-      nvim
       procs # modern replacement for ps
       vim
       wireshark
