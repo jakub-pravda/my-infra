@@ -1,42 +1,74 @@
 #!/bin/bash
 NIX_INSTALLER_PATH=/tmp/nix-installer
+GITHUB_REPO_URL=https://github.com/jakub-pravda/my-infra.git
+SRC_REPO_PATH=~/Devel/repos/my-infra
 
 function cleanup() {
+    echo "Cleaning up..."
+    # Remove my-infra repo if empty
+    [ "$(ls -A $SRC_REPO_PATH)" ] || rm -rf $SRC_REPO_PATH
     rm -rf $NIX_INSTALLER_PATH
+    exit
 }
 
 trap cleanup EXIT
 
+function require() {
+    if ! command -v $1 &> /dev/null
+    then
+        echo "Command $1 not found"
+        return 1
+    else
+        echo "Command $1 is installed"
+        return 0
+    fi
+}
+
+function commandCannotBeInstalled() {
+    echo "Command has to be installed manualy!"
+    exit 1
+}
+
 # Bootstrap script for non-nixos environent
 echo "=== Bootstraping workstation ==="
 
-# Check nix
-echo "Checking if nix is installed..."
+# Check required commands
+require "curl" || commandCannotBeInstalled
 
-if ! command -v nix &> /dev/null
-then
-    echo "Nix could not be found. Installing..."
+# Check nix
+echo "Checking Nix"
+
+function installNix() {
+    echo "Installing nix..."
     curl -sL -o $NIX_INSTALLER_PATH https://install.determinate.systems/nix/nix-installer-x86_64-linux
     chmod +x $NIX_INSTALLER_PATH
     $NIX_INSTALLER_PATH install
-    source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh    
-else
-    echo "Nix is installed"
+    source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+}
+require "nix" || installNix
+
+# Check if my-infra repo exists
+if [ ! -d "$SRC_REPO_PATH" ]; then
+    echo "Cloning my-infra repository..."
+    mkdir -p $SRC_REPO_PATH
+    nix-shell -p git --run "git clone $GITHUB_REPO_URL $SRC_REPO_PATH"
 fi
 
 # Check home-manager
-if ! command -v home-manager &> /dev/null
-then
-    echo "Home manager could not be found. Installing..."
-    nix run home-manager/master -- init --switch
-else
-    echo "Home manager is installed"
-fi
+echo "Checking Home-manager"
 
-echo "Running home manager switch"
-cd ../
+function installHomeManager() {
+    echo "Installing home/manager..."
+    cd $SRC_REPO_PATH/home || exit
+    echo "Home manager could not be found. Installing..."
+    nix run home-manager/master -- init
+}
+require "home-manager" || installHomeManager
+
+# Run home-manager switch
+echo "Running home manager switch..."
+cd $SRC_REPO_PATH || exit
 nix develop --command bash -c "home-switch"
-cd $OLDPWD || exit
 
 echo "Setting zsh as degault shell"
 NIX_PROFILE_ZSH_PATH=/home/$USER/.nix-profile/bin/zsh
