@@ -1,7 +1,7 @@
 {pkgs, ...}:
 # Those are default packages enabled at my primary local
 {
-  imports = [./devops.nix];
+  imports = [./devops.nix ./k8s-hard-way.nix];
 
   home = {
     # default packages available on all machines
@@ -14,6 +14,7 @@
       nil
       nixpkgs-fmt
       procs # modern replacement for ps
+      tmux
       vim
       wireshark
       whois
