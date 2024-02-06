@@ -40,18 +40,18 @@
 
       lib = nixpkgs.lib;
     in {
-      # home-manager configuration
-      homeConfigurations.jacob = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs-unstable {
-          config.allowUnfree = true;
-          programs.zsh.enable = true;
-          config.users.users."jacob".shell = pkgs.zsh;
-          system = "x86_64-linux";
+      # Home configuration
+      homeConfigurations = {
+        wsl = home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs-unstable {
+            config = {
+              allowUnfree = true;
+              users.users."jacob".shell = pkgs.zsh;
+            };
+            system = "x86_64-linux";
+          };
+          modules = [./home ./home/workstation.nix];
         };
-
-        # Specify your home configuration modules here, for example,
-        # the path to your home.nix.
-        modules = [./home];
       };
 
       # devshell configuration

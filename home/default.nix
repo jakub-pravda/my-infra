@@ -1,32 +1,73 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
-  imports = [./pkgs ./vscode.nix ./git.nix ./zsh.nix];
+{pkgs, ...}: let
+  username = "jacob";
+in {
+  # Following packages, programs definition is a minimal definition shared across all machines, whether it's a server or a workstation
+  home = {
+    inherit username;
+    homeDirectory = "/home/${username}";
 
-  # Home Manager needs a bit of information about you and the
-  # paths it should manage.
-  home.username = "jacob";
-  home.homeDirectory = "/home/jacob";
+    stateVersion = "22.05";
 
-  # This value determines the Home Manager release that your
-  # configuration is compatible with. This helps avoid breakage
-  # when a new Home Manager release introduces backwards
-  # incompatible changes.
-  #
-  # You can update Home Manager without changing this value. See
-  # the Home Manager release notes for a list of state version
-  # changes in each release.
-  home.stateVersion = "22.05";
+    # Manage dotfiles
+    file = {
+      ".ssh/config".source = ./dotfiles/sshconfig;
+    };
+
+    # Packages definition
+    packages = with pkgs; [
+      # Monitoring tools
+      atop
+      du-dust
+      duf
+      procs
+
+      # Networking tools
+      curl
+      grpcurl
+      wireshark
+      whois
+
+      # Development tools
+      nil
+      nixpkgs-fmt
+
+      # System tools
+      tmux
+    ];
+  };
 
   programs = {
     home-manager.enable = true;
-    neovim.enable = true;
-  };
 
-  # Dotfiles
-  home.file = {
-    ".ssh/config".source = ./dotfiles/sshconfig;
+    git = {
+      enable = true;
+      userEmail = "me@jakubpravda.net";
+      userName = "Jakub Pravda";
+    };
+
+    neovim.enable = true;
+
+    zsh = {
+      enable = true;
+      enableCompletion = true;
+      enableAutosuggestions = true;
+      syntaxHighlighting.enable = true;
+
+      initExtra = ''
+        # Nix
+        if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+          . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+        fi
+      '';
+
+      oh-my-zsh = {
+        enable = true;
+        theme = "eastwood";
+        plugins = [
+          "git"
+          "sudo"
+        ];
+      };
+    };
   };
 }

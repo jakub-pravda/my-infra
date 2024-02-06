@@ -1,0 +1,23 @@
+{pkgs, ...}: {
+  # Following packages, programs definition suits best for a workstation machines
+  home = {
+    packages = with pkgs; [
+      # Provisioning tools
+      azure-cli
+      packer
+      tfswitch
+    ];
+  };
+
+  programs = {
+    vscode = {
+      enable = true;
+      extensions = with pkgs.vscode-extensions; [
+        github.copilot
+        github.copilot-chat
+        jnoortheen.nix-ide
+        timonwong.shellcheck
+      ];
+    };
+  };
+}

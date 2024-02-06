@@ -1,3 +1,9 @@
-Host nixos-vps	
-  HostName 37.205.13.151
-  User jacfal
+Host vpsfree
+    Hostname 37.205.13.151
+    User jacob
+    ForwardAgent yes
+
+Host rpi
+    Hostname 192.168.1.192
+    User jacob
+    ForwardAgent yes

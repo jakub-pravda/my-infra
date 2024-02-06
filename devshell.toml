@@ -27,7 +27,7 @@ command = "nix fmt"
 name = "home-switch"
 category = "Home"
 help = "Switch home manager"
-command = "home-manager switch --flake './#jacob'"
+command = "home-manager switch --flake './#wsl'"
 
 [[commands]]
 name = "infra-update"
