@@ -30,6 +30,13 @@ function commandCannotBeInstalled() {
     exit 1
 }
 
+function genSshKey() {
+    if [ ! -f $1 ]; then
+        echo "Generating ssh key..."
+        ssh-keygen -t ed25519 -C "me@jakubpravda.net" -f $1
+    fi
+}
+
 # Bootstrap script for non-nixos environent
 echo "=== Bootstraping workstation ==="
 
@@ -88,5 +95,9 @@ then
     echo "$NIX_PROFILE_ZSH_PATH" | sudo tee -a "$ETC_SHELLS_PATH"
 fi
 sudo chsh -s "$NIX_PROFILE_ZSH_PATH" "$USER"
+
+# Generate ssh key
+genSshKey "id_ed25519_github"
+genSshKey "id_ed25519_personal"
 
 echo "Bootstrap complete!"
