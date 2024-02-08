@@ -32,6 +32,7 @@ in {
       nixpkgs-fmt
 
       # System tools
+      openssh
       tmux
     ];
   };

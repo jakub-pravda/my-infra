@@ -6,6 +6,14 @@
       azure-cli
       packer
       tfswitch
+
+      # Python development
+      python3
+
+      # Scala development
+      scala_3
+      scala-cli
+      jdk21_headless
     ];
   };
 
