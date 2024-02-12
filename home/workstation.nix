@@ -13,7 +13,7 @@
       # Scala development
       scala_3
       scala-cli
-      jdk21_headless
+      jdk17_headless
     ];
   };
 
