@@ -1,4 +1,8 @@
-{pkgs, ...}: let
+{
+  pkgs,
+  my-infra-private,
+  ...
+}: let
   username = "jacob";
 in {
   # Following packages, programs definition is a minimal definition shared across all machines, whether it's a server or a workstation
@@ -7,11 +11,6 @@ in {
     homeDirectory = "/home/${username}";
 
     stateVersion = "22.05";
-
-    # Manage dotfiles
-    file = {
-      ".ssh/config".source = ./dotfiles/sshconfig;
-    };
 
     # Packages definition
     packages = with pkgs; [
@@ -35,6 +34,27 @@ in {
       openssh
       tmux
     ];
+
+    # Manage dotfiles
+    file = let
+      # load private configs
+      privateSshConfig = my-infra-private.lib.sshDotfile;
+
+      # store private and public configs together
+      sshConfig = let
+        config = builtins.readFile ./dotfiles/sshconfig;
+      in
+        pkgs.writeTextFile {
+          name = "sshconfig";
+          text = ''
+            ${config}
+
+            ${privateSshConfig}
+          '';
+        };
+    in {
+      ".ssh/config".source = sshConfig;
+    };
   };
 
   programs = {

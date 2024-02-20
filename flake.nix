@@ -20,6 +20,11 @@
     };
     flake-utils.url = "github:numtide/flake-utils";
     devshell.url = "github:numtide/devshell";
+
+    my-infra-private = {
+      url = "git+ssh://git@github.com/jakub-pravda/my-infra-private.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {self, ...} @ inputs:
@@ -51,6 +56,7 @@
             system = "x86_64-linux";
           };
           modules = [./home ./home/workstation.nix];
+          extraSpecialArgs = {my-infra-private = my-infra-private;};
         };
       };
 
