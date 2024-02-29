@@ -1,0 +1,7 @@
+[user]
+        name = Jakub Pravda
+        email = me@jakubpravda.net
+[commit]
+        gpgsign = false
+[branch]
+        sort = -authordate

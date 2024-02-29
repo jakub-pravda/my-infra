@@ -37,9 +37,6 @@ in {
 
     # Manage dotfiles
     file = let
-      # load private configs
-      privateSshConfig = my-infra-private.lib.sshDotfile;
-
       # store private and public configs together
       sshConfig = let
         config = builtins.readFile ./dotfiles/sshconfig;
@@ -49,11 +46,24 @@ in {
           text = ''
             ${config}
 
-            ${privateSshConfig}
+            ${my-infra-private.lib.sshDotfile}
+          '';
+        };
+
+      gitConfig = let
+        config = builtins.readFile ./dotfiles/gitconfig;
+      in
+        pkgs.writeTextFile {
+          name = "gitconfig";
+          text = ''
+            ${config}
+
+            ${my-infra-private.lib.gitconfigDotfile}
           '';
         };
     in {
       ".ssh/config".source = sshConfig;
+      ".gitconfig".source = gitConfig;
     };
   };
 
