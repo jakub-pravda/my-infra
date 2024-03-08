@@ -31,9 +31,11 @@ function commandCannotBeInstalled() {
 }
 
 function genSshKey() {
-    if [ ! -f $1 ]; then
+    local ssh_path="~/.ssh/$1"
+    echo "Checking if $ssh_path exists"
+    if [ -f $ssh_path ]; then
         echo "Generating ssh key..."
-        ssh-keygen -t ed25519 -C "me@jakubpravda.net" -f $1
+        ssh-keygen -t ed25519 -C "me@jakubpravda.net" -f ~/.ssh/$1
     fi
 }
 
@@ -73,19 +75,25 @@ function installHomeManager() {
 }
 require "home-manager" || installHomeManager
 
+# Generate ssh key
+genSshKey "id_github"
+genSshKey "id_localhost"
+
 # Run home-manager switch
 echo "Running home manager switch..."
 cd $SRC_REPO_PATH || exit
 
 # git needed for home manager switch
 if require "git"; then
+    echo "Home switch directly with git"
     nix develop --command bash -c "home-switch"
 else
     # use nix git for home manager switch
+    echo "Home switch with nixpkgs git"
     nix-shell -p git --run 'nix develop --command bash -c "home-switch"'
 fi
 
-echo "Setting zsh as degault shell"
+echo "Setting zsh as default shell"
 NIX_PROFILE_ZSH_PATH=/home/$USER/.nix-profile/bin/zsh
 ETC_SHELLS_PATH=/etc/shells
 
@@ -95,9 +103,5 @@ then
     echo "$NIX_PROFILE_ZSH_PATH" | sudo tee -a "$ETC_SHELLS_PATH"
 fi
 sudo chsh -s "$NIX_PROFILE_ZSH_PATH" "$USER"
-
-# Generate ssh key
-genSshKey "id_ed25519_github"
-genSshKey "id_ed25519_personal"
 
 echo "Bootstrap complete!"
