@@ -3,7 +3,7 @@ set -euo pipefail
 
 NIX_INSTALLER_PATH=/tmp/nix-installer
 GITHUB_REPO_URL=https://github.com/jakub-pravda/my-infra.git
-SRC_REPO_PATH=~/Devel/repos/my-infra
+SRC_REPO_PATH=~/personal/repos/my-infra
 
 function cleanup() {
     echo "Cleaning up..."

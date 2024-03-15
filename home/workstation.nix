@@ -2,6 +2,9 @@
   # Following packages, programs definition suits best for a workstation machines
   home = {
     packages = with pkgs; [
+      # IDE
+      jetbrains.idea-community
+
       # Provisioning tools
       azure-cli
       packer
@@ -11,15 +14,16 @@
       python3
 
       # Scala development
+      jdk17_headless
       scala_3
       scala-cli
-      jdk17_headless
+
     ];
   };
 
   programs = {
     vscode = {
-      enable = true;
+      enable = false;
       extensions = with pkgs.vscode-extensions; [
         github.copilot
         github.copilot-chat
