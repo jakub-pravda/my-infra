@@ -17,7 +17,6 @@
       jdk17_headless
       scala_3
       scala-cli
-
     ];
   };
 
