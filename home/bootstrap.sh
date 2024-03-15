@@ -15,7 +15,7 @@ function cleanup() {
 trap cleanup EXIT
 
 function require() {
-    if ! command -v $1 &> /dev/null
+    if ! command -v "$1" &> /dev/null
     then
         echo "Command $1 not found"
         return 1
@@ -31,11 +31,11 @@ function commandCannotBeInstalled() {
 }
 
 function genSshKey() {
-    local ssh_path="~/.ssh/$1"
+    local ssh_path="$HOME/.ssh/$1"
     echo "Checking if $ssh_path exists"
-    if [ -f $ssh_path ]; then
+    if [ -f "$ssh_path" ]; then
         echo "Generating ssh key..."
-        ssh-keygen -t ed25519 -C "me@jakubpravda.net" -f ~/.ssh/$1
+        ssh-keygen -t ed25519 -C "me@jakubpravda.net" -f ~/.ssh/"$1"
     fi
 }
 
@@ -76,8 +76,8 @@ function installHomeManager() {
 require "home-manager" || installHomeManager
 
 # Generate ssh key
-genSshKey "id_github"
-genSshKey "id_localhost"
+genSshKey "id_ed25519_github"
+genSshKey "id_ed25519"
 
 # Run home-manager switch
 echo "Running home manager switch..."

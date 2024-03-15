@@ -1,6 +1,6 @@
 Host github.com
     HostName github.com
-    IdentityFile ~/.ssh/id_github
+    IdentityFile ~/.ssh/id_ed25519_github
     User git
     IdentitiesOnly yes
 
@@ -9,12 +9,12 @@ Host vpsfree
     Hostname 37.205.13.151
     User jacob
     ForwardAgent yes
-    IdentityFile ~/.ssh/id_localhost
+    IdentityFile ~/.ssh/id_ed25519
     IdentitiesOnly yes
 
 Host rpi
     Hostname 192.168.1.192
     User jacob
     ForwardAgent yes
-    IdentityFile ~/.ssh/id_localhost
+    IdentityFile ~/.ssh/id_ed25519
     IdentitiesOnly yes
