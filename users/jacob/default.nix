@@ -1,10 +1,10 @@
-{ ... }: {
+{...}: {
   users.users.jacob = {
     isNormalUser = true;
     home = "/home/jacob";
     description = "Main repo user";
     extraGroups = ["docker" "wheel" "networkmanager"];
-    openssh.authorizedKeys.keyFiles = [ ./keyfile ];
+    openssh.authorizedKeys.keyFiles = [./keyfile];
   };
 
   nix.settings.allowed-users = ["jacob"];
