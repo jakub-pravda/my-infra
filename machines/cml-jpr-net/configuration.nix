@@ -4,7 +4,7 @@
     ../../modules/services
     ./vpsadminos.nix
     ./wg-server.nix
-    ../../users/jacob.nix
+    ../../users/jacob
   ];
 
   networking.hostName = "cml-jpr-net";
@@ -51,11 +51,6 @@
 
   # allow machine specific services
   services = {
-    openssh = {
-      enable = true;
-      permitRootLogin = "prohibit-password";
-    };
-
     jacfal-wiki.enable = true;
 
     iot-cml = {

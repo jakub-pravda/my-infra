@@ -196,18 +196,6 @@
         "type": "github"
       }
     },
-    "jacob-keys": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-1CsG4vo4jX/lv57nNJWdZMMoP9orALq7duNi+N9v8tA=",
-        "type": "file",
-        "url": "https://github.com/jakub-pravda.keys"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://github.com/jakub-pravda.keys"
-      }
-    },
     "my-infra-private": {
       "inputs": {
         "nixpkgs": [
@@ -331,7 +319,6 @@
         "flake-utils": "flake-utils_2",
         "go-home": "go-home",
         "home-manager": "home-manager_2",
-        "jacob-keys": "jacob-keys",
         "my-infra-private": "my-infra-private",
         "nixpkgs": "nixpkgs_5",
         "nixpkgs-unstable": "nixpkgs-unstable"

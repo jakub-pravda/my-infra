@@ -10,7 +10,7 @@
     ./hardware-configuration.nix
     ../../modules/services
     ./wg-client.nix
-    ../../users/jacob.nix
+    ../../users/jacob
   ];
 
   boot.loader.grub.enable = false;

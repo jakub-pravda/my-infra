@@ -3,22 +3,22 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11-small";
+    
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     agenix.url = "github:ryantm/agenix";
-    jacob-keys = {
-      url = "https://github.com/jakub-pravda.keys";
-      flake = false;
-    };
+    
     go-home = {
       url = "github:jakub-pravda/go-home";
-      #follows = "nixpkgs";
     };
+    
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    
     flake-utils.url = "github:numtide/flake-utils";
+   
     devshell.url = "github:numtide/devshell";
 
     my-infra-private = {
