@@ -4,7 +4,7 @@
   ...
 }:
 with lib;
-# I'm using influxdb 2 ony temporarily, until the version 3 is released, as it contains a lot of cool features
+  # I'm using influxdb 2 ony temporarily, until the version 3 is released, as it contains a lot of cool features
   let
     cfg = config.services.iot-cml-influxdb;
     cmlNodeCfg = config.services.iot-cml;
@@ -55,12 +55,6 @@ with lib;
       };
     };
     config = mkIf cfg.enable {
-      age.secrets.influxtoken = {
-        file = ../../../machines/${whoami}/secrets/influx-telegraf-token.age;
-        owner = "influxdb2";
-        group = "influxdb2";
-      };
-
       services.influxdb2 = {
         enable = true;
         settings = {
@@ -69,9 +63,6 @@ with lib;
       };
 
       # telegraf is responsible for collecting the data from the mqtt broker and sending it to the influxdb instance
-      systemd.services.telegraf.serviceConfig.Environment = ''
-        INFLUX_TOKEN=$(head -n 1 ${config.age.secrets.influxtoken.path})
-      '';
       services.telegraf = {
         enable = true;
         extraConfig = {
@@ -88,7 +79,10 @@ with lib;
           outputs = {
             influxdb_v2 = {
               urls = ["http://${cfg.host}:${toString cfg.port}"];
-              token = "\${INFLUX_TOKEN}";
+              # TODO cahnge to use the token from age file
+              # It isn't good approach to have the token hardcoded here, but influx runs completely isolated on localhost
+              #  and honestly, I don't know how to pass agenix token to telegraf confifg (as config not support reading from age files)
+              token = "HmG3mGydirvXZU7zHPnjkK3WQ5LepeipPtmIVQQJH3xCvkRaJZbDdVepPjOQGoEC4IGlSqXO9WRaTV448mCRrw==";
               organization = "trueorg";
               bucket = "iot";
             };

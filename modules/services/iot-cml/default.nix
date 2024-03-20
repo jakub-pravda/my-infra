@@ -6,7 +6,6 @@
 }:
 with lib; let
   cfg = config.services.iot-cml;
-  influxdbCfg = config.services.iot-cml-influxdb;
 in {
   imports = [
     ./containers.nix
