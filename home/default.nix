@@ -89,6 +89,12 @@ in {
         if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
           . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
         fi
+
+        # aah agent
+        eval $(ssh-agent -s)
+        if [ -e ~/.ssh/id_ed25519_github ]; then
+          ssh-add ~/.ssh/id_ed25519_github
+        fi
       '';
 
       oh-my-zsh = {
