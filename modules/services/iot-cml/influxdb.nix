@@ -4,7 +4,7 @@
   ...
 }:
 with lib;
-  # I'm using influxdb 2 ony temporarily, until the version 3 is released, as it contains a lot of cool features
+# I'm using influxdb 2 ony temporarily, until the version 3 is released, as it contains a lot of cool features
   let
     cfg = config.services.iot-cml-influxdb;
     cmlNodeCfg = config.services.iot-cml;
@@ -82,7 +82,7 @@ with lib;
               # TODO cahnge to use the token from age file
               # It isn't good approach to have the token hardcoded here, but influx runs completely isolated on localhost
               #  and honestly, I don't know how to pass agenix token to telegraf confifg (as config not support reading from age files)
-              token = "HmG3mGydirvXZU7zHPnjkK3WQ5LepeipPtmIVQQJH3xCvkRaJZbDdVepPjOQGoEC4IGlSqXO9WRaTV448mCRrw==";
+              token = "miKY5m8w7UftYNeQLNyhofri2Hrbvaxg5CbMQUMpe7tbFNoaJJiCTGMV1NAEg9GMXNJzeGHRT5awIpM7jG2HGw==";
               organization = "trueorg";
               bucket = "iot";
             };

@@ -6,6 +6,7 @@
 }:
 with lib; let
   cfg = config.services.iot-cml;
+  influxdbCfg = config.services.iot-cml-influxdb;
 in {
   imports = [
     ./containers.nix
@@ -56,6 +57,23 @@ in {
         secureJsonData = {password = "quest";};
       };
 
+      influxDb2 = {
+        name = "InfluxDB2";
+        type = "influxdb";
+        access = "proxy";
+        url = "http://${influxdbCfg.host}:${toString influxdbCfg.port}";
+        jsonData = {
+          version = "Flux";
+          organization = "trueorg";
+          defaultBucket = "iot";
+          skipTlsVerify = true;
+        };
+        secureJsonData = {
+          # TODO nix-token, read from agenix
+          token = "miKY5m8w7UftYNeQLNyhofri2Hrbvaxg5CbMQUMpe7tbFNoaJJiCTGMV1NAEg9GMXNJzeGHRT5awIpM7jG2HGw==";
+        };
+      };
+
       snzb02SenzorDashboard = import ./grafana/templates/snzb02dashboard.nix {
         inherit config;
         inherit pkgs;
@@ -68,8 +86,7 @@ in {
       };
       provision = {
         enable = true;
-        datasources.settings.datasources = [questDb];
-        dashboards.settings.providers = [snzb02SenzorDashboard];
+        datasources.settings.datasources = [questDb influxDb2];
       };
     };
   };
