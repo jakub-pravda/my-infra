@@ -4,6 +4,7 @@
   ...
 }: let
   username = "jacob";
+  dotFiles = pkgs.callPackage "${my-infra-private}/dotfiles.nix" { inherit pkgs; };
 in {
   # Following packages, programs definition is a minimal definition shared across all machines, whether it's a server or a workstation
   home = {
@@ -46,7 +47,7 @@ in {
           text = ''
             ${config}
 
-            ${my-infra-private.lib.sshDotfile}
+            ${dotFiles.sshDotfile}
           '';
         };
 
@@ -58,7 +59,7 @@ in {
           text = ''
             ${config}
 
-            ${my-infra-private.lib.gitconfigDotfile}
+            ${dotFiles.gitconfigDotfile}
           '';
         };
     in {
