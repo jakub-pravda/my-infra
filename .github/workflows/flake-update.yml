@@ -10,10 +10,9 @@ jobs:
     - uses: actions/checkout@v3
     - uses: cachix/install-nix-action@v22
       with:
+        token: ${{ secrets.MY_INFRA_PRIVATE_TOKEN }}
         github_access_token: ${{ secrets.GITHUB_TOKEN }}
     - run: nix flake update
-      with:
-        token: ${{ secrets.MY_INFRA_PRIVATE_TOKEN }}
     - uses: EndBug/add-and-commit@v9
       with:
         add: 'flake.lock'
