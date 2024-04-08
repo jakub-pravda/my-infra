@@ -23,7 +23,7 @@
 
     my-infra-private = {
       url = "git+ssh://git@github.com/jakub-pravda/my-infra-private.git";
-      inputs.nixpkgs.follows = "nixpkgs";
+      flake = false;
     };
   };
 
