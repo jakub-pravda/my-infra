@@ -4,7 +4,7 @@
   ...
 }: let
   username = "jacob";
-  dotFiles = pkgs.callPackage "${my-infra-private}/dotfiles.nix" { inherit pkgs; };
+  dotFiles = pkgs.callPackage "${my-infra-private}/dotfiles.nix" {inherit pkgs;};
 in {
   # Following packages, programs definition is a minimal definition shared across all machines, whether it's a server or a workstation
   home = {
