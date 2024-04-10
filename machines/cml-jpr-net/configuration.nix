@@ -65,10 +65,4 @@
     my-nginx.enable = true;
     flake-update.enable = true;
   };
-
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "-d";
-  };
 }

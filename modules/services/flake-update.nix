@@ -40,7 +40,7 @@ in {
         trap 'rm --recursive --force $TMP_FILE' INT QUIT TERM EXIT
         # try to clone
         if [[ $(git ls-remote git@github.com:${cfg.myInfraPrivateRepo}) ]]; then
-          logger "Private repo access granted"
+          echo "Private repo access granted"
           git clone git@github.com:${cfg.myInfraPublicRepo} $TMP_FILE
           cd $TMP_FILE
           nix flake update
@@ -48,7 +48,7 @@ in {
           git commit --author="Flake update bot <>" -m "Periodic flake update"
           git push
         else
-          logger "Can't access private repository"
+          echo "Can't access private repository"
           exit 1
         fi
       '';

@@ -59,10 +59,4 @@
     allowReboot = true;
     flake = "github:jakub-pravda/my-infra#rpi";
   };
-
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "-d";
-  };
 }
