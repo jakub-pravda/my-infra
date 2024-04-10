@@ -7,10 +7,12 @@ jobs:
   flake_update:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: cachix/install-nix-action@v22
+    - name: Checkout
+      uses: actions/checkout@v3
       with:
         token: ${{ secrets.MY_INFRA_PRIVATE_TOKEN }}
+    - uses: cachix/install-nix-action@v22
+      with:
         github_access_token: ${{ secrets.GITHUB_TOKEN }}
     - run: nix flake update
     - uses: EndBug/add-and-commit@v9
