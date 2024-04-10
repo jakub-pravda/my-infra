@@ -81,8 +81,9 @@ in {
 
     zsh = {
       enable = true;
+      
       enableCompletion = true;
-      enableAutosuggestions = true;
+      autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
 
       initExtra = ''
@@ -102,8 +103,12 @@ in {
         enable = true;
         theme = "eastwood";
         plugins = [
+          "aliases"
+          "colorize"
+          "docker"
           "git"
           "sudo"
+          "systemd"
         ];
       };
     };

@@ -63,6 +63,7 @@
     };
 
     my-nginx.enable = true;
+    flake-update.enable = true;
   };
 
   nix.gc = {
