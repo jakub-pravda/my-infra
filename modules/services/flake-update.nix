@@ -3,6 +3,9 @@
   lib,
   ...
 }:
+# Flake update was originally handled by a github actions job, but I haven't found a way how to
+#  grant access to private repo for `nix flake update` from github actions (as access to my-infra
+#  private is needed for the update). So I've moved the update to a systemd timer.
 with lib; let
   cfg = config.services.flake-update;
 in {
