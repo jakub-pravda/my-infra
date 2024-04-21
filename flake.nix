@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    
+
     agenix.url = "github:ryantm/agenix";
     devshell.url = "github:numtide/devshell";
     go-home.url = "github:jakub-pravda/go-home";
