@@ -1,40 +1,67 @@
 {
   pkgs,
+  lib,
   my-infra-private,
+  isWorkstation,
+  isWsl,
   ...
 }: let
   username = "jacob";
   dotFiles = pkgs.callPackage "${my-infra-private}/dotfiles.nix" {inherit pkgs;};
-in {
+
   # Following packages, programs definition is a minimal definition shared across all machines, whether it's a server or a workstation
+  defaultPackages = with pkgs; [
+    # Monitoring tools
+    atop
+    du-dust
+    duf
+    procs
+
+    # Networking tools
+    curl
+    grpcurl
+    wireshark
+    whois
+
+    # Development tools
+    git
+    nil
+    nixpkgs-fmt
+
+    # System tools
+    openssh
+    tmux
+  ];
+
+  workstationPackages = with pkgs;
+    if isWorkstation
+    then [
+      # Productivity tools
+      firefox
+      spotify
+
+      # IDE
+      jetbrains.idea-community
+
+      # Provisioning tools
+      azure-cli
+      tfswitch
+
+      # Python development
+      python3
+
+      # Scala development
+      jdk17_headless
+      scala_3
+      scala-cli
+    ]
+    else [];
+in {
   home = {
     inherit username;
     homeDirectory = "/home/${username}";
-
+    packages = defaultPackages ++ workstationPackages;
     stateVersion = "22.05";
-
-    # Packages definition
-    packages = with pkgs; [
-      # Monitoring tools
-      atop
-      du-dust
-      duf
-      procs
-
-      # Networking tools
-      curl
-      grpcurl
-      wireshark
-      whois
-
-      # Development tools
-      nil
-      nixpkgs-fmt
-
-      # System tools
-      openssh
-      tmux
-    ];
 
     # Manage dotfiles
     file = let
@@ -71,6 +98,7 @@ in {
   programs = {
     home-manager.enable = true;
 
+    # *** Default programs ***
     git = {
       enable = true;
       userEmail = "me@jakubpravda.net";
@@ -83,7 +111,7 @@ in {
       enable = true;
 
       enableCompletion = true;
-      autosuggestion.enable = true;
+      enableAutosuggestions = true;
       syntaxHighlighting.enable = true;
 
       initExtra = ''
@@ -92,7 +120,7 @@ in {
           . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
         fi
 
-        # aah agent
+        # ssh agent
         eval $(ssh-agent -s)
         if [ -e ~/.ssh/id_ed25519_github ]; then
           ssh-add ~/.ssh/id_ed25519_github
@@ -111,6 +139,16 @@ in {
           "systemd"
         ];
       };
+    };
+    # *** Workstation only programs ***
+    vscode = {
+      enable = isWorkstation && !isWsl;
+      extensions = with pkgs.vscode-extensions; [
+        github.copilot
+        github.copilot-chat
+        jnoortheen.nix-ide
+        timonwong.shellcheck
+      ];
     };
   };
 }

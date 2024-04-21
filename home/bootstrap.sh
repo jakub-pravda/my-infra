@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 NIX_INSTALLER_PATH=/tmp/nix-installer
