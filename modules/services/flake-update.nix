@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 # Flake update was originally handled by a github actions job, but I haven't found a way how to
@@ -37,6 +38,9 @@ in {
 
     systemd.services."flake-update" = {
       serviceConfig.Type = "oneshot";
+      path = [
+        pkgs.git
+      ];
       script = ''
         set -eu
         TMP_FILE=$(mktemp -d /tmp/XXXX=my-infra)
