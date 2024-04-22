@@ -37,9 +37,14 @@ in {
     };
 
     systemd.services."flake-update" = {
-      serviceConfig.Type = "oneshot";
+      serviceConfig = {
+        Type = "oneshot";
+        User = "jacob"; # TODO bind service user
+      };
       path = [
         pkgs.git
+        pkgs.openssh
+        pkgs.nix
       ];
       script = ''
         set -eu
