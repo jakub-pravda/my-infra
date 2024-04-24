@@ -29,6 +29,12 @@
         import nixpkgs {
           inherit system;
           config.allowUnfree = true;
+          overlays = [
+            (_: _: {
+              idea-community-latest =
+                nixpkgs-unstable.legacyPackages."${system}".jetbrains.idea-community;
+            })
+          ];
         };
 
       serverPkgs = system:
