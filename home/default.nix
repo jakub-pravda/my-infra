@@ -41,7 +41,7 @@
       spotify
 
       # IDE
-      idea-community-latest
+      jetbrains.idea-community
 
       # Provisioning tools
       azure-cli
