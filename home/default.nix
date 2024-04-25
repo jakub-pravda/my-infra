@@ -146,7 +146,9 @@ in {
       extensions = with pkgs.vscode-extensions; [
         github.copilot
         github.copilot-chat
+        ms-python.python
         jnoortheen.nix-ide
+        tamasfe.even-better-toml
         timonwong.shellcheck
       ];
     };
