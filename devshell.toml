@@ -15,6 +15,7 @@ help = "Build the infrastructure"
 command = '''
   nix build --dry-run .#nixosConfigurations.vpsfree.config.system.build.toplevel -L
   nix build --dry-run .#nixosConfigurations.rpi.config.system.build.toplevel -L
+  nix build --dry-run .#nixosConfigurations.wheatley.config.system.build.toplevel -L
 '''
 
 [[commands]]
