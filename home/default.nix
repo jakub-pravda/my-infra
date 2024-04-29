@@ -48,13 +48,14 @@
       tfswitch
 
       # Python development
-      (python311.withPackages (ps: with ps; [
-        black
-        flake8
-        pip
-        pylint
-        pytest
-      ]))
+      (python311.withPackages (ps:
+        with ps; [
+          black
+          flake8
+          pip
+          pylint
+          pytest
+        ]))
 
       # Scala development
       jdk17_headless
