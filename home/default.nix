@@ -34,35 +34,46 @@
   ];
 
   workstationPackages = with pkgs;
-    if isWorkstation
-    then [
-      # Productivity tools
-      firefox
-      spotify
+  # Workstation WSL only packages
+    (
+      if isWorkstation
+      then [
+        # IDE
+        jetbrains.idea-community
 
-      # IDE
-      jetbrains.idea-community
+        # Provisioning tools
+        azure-cli
+        tfswitch
 
-      # Provisioning tools
-      azure-cli
-      tfswitch
+        # Python development
+        (python311.withPackages (ps:
+          with ps; [
+            black
+            flake8
+            pip
+            pylint
+            pytest
+          ]))
 
-      # Python development
-      (python311.withPackages (ps:
-        with ps; [
-          black
-          flake8
-          pip
-          pylint
-          pytest
-        ]))
-
-      # Scala development
-      jdk17_headless
-      scala_3
-      scala-cli
-    ]
-    else [];
+        # Scala development
+        jdk17_headless
+        scala_3
+        scala-cli
+      ]
+      else []
+    )
+    ++
+    # Workstation packages
+    (
+      if !isWsl
+      then [
+        # Productivity tools
+        firefox
+        libreoffice
+        spotify
+      ]
+      else []
+    );
 in {
   home = {
     inherit username;
