@@ -182,11 +182,11 @@
     "my-infra-private": {
       "flake": false,
       "locked": {
-        "lastModified": 1712586095,
-        "narHash": "sha256-C2LCw8aKaTMqcAt21ca1U6DHe2YaWHr9fMBvxPy8Epo=",
+        "lastModified": 1714728951,
+        "narHash": "sha256-xoAg81cnoDfGswzdqu9Y3Qz4S+mBV0F7SFOm9a2m7XU=",
         "ref": "refs/heads/main",
-        "rev": "af6f95777fd694671a6ddaa3c4f49f445a1b70a3",
-        "revCount": 12,
+        "rev": "128aa1d9f231155bc2dd511e0c1f480b81555553",
+        "revCount": 13,
         "type": "git",
         "url": "ssh://git@github.com/jakub-pravda/my-infra-private.git"
       },
@@ -213,11 +213,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1714253743,
-        "narHash": "sha256-mdTQw2XlariysyScCv2tTE45QSU9v/ezLcHJ22f0Nxc=",
+        "lastModified": 1714763106,
+        "narHash": "sha256-DrDHo74uTycfpAF+/qxZAMlP/Cpe04BVioJb6fdI0YY=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "58a1abdbae3217ca6b702f03d3b35125d88a2994",
+        "rev": "e9be42459999a253a9f92559b1f5b72e1b44c13d",
         "type": "github"
       },
       "original": {
@@ -277,11 +277,11 @@
     },
     "nixpkgs_5": {
       "locked": {
-        "lastModified": 1714272655,
-        "narHash": "sha256-3/ghIWCve93ngkx5eNPdHIKJP/pMzSr5Wc4rNKE1wOc=",
+        "lastModified": 1714782413,
+        "narHash": "sha256-tbg0MEuKaPcUrnmGCu4xiY5F+7LW2+ECPKVAJd2HLwM=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "12430e43bd9b81a6b4e79e64f87c624ade701eaf",
+        "rev": "651b4702e27a388f0f18e1b970534162dec09aff",
         "type": "github"
       },
       "original": {
