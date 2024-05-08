@@ -14,7 +14,7 @@ category = "Infrastructure"
 help = "Build the infrastructure"
 command = '''
   nix build --dry-run .#nixosConfigurations.vpsfree.config.system.build.toplevel -L
-  nix build --dry-run .#nixosConfigurations.rpi.config.system.build.toplevel -L
+  nix build --dry-run .#nixosConfigurations.home-hub.config.system.build.toplevel -L
   nix build --dry-run .#nixosConfigurations.wheatley.config.system.build.toplevel -L
 '''
 
@@ -23,12 +23,6 @@ name = "infra-fmt"
 category = "Infrastructure"
 help = "Format the nix files"
 command = "nix fmt"
-
-[[commands]]
-name = "home-switch"
-category = "Home"
-help = "Switch home manager"
-command = "home-manager switch --flake './#wsl'"
 
 [[commands]]
 name = "infra-update"

@@ -1,6 +1,4 @@
 {config, ...}: {
-  imports = [./datadog.nix];
-
   config = {
     # shared nix config
     nix = {

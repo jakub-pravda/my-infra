@@ -12,14 +12,14 @@ wg pubkey < ~/wireguard-keys/private > ~/wireguard-keys/public
 ## Build
 
 ```sh
-> nixos-rebuild dry-build --flake .#rpi
-> nixos-rebuild switch --flake .#rpi
+> nixos-rebuild dry-build --flake .#home-hub
+> nixos-rebuild switch --flake .#home-hub
 ```
 
 Build on the non nixos machine:
 
 ```sh
-nix build .#nixosConfigurations.rpi.config.system.build.toplevel -L
+nix build .#nixosConfigurations.home-hub.config.system.build.toplevel -L
 ```
 
 

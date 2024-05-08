@@ -12,7 +12,8 @@ Host vpsfree
     IdentityFile ~/.ssh/id_ed25519
     IdentitiesOnly yes
 
-Host rpi
+Host home-hub
+
     Hostname 192.168.1.192
     User jacob
     ForwardAgent yes

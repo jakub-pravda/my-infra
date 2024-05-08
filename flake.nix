@@ -117,16 +117,24 @@
           ];
         };
 
-        rpi = lib.nixosSystem rec {
+        home-hub = lib.nixosSystem rec {
           system = aarch64-linux;
           pkgs = serverPkgs system;
           # Make inputs accessible ad module parameters
           specialArgs = {flake-self = self;} // inputs;
           modules = [
-            machines/home-gw/configuration.nix
-            agenix.nixosModules.default
+            machines/home-hub/configuration.nix
+            home-manager.nixosModules.home-manager
             {
-              environment.systemPackages = [agenix.packages.${system}.default]; # agenix cli
+              home-manager = {
+                users.jacob = import ./home/default.nix;
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = {
+                  isWorkstation = false;
+                  isWsl = false;
+                };
+              };
             }
           ];
         };

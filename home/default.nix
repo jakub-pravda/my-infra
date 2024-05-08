@@ -65,10 +65,11 @@
     ++
     # Workstation packages
     (
-      if !isWsl
+      if isWorkstation && !isWsl
       then [
         # Productivity tools
         firefox
+        google-chrome
         libreoffice
         spotify
       ]
@@ -81,7 +82,7 @@ in {
     packages = defaultPackages ++ workstationPackages;
     stateVersion = "22.05";
 
-    # Manage dotfiles
+    # Manage dotfiles (on workstations only)
     file = let
       # store private and public configs together
       sshConfig = let
@@ -107,10 +108,11 @@ in {
             ${dotFiles.gitconfigDotfile}
           '';
         };
-    in {
-      ".ssh/config".source = sshConfig;
-      ".gitconfig".source = gitConfig;
-    };
+    in
+      lib.mkIf isWorkstation {
+        ".ssh/config".source = sshConfig;
+        ".gitconfig".source = gitConfig;
+      };
   };
 
   programs = {
