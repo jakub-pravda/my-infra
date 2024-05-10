@@ -40,17 +40,13 @@
 
   time.timeZone = "Europe/Prague";
 
-  system = {
-    autoUpgrade = {
-      enable = true;
-      allowReboot = true;
-      flake = "github:jakub-pravda/my-infra#vpsfree";
-    };
-    stateVersion = "22.05";
-  };
-
   # allow machine specific services
   services = {
+    auto-update = {
+      enable = true;
+      flakeToUse = "vpsfree";
+    };
+
     jacfal-wiki.enable = true;
 
     iot-cml = {

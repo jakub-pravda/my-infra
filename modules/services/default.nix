@@ -1,5 +1,6 @@
 {...}: {
   imports = [
+    ./auto-update.nix
     ./flake-update.nix
     ./home-assistant.nix
     ./iot-cml

@@ -2,7 +2,9 @@
   config,
   pkgs,
   ...
-}: {
+}: let
+  machineName = "home-hub";
+in {
   imports = [
     # Include the results of the hardware scan.
     ../shared
@@ -15,7 +17,7 @@
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
 
-  networking.hostName = "home-hub"; # Define your hostname.
+  networking.hostName = machineName;
   time.timeZone = "Europe/Prague";
 
   environment.etc."nixos/configuration.nix" = {
@@ -32,6 +34,11 @@
   ];
 
   services = {
+    auto-update = {
+      enable = true;
+      flakeToUse = machineName;
+    };
+
     openssh.enable = true;
     iot-gw = {
       enable = true;
