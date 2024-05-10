@@ -37,7 +37,7 @@ in {
         Type = "oneshot";
       };
       path = [
-        pkgs.nix
+        pkgs.nixos-rebuild
       ];
       script = ''
         nixos-rebuild dry-build --flake github:${cfg.myInfraGithubRepo}#${cfg.flakeToUse}
