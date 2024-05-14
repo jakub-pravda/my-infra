@@ -55,6 +55,9 @@
             pytest
           ]))
 
+        # Rust development
+        rustup
+
         # Scala development
         jdk17_headless
         scala_3
@@ -166,8 +169,9 @@ in {
       extensions = with pkgs.vscode-extensions; [
         github.copilot
         github.copilot-chat
-        ms-python.python
         jnoortheen.nix-ide
+        ms-python.python
+        rust-lang.rust-analyzer
         tamasfe.even-better-toml
         timonwong.shellcheck
       ];

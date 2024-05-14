@@ -66,9 +66,15 @@
     pulse.enable = true;
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’
+  # Enable zsh
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
+
+  # Virtualisation
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;
+  };
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
