@@ -40,7 +40,7 @@ in {
         pkgs.nixos-rebuild
       ];
       script = ''
-        nixos-rebuild dry-build --flake github:${cfg.myInfraGithubRepo}#${cfg.flakeToUse}
+        nixos-rebuild switch --flake github:${cfg.myInfraGithubRepo}#${cfg.flakeToUse}
       '';
     };
   };
