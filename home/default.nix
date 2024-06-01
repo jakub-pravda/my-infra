@@ -187,11 +187,10 @@ in {
 
       userSettings = {
         "workbench.colorTheme" = "Default Dark Modern";
-        "files.autoSave"= "afterDelay";
-        
+        "files.autoSave" = "afterDelay";
+
         "nix.enableLanguageServer" = true;
         "nix.serverPath" = "nil";
-
       };
     };
   };
