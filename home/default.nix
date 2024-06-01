@@ -25,8 +25,6 @@
 
     # Development tools
     git
-    nil
-    nixpkgs-fmt
 
     # System tools
     openssh
@@ -40,6 +38,10 @@
       then [
         # IDE
         jetbrains.idea-community
+
+        # Nix
+        nil
+        nixpkgs-fmt
 
         # Provisioning tools
         azure-cli
@@ -166,15 +168,27 @@ in {
     # *** Workstation only programs ***
     vscode = {
       enable = isWorkstation && !isWsl;
+      enableExtensionUpdateCheck = true;
+      enableUpdateCheck = true;
+
       extensions = with pkgs.vscode-extensions; [
         github.copilot
         github.copilot-chat
         jnoortheen.nix-ide
         ms-python.python
+        ms-toolsai.jupyter
         rust-lang.rust-analyzer
+        scala-lang.scala
+        scalameta.metals
+        streetsidesoftware.code-spell-checker
         tamasfe.even-better-toml
         timonwong.shellcheck
       ];
+
+      userSettings = {
+        "nix.enableLanguageServer" = true;
+        "nix.serverPath" = "nil";
+      };
     };
   };
 }
