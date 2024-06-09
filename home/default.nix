@@ -183,6 +183,7 @@ in {
         streetsidesoftware.code-spell-checker
         tamasfe.even-better-toml
         timonwong.shellcheck
+        vscode-icons-team.vscode-icons
       ];
 
       userSettings = {
