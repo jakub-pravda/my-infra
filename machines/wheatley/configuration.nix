@@ -80,6 +80,7 @@
   environment.systemPackages = with pkgs; [
     gnome.gnome-tweaks
     libgcc
+    podman-compose
     vim
   ];
 
