@@ -150,6 +150,8 @@ in {
         if [ -e ~/.ssh/id_ed25519_github ]; then
           ssh-add ~/.ssh/id_ed25519_github
         fi
+
+        export PATH="$HOME/bin:$PATH"
       '';
 
       oh-my-zsh = {
