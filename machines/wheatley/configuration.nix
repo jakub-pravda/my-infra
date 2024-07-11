@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   ...
 }: {
@@ -82,6 +81,9 @@
     libgcc
     podman-compose
     vim
+
+    # Terminal emulator
+    alacritty
   ];
 
   # This value determines the NixOS release from which the default

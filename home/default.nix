@@ -185,6 +185,7 @@ in {
         streetsidesoftware.code-spell-checker
         tamasfe.even-better-toml
         timonwong.shellcheck
+        vscodevim.vim
         vscode-icons-team.vscode-icons
       ];
 
