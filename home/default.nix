@@ -114,10 +114,16 @@ in {
             ${dotFiles.gitconfigDotfile}
           '';
         };
+
+      awsConfig = pkgs.writeTextFile {
+        name = "awsconfig";
+        text = dotFiles.awsConfigDotfile;
+      };
     in
       lib.mkIf isWorkstation {
         ".ssh/config".source = sshConfig;
         ".gitconfig".source = gitConfig;
+        ".aws/config".source = awsConfig;
       };
   };
 
