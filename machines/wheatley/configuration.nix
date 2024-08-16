@@ -75,13 +75,20 @@
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     gnome.gnome-tweaks
+    gnupg
     libgcc
     podman-compose
     vim
-
-    # Terminal emulator
-    alacritty
   ];
+
+  # Additional services
+  services.netdata.enable = true;
+
+  # Gaming
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

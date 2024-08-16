@@ -13,6 +13,7 @@
   defaultPackages = with pkgs; [
     # Monitoring tools
     atop
+    bottom 
     du-dust
     duf
     procs
@@ -87,6 +88,10 @@ in {
     homeDirectory = "/home/${username}";
     packages = defaultPackages ++ workstationPackages;
     stateVersion = "22.05";
+
+    shellAliases = {
+      htop = "btm";
+    };
 
     # Manage dotfiles (on workstations only)
     file = let
@@ -197,7 +202,8 @@ in {
       ];
 
       userSettings = {
-        "workbench.colorTheme" = "Default Dark Modern";
+        # TODO add monokai theme to nix packages
+        "workbench.colorTheme" = "monokai-charcoal (white)";
         "files.autoSave" = "afterDelay";
 
         "nix.enableLanguageServer" = true;
