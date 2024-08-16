@@ -13,7 +13,7 @@
   defaultPackages = with pkgs; [
     # Monitoring tools
     atop
-    bottom 
+    bottom
     du-dust
     duf
     procs
