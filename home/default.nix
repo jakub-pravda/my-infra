@@ -53,6 +53,7 @@
         tfswitch
 
         # Python development
+        poetry
         (python312.withPackages (ps:
           with ps; [
             black
@@ -135,6 +136,15 @@ in {
         ".gitconfig".source = gitConfig;
         ".aws/config".source = awsConfig;
       };
+
+    sessionVariables = {
+      EDITOR = "nvim";
+      VISUAL = "nvim";
+      PAGER = "less";
+
+      # For python development
+      #LD_LIBRARY_PATH = $LD_LIBRARY_PATH:pkgs.lib.makeLibraryPath [pkgs.stdenv.cc.cc];
+    };
   };
 
   programs = {
