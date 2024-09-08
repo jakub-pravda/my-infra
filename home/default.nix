@@ -44,13 +44,16 @@
         nil
         nixpkgs-fmt
 
+        # Golang development
+        go
+
         # Provisioning tools
         awscli2
         azure-cli
         tfswitch
 
         # Python development
-        (python311.withPackages (ps:
+        (python312.withPackages (ps:
           with ps; [
             black
             flake8
@@ -188,6 +191,7 @@ in {
       extensions = with pkgs.vscode-extensions; [
         github.copilot
         github.copilot-chat
+        golang.go
         jnoortheen.nix-ide
         ms-python.python
         ms-toolsai.jupyter
@@ -200,15 +204,6 @@ in {
         vscodevim.vim
         vscode-icons-team.vscode-icons
       ];
-
-      userSettings = {
-        # TODO add monokai theme to nix packages
-        "workbench.colorTheme" = "monokai-charcoal (white)";
-        "files.autoSave" = "afterDelay";
-
-        "nix.enableLanguageServer" = true;
-        "nix.serverPath" = "nil";
-      };
     };
   };
 }
