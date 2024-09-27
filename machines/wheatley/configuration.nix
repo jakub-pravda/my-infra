@@ -13,7 +13,7 @@
 
   time.timeZone = "Europe/Prague";
 
-  nix.trustedUsers = ["root" "jacob"];
+  nix.settings.trusted-users = ["root" "jacob"];
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
@@ -44,8 +44,10 @@
 
   # Configure keymap in X11
   services.xserver = {
-    layout = "us";
-    xkbVariant = "";
+    xkb = {
+      layout = "us";
+      variant = "";
+    };
   };
 
   # Enable CUPS to print documents
