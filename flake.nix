@@ -2,14 +2,14 @@
   description = "My machines";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     agenix.url = "github:ryantm/agenix";
     devshell.url = "github:numtide/devshell";
     go-home.url = "github:jakub-pravda/go-home";
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     my-infra-private = {
