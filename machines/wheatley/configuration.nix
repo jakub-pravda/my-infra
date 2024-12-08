@@ -100,7 +100,7 @@
       vpl-gpu-rt
     ];
   };
-  environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; }; 
+  environment.sessionVariables = {LIBVA_DRIVER_NAME = "iHD";};
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
