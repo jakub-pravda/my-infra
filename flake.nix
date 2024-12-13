@@ -26,13 +26,14 @@
       aarch64-linux = "aarch64-linux";
 
       # Packages definition
-      
+
       # remark: myPkgs are here to test shadow-pc package
-      myPkgs = system: import nixpkgs-my {
-        inherit system;
-        # Allow unfree packages (shadow pc)
-        config.allowUnfree = true;
-      };
+      myPkgs = system:
+        import nixpkgs-my {
+          inherit system;
+          # Allow unfree packages (shadow pc)
+          config.allowUnfree = true;
+        };
 
       desktopPkgs = system:
         import nixpkgs {
