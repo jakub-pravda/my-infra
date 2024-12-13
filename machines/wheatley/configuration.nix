@@ -75,10 +75,11 @@
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
-    gnome.gnome-tweaks
+    gnome-tweaks
     gnupg
     libgcc
     podman-compose
+    shadow-pc
     vim
   ];
 
