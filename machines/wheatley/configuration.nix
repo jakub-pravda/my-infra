@@ -79,7 +79,7 @@
     gnupg
     libgcc
     podman-compose
-    shadow-pc
+    shadow-launcher
     vim
   ];
 

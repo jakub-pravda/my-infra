@@ -43,7 +43,7 @@
             (_: _: {
               jetbrains =
                 nixpkgs-unstable.legacyPackages."${system}".jetbrains;
-              shadow-pc = (myPkgs system).shadow-pc;
+              shadow-launcher = (myPkgs system).shadow-launcher;
             })
           ];
         };
