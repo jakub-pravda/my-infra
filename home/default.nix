@@ -38,7 +38,7 @@
       if isWorkstation
       then [
         # IDE
-        jetbrains.idea-community
+        # jetbrains.idea-community
 
         # Nix
         nil
@@ -57,9 +57,11 @@
           with ps; [
             black
             flake8
+            mypy
             pip
             pylint
             pytest
+            ruff
           ]))
 
         # Rust development
@@ -189,10 +191,12 @@ in {
       enableUpdateCheck = true;
 
       extensions = with pkgs.vscode-extensions; [
+        charliermarsh.ruff
         github.copilot
         github.copilot-chat
         golang.go
         jnoortheen.nix-ide
+        matangover.mypy
         ms-python.python
         ms-toolsai.jupyter
         rust-lang.rust-analyzer
