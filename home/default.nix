@@ -37,12 +37,12 @@
     (
       if isWorkstation
       then [
-        # IDE
-        # jetbrains.idea-community
-
         # Nix
         nil
         nixpkgs-fmt
+
+        # Note taking
+        obsidian
 
         # Golang development
         go

@@ -41,8 +41,6 @@
           config.allowUnfree = true;
           overlays = [
             (_: _: {
-              jetbrains =
-                nixpkgs-unstable.legacyPackages."${system}".jetbrains;
               shadow-launcher = (myPkgs system).shadow-launcher;
             })
           ];
