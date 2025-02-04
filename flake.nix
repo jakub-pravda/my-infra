@@ -6,12 +6,11 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-my.url = "github:jakub-pravda/nixpkgs/shadow-pc";
 
-    agenix.url = "github:ryantm/agenix";
     devshell.url = "github:numtide/devshell";
     go-home.url = "github:jakub-pravda/go-home";
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     my-infra-private = {
       url = "git+ssh://git@github.com/jakub-pravda/my-infra-private.git";
@@ -35,8 +34,8 @@
           config.allowUnfree = true;
         };
 
-      desktopPkgs = system:
-        import nixpkgs {
+      desktopPkgs = system: pkgs:
+        import pkgs {
           inherit system;
           config.allowUnfree = true;
           overlays = [
@@ -46,8 +45,8 @@
           ];
         };
 
-      serverPkgs = system:
-        import nixpkgs {
+      serverPkgs = system: pkgs:
+        import pkgs {
           inherit system;
           config.allowUnfree = false;
           overlays = [
@@ -59,8 +58,6 @@
           ];
         };
 
-      # other
-      lib = nixpkgs.lib;
     in {
       devShells.x86_64-linux.default = let
         pkgs = import nixpkgs {
@@ -77,7 +74,7 @@
       # Separate home configuration for non NixOs machines
       homeConfigurations = {
         wsl = home-manager.lib.homeManagerConfiguration {
-          pkgs = desktopPkgs x86_64-linux;
+          pkgs = desktopPkgs x86_64-linux nixpkgs-unstable;
           modules = [./home];
           extraSpecialArgs = {
             my-infra-private = my-infra-private;
@@ -89,9 +86,12 @@
 
       nixosConfigurations = {
         # *** Workstations ***
-        wheatley = lib.nixosSystem rec {
+        wheatley = let
           system = x86_64-linux;
-          pkgs = desktopPkgs system;
+          pkgs = nixpkgs-unstable;
+        in pkgs.lib.nixosSystem {
+          inherit system;
+          pkgs = desktopPkgs system pkgs;
           specialArgs = {flake-self = self;} // inputs;
           modules = [
             machines/wheatley/configuration.nix
@@ -112,23 +112,25 @@
         };
 
         # *** Servers ***
-        vpsfree = lib.nixosSystem rec {
+        vpsfree = let
           system = x86_64-linux;
-          pkgs = serverPkgs system;
+          pkgs = nixpkgs;
+        in pkgs.lib.nixosSystem {
+          inherit system;
+          pkgs = serverPkgs system pkgs;
           # Make inputs accessible ad module parameters
           specialArgs = {flake-self = self;} // inputs;
           modules = [
             machines/cml-jpr-net/configuration.nix
-            agenix.nixosModules.default
-            {
-              environment.systemPackages = [agenix.packages.${system}.default]; # agenix cli
-            }
           ];
         };
 
-        home-hub = lib.nixosSystem rec {
+        home-hub = let
           system = aarch64-linux;
-          pkgs = serverPkgs system;
+          pkgs = nixpkgs;
+        in pkgs.lib.nixosSystem {
+          inherit system;
+          pkgs = serverPkgs system pkgs;
           # Make inputs accessible ad module parameters
           specialArgs = {flake-self = self;} // inputs;
           modules = [

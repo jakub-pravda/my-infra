@@ -61,4 +61,5 @@
     my-nginx.enable = true;
     flake-update.enable = true;
   };
+  system.stateVersion = "24.05";
 }
