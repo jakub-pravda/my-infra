@@ -57,7 +57,6 @@
             })
           ];
         };
-
     in {
       devShells.x86_64-linux.default = let
         pkgs = import nixpkgs {
@@ -89,66 +88,69 @@
         wheatley = let
           system = x86_64-linux;
           pkgs = nixpkgs-unstable;
-        in pkgs.lib.nixosSystem {
-          inherit system;
-          pkgs = desktopPkgs system pkgs;
-          specialArgs = {flake-self = self;} // inputs;
-          modules = [
-            machines/wheatley/configuration.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                users.jacob = import ./home/default.nix;
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                extraSpecialArgs = {
-                  my-infra-private = my-infra-private;
-                  isWorkstation = true;
-                  isWsl = false;
+        in
+          pkgs.lib.nixosSystem {
+            inherit system;
+            pkgs = desktopPkgs system pkgs;
+            specialArgs = {flake-self = self;} // inputs;
+            modules = [
+              machines/wheatley/configuration.nix
+              home-manager.nixosModules.home-manager
+              {
+                home-manager = {
+                  users.jacob = import ./home/default.nix;
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  extraSpecialArgs = {
+                    my-infra-private = my-infra-private;
+                    isWorkstation = true;
+                    isWsl = false;
+                  };
                 };
-              };
-            }
-          ];
-        };
+              }
+            ];
+          };
 
         # *** Servers ***
         vpsfree = let
           system = x86_64-linux;
           pkgs = nixpkgs;
-        in pkgs.lib.nixosSystem {
-          inherit system;
-          pkgs = serverPkgs system pkgs;
-          # Make inputs accessible ad module parameters
-          specialArgs = {flake-self = self;} // inputs;
-          modules = [
-            machines/cml-jpr-net/configuration.nix
-          ];
-        };
+        in
+          pkgs.lib.nixosSystem {
+            inherit system;
+            pkgs = serverPkgs system pkgs;
+            # Make inputs accessible ad module parameters
+            specialArgs = {flake-self = self;} // inputs;
+            modules = [
+              machines/cml-jpr-net/configuration.nix
+            ];
+          };
 
         home-hub = let
           system = aarch64-linux;
           pkgs = nixpkgs;
-        in pkgs.lib.nixosSystem {
-          inherit system;
-          pkgs = serverPkgs system pkgs;
-          # Make inputs accessible ad module parameters
-          specialArgs = {flake-self = self;} // inputs;
-          modules = [
-            machines/home-hub/configuration.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                users.jacob = import ./home/default.nix;
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                extraSpecialArgs = {
-                  isWorkstation = false;
-                  isWsl = false;
+        in
+          pkgs.lib.nixosSystem {
+            inherit system;
+            pkgs = serverPkgs system pkgs;
+            # Make inputs accessible ad module parameters
+            specialArgs = {flake-self = self;} // inputs;
+            modules = [
+              machines/home-hub/configuration.nix
+              home-manager.nixosModules.home-manager
+              {
+                home-manager = {
+                  users.jacob = import ./home/default.nix;
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  extraSpecialArgs = {
+                    isWorkstation = false;
+                    isWsl = false;
+                  };
                 };
-              };
-            }
-          ];
-        };
+              }
+            ];
+          };
       };
     };
 }
