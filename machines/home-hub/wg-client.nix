@@ -1,4 +1,4 @@
-{...}: let
+_: let
   publicKey = "bTCvk4lOEOdiK1sm+rxe+3Nz1fkWp6A/uQEmnEGHGwk=";
 in {
   networking.wireguard.interfaces = {

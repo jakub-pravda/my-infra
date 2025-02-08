@@ -24,10 +24,12 @@
       x86_64-linux = "x86_64-linux";
       aarch64-linux = "aarch64-linux";
 
-      supportedSystems = [ x86_64-linux aarch64-linux ];
-      forEachSupportedSystem = f: nixpkgs.lib.genAttrs supportedSystems (system: f {
-        pkgs = import nixpkgs { inherit system; };
-      });
+      supportedSystems = [x86_64-linux aarch64-linux];
+      forEachSupportedSystem = f:
+        nixpkgs.lib.genAttrs supportedSystems (system:
+          f {
+            pkgs = import nixpkgs {inherit system;};
+          });
 
       # Packages definition
 
@@ -62,12 +64,12 @@
           ];
         };
     in {
-      devShells = forEachSupportedSystem ({ pkgs }: {
+      devShells = forEachSupportedSystem ({pkgs}: {
         default = pkgs.mkShell {
           buildInputs = with pkgs; [
-            (poetry.override { python3 = python312; })
-              nixfmt-classic
-              statix
+            (poetry.override {python3 = python312;})
+            nixfmt-classic
+            statix
           ];
         };
       });

@@ -23,7 +23,7 @@ in {
   };
 
   config.services.home-assistant = mkIf cfg.enable {
-    enable = homeAssisatntCfg.enable;
+    inherit (homeAssisatntCfg) enable;
     config = homeAssistantConfig;
     configDir = "/var/lib/hass";
     extraComponents = ["default_config" "met" "radio_browser" "mqtt" "mobile_app"];
