@@ -24,6 +24,11 @@
       x86_64-linux = "x86_64-linux";
       aarch64-linux = "aarch64-linux";
 
+      supportedSystems = [ x86_64-linux aarch64-linux ];
+      forEachSupportedSystem = f: nixpkgs.lib.genAttrs supportedSystems (system: f {
+        pkgs = import nixpkgs { inherit system; };
+      });
+
       # Packages definition
 
       # remark: myPkgs are here to test shadow-pc package
@@ -40,7 +45,7 @@
           config.allowUnfree = true;
           overlays = [
             (_: _: {
-              shadow-launcher = (myPkgs system).shadow-launcher;
+              inherit ((myPkgs system)) shadow-launcher;
             })
           ];
         };
@@ -52,21 +57,20 @@
           overlays = [
             (_: _: {
               go-home = go-home.packages.${system}.default;
-              zigbee2mqtt =
-                nixpkgs-unstable.legacyPackages."${system}".zigbee2mqtt;
+              inherit (nixpkgs-unstable.legacyPackages."${system}") zigbee2mqtt;
             })
           ];
         };
     in {
-      devShells.x86_64-linux.default = let
-        pkgs = import nixpkgs {
-          system = x86_64-linux;
-          overlays = [devshell.overlays.default];
+      devShells = forEachSupportedSystem ({ pkgs }: {
+        default = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            (poetry.override { python3 = python312; })
+              nixfmt-classic
+              statix
+          ];
         };
-      in
-        pkgs.devshell.mkShell {
-          imports = [(pkgs.devshell.importTOML ./devshell.toml)];
-        };
+      });
 
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
 
@@ -76,7 +80,7 @@
           pkgs = desktopPkgs x86_64-linux nixpkgs-unstable;
           modules = [./home];
           extraSpecialArgs = {
-            my-infra-private = my-infra-private;
+            inherit my-infra-private;
             isWorkstation = true;
             isWsl = true;
           };

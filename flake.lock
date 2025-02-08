@@ -98,11 +98,11 @@
     "my-infra-private": {
       "flake": false,
       "locked": {
-        "lastModified": 1724870859,
-        "narHash": "sha256-ehYPzUiKpUzO0zaibohq+hvl7La30xbYNrheBMr2N18=",
+        "lastModified": 1739048181,
+        "narHash": "sha256-tHdrz7inlWkWMrjM8n1Lqqk0UnheS0ge/BTmtW1u5CQ=",
         "ref": "refs/heads/main",
-        "rev": "fa39b736bb34da155deeab65f256c52ee37a661a",
-        "revCount": 18,
+        "rev": "d7cb9d77f7f7b5990e283f35048994f7778eef45",
+        "revCount": 19,
         "type": "git",
         "url": "ssh://git@github.com/jakub-pravda/my-infra-private.git"
       },
