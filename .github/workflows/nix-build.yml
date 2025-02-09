@@ -17,5 +17,5 @@ jobs:
     - uses: actions/checkout@v3
     - uses: cachix/install-nix-action@v22
       with:
-        github_access_token: ${{ secrets.MY_INFRA_PRIVATE_TOKEN }}
+        token: ${{ secrets.MY_INFRA_PRIVATE_TOKEN }}
     - run: nix develop -c task dry-build-machines
