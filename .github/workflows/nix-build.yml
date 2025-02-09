@@ -11,11 +11,3 @@ jobs:
       with:
         github_access_token: ${{ secrets.GITHUB_TOKEN }}
     - run: nix develop -c task statix-check
-  nixos-machines-build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - uses: cachix/install-nix-action@v22
-      with:
-        token: ${{ secrets.MY_INFRA_PRIVATE_TOKEN }}
-    - run: nix develop -c task dry-build-machines
