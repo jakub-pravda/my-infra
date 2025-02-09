@@ -1,0 +1,18 @@
+version: '3'
+
+tasks:
+  fmt:
+    cmds:
+      - nix fmt
+
+  statix-check:
+    cmds:
+      # vpsadminos.nix is copied from vpsfree provider, better to keep it as it as, so that's the reason why I ignore it here
+      - nix develop -c statix check -i machines/cml-jpr-net/vpsadminos.nix
+
+  dry-build-machines:
+    cmds:
+      - nix build --dry-run .#nixosConfigurations.vpsfree.config.system.build.toplevel -L
+      - nix build --dry-run .#nixosConfigurations.home-hub.config.system.build.toplevel -L
+      - nix build --dry-run .#nixosConfigurations.wheatley.config.system.build.toplevel -L
+
