@@ -57,7 +57,7 @@
         variant = "";
       };
     };
-    
+
     pulseaudio.enable = false;
 
     # Enable the X11 windowing system
