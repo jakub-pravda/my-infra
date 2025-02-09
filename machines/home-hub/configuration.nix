@@ -14,8 +14,12 @@ in {
     ../../users/jacob
   ];
 
-  boot.loader.grub.enable = false;
-  boot.loader.generic-extlinux-compatible.enable = true;
+  boot = {
+    loader = {
+      grub.enable = false;
+      generic-extlinux-compatible.enable = true;
+    };
+  };
 
   networking.hostName = machineName;
   time.timeZone = "Europe/Prague";

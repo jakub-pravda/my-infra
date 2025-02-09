@@ -1,4 +1,4 @@
-{...}: let
+_: let
   hubConfigFilename = "iot-hub.nix";
 
   # define functions

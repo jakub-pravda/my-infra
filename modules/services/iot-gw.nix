@@ -62,13 +62,13 @@ in {
       trv-sensor-sync = {
         enable = true;
         mosquittoBroker = cfg.mosquittoHost;
-        mosquittoPort = cfg.mosquittoPort;
+        inherit (cfg) mosquittoPort;
       };
 
       trv-temp-scheduler = {
         enable = true;
         mosquittoBroker = cfg.mosquittoHost;
-        mosquittoPort = cfg.mosquittoPort;
+        inherit (cfg) mosquittoPort;
       };
 
       # zigbee2mqtt settings

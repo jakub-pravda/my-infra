@@ -4,12 +4,18 @@
     ./users.nix
   ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.initrd.luks.devices."luks-4e20ad04-f84e-4f9c-ac1d-ef95612eb7a6".device = "/dev/disk/by-uuid/4e20ad04-f84e-4f9c-ac1d-ef95612eb7a6";
+  boot = {
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+    initrd.luks.devices."luks-4e20ad04-f84e-4f9c-ac1d-ef95612eb7a6".device = "/dev/disk/by-uuid/4e20ad04-f84e-4f9c-ac1d-ef95612eb7a6";
+  };
 
-  networking.hostName = "wheatley";
-  networking.networkmanager.enable = true;
+  networking = {
+    hostName = "wheatley";
+    networkmanager.enable = true;
+  };
 
   time.timeZone = "Europe/Prague";
 
@@ -32,35 +38,42 @@
     LC_TIME = "cs_CZ.UTF-8";
   };
 
-  # Enable the X11 windowing system
-  services.xserver.enable = true;
-
-  # Enable the Gnome Desktop Environment
-  services.xserver.displayManager.gdm = {
-    enable = true;
-    wayland = true;
-  };
-  services.xserver.desktopManager.gnome.enable = true;
-
-  # Configure keymap in X11
-  services.xserver = {
-    xkb = {
-      layout = "us";
-      variant = "";
-    };
-  };
-
-  # Enable CUPS to print documents
-  services.printing.enable = true;
-
-  # Enable sound with pipewire
-  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
+
+  services = {
+    xserver = {
+      enable = true;
+
+      # Enable the Gnome Desktop Environment
+      displayManager.gdm = {
+        enable = true;
+        wayland = true;
+      };
+      desktopManager.gnome.enable = true;
+
+      # Configure keymap in X11
+      xkb = {
+        layout = "us";
+        variant = "";
+      };
+    };
+
+    pulseaudio.enable = false;
+
+    # Enable the X11 windowing system
+    # Enable CUPS to print documents
+    printing.enable = true;
+
+    # Enable sound with pipewire
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+    };
+
+    # Additional services
+    netdata.enable = true;
   };
 
   # Enable zsh
@@ -82,9 +95,6 @@
     shadow-launcher
     vim
   ];
-
-  # Additional services
-  services.netdata.enable = true;
 
   # Gaming
   programs.steam = {
