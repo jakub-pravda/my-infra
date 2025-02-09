@@ -56,8 +56,9 @@
         layout = "us";
         variant = "";
       };
-      pulseaudio.enable = false;
     };
+    
+    pulseaudio.enable = false;
 
     # Enable the X11 windowing system
     # Enable CUPS to print documents
