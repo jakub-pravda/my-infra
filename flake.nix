@@ -6,7 +6,6 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-my.url = "github:jakub-pravda/nixpkgs/shadow-pc";
 
-    devshell.url = "github:numtide/devshell";
     go-home.url = "github:jakub-pravda/go-home";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -110,7 +109,7 @@
                   useGlobalPkgs = true;
                   useUserPackages = true;
                   extraSpecialArgs = {
-                    my-infra-private = my-infra-private;
+                    inherit my-infra-private;
                     isWorkstation = true;
                     isWsl = false;
                   };

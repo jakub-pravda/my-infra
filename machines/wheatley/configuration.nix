@@ -38,7 +38,6 @@
     LC_TIME = "cs_CZ.UTF-8";
   };
 
-  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
 
   services = {
@@ -57,6 +56,7 @@
         layout = "us";
         variant = "";
       };
+      pulseaudio.enable = false;
     };
 
     # Enable the X11 windowing system
