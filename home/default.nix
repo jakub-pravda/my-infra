@@ -26,6 +26,7 @@
 
     # Development tools
     git
+    kitty
 
     # System tools
     openssh
@@ -130,11 +131,23 @@ in {
         name = "awsconfig";
         text = dotFiles.awsConfigDotfile;
       };
+
+      kittyConfig = pkgs.writeTextFile {
+        name = "kitty";
+        text = builtins.readFile ./dotfiles/kitty.conf;
+      };
+
+      kittyThemeConfig = pkgs.writeTextFile {
+        name = "kitty";
+        text = builtins.readFile ./dotfiles/kitty-theme.conf;
+      };
     in
       lib.mkIf isWorkstation {
         ".ssh/config".source = sshConfig;
         ".gitconfig".source = gitConfig;
         ".aws/config".source = awsConfig;
+        "/home/jacob/.config/kitty/kitty.conf".source = kittyConfig;
+        "/home/jacob/.config/kitty/kitty-theme.conf".source = kittyThemeConfig;
       };
 
     sessionVariables = {

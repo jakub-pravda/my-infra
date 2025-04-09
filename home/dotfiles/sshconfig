@@ -14,7 +14,7 @@ Host vpsfree
 
 Host home-hub
 
-    Hostname 192.168.1.192
+    Hostname 192.168.1.19
     User jacob
     ForwardAgent yes
     IdentityFile ~/.ssh/id_ed25519
