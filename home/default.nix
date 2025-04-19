@@ -144,7 +144,7 @@ in {
         name = "kitty";
         text = builtins.readFile ./dotfiles/kitty-theme.conf;
       };
-      
+
       zedConfig = pkgs.writeTextFile {
         name = "zed";
         text = builtins.readFile ./dotfiles/zed-conf.jsonc;
