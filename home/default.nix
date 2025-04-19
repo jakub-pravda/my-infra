@@ -45,13 +45,16 @@
         # Note taking
         obsidian
 
-        # Golang development
-        go
-
         # Provisioning tools
         awscli2
         azure-cli
         tfswitch
+
+        # Development
+        zed-editor
+
+        # Golang development
+        go
 
         # Python development
         poetry
@@ -141,6 +144,11 @@ in {
         name = "kitty";
         text = builtins.readFile ./dotfiles/kitty-theme.conf;
       };
+      
+      zedConfig = pkgs.writeTextFile {
+        name = "zed";
+        text = builtins.readFile ./dotfiles/zed-conf.jsonc;
+      };
     in
       lib.mkIf isWorkstation {
         ".ssh/config".source = sshConfig;
@@ -148,6 +156,7 @@ in {
         ".aws/config".source = awsConfig;
         "/home/jacob/.config/kitty/kitty.conf".source = kittyConfig;
         "/home/jacob/.config/kitty/kitty-theme.conf".source = kittyThemeConfig;
+        "/home/jacob/.config/zed/settings.json".source = zedConfig;
       };
 
     sessionVariables = {
