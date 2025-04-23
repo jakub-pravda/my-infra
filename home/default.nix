@@ -34,7 +34,6 @@
   ];
 
   workstationPackages = with pkgs;
-  # Workstation WSL only packages
     (
       if isWorkstation
       then [
@@ -42,16 +41,13 @@
         nil
         nixpkgs-fmt
 
-        # Note taking
-        obsidian
-
         # Provisioning tools
         awscli2
         azure-cli
         tfswitch
 
         # Development
-        zed-editor
+        jetbrains.idea-community
 
         # Golang development
         go
@@ -74,6 +70,7 @@
 
         # Scala development
         jdk17_headless
+        sbt
         scala_3
         scala-cli
       ]
@@ -89,6 +86,12 @@
         google-chrome
         libreoffice
         spotify
+
+        # Note taking
+        obsidian
+
+        # Development
+        zed-editor
       ]
       else []
     );
