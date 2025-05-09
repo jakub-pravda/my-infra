@@ -62,7 +62,7 @@
         variant = "";
       };
     };
-    
+
     jupyterhub = {
       enable = true;
       host = "127.0.0.1";
@@ -73,13 +73,14 @@
       '';
       kernels = {
         python3 = let
-          env = (pkgs.python3.withPackages (pythonPackages: with pythonPackages; [
-                  ipykernel
-                  matplotlib
-                  pandas
-                  seaborn
-                  scikit-learn
-                ]));
+          env = pkgs.python3.withPackages (pythonPackages:
+            with pythonPackages; [
+              ipykernel
+              matplotlib
+              pandas
+              seaborn
+              scikit-learn
+            ]);
         in {
           displayName = "Python 3 for machine learning";
           argv = [
