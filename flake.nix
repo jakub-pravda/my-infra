@@ -23,17 +23,12 @@
       x86_64-linux = "x86_64-linux";
       aarch64-linux = "aarch64-linux";
 
-      supportedSystems = [
-        x86_64-linux
-        aarch64-linux
-      ];
+      supportedSystems = [x86_64-linux aarch64-linux];
       forEachSupportedSystem = f:
-        nixpkgs.lib.genAttrs supportedSystems (
-          system:
-            f {
-              pkgs = import nixpkgs {inherit system;};
-            }
-        );
+        nixpkgs.lib.genAttrs supportedSystems (system:
+          f {
+            pkgs = import nixpkgs {inherit system;};
+          });
 
       # Packages definition
 
@@ -68,19 +63,17 @@
           ];
         };
     in {
-      devShells = forEachSupportedSystem (
-        {pkgs}: {
-          default = pkgs.mkShell {
-            buildInputs = with pkgs; [
-              (poetry.override {python3 = python312;})
-              go-task
-              nixfmt-classic
-              statix
-              vulnix
-            ];
-          };
-        }
-      );
+      devShells = forEachSupportedSystem ({pkgs}: {
+        default = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            (poetry.override {python3 = python312;})
+            go-task
+            nixfmt-classic
+            statix
+            vulnix
+          ];
+        };
+      });
 
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
 
@@ -106,11 +99,7 @@
           pkgs.lib.nixosSystem {
             inherit system;
             pkgs = desktopPkgs system pkgs;
-            specialArgs =
-              {
-                flake-self = self;
-              }
-              // inputs;
+            specialArgs = {flake-self = self;} // inputs;
             modules = [
               machines/wheatley/configuration.nix
               home-manager.nixosModules.home-manager
@@ -130,53 +119,47 @@
           };
 
         # *** Servers ***
-        vpsfree = let
-          system = x86_64-linux;
-          pkgs = nixpkgs;
-        in
-          pkgs.lib.nixosSystem {
-            inherit system;
-            pkgs = serverPkgs system pkgs;
-            # Make inputs accessible ad module parameters
-            specialArgs =
-              {
-                flake-self = self;
-              }
-              // inputs;
-            modules = [
-              machines/cml-jpr-net/configuration.nix
-            ];
-          };
+        # remark: DECOMISSIONED
+        # vpsfree = let
+        #   system = x86_64-linux;
+        #   pkgs = nixpkgs;
+        # in
+        #   pkgs.lib.nixosSystem {
+        #     inherit system;
+        #     pkgs = serverPkgs system pkgs;
+        #     # Make inputs accessible ad module parameters
+        #     specialArgs = {flake-self = self;} // inputs;
+        #     modules = [
+        #       machines/cml-jpr-net/configuration.nix
+        #     ];
+        #   };
 
-        home-hub = let
-          system = aarch64-linux;
-          pkgs = nixpkgs;
-        in
-          pkgs.lib.nixosSystem {
-            inherit system;
-            pkgs = serverPkgs system pkgs;
-            # Make inputs accessible ad module parameters
-            specialArgs =
-              {
-                flake-self = self;
-              }
-              // inputs;
-            modules = [
-              machines/home-hub/configuration.nix
-              home-manager.nixosModules.home-manager
-              {
-                home-manager = {
-                  users.jacob = import ./home/default.nix;
-                  useGlobalPkgs = true;
-                  useUserPackages = true;
-                  extraSpecialArgs = {
-                    isWorkstation = false;
-                    isWsl = false;
-                  };
-                };
-              }
-            ];
-          };
+        # remark: DECOMISSIONED
+        # home-hub = let
+        #   system = aarch64-linux;
+        #   pkgs = nixpkgs;
+        # in
+        #   pkgs.lib.nixosSystem {
+        #     inherit system;
+        #     pkgs = serverPkgs system pkgs;
+        #     # Make inputs accessible ad module parameters
+        #     specialArgs = {flake-self = self;} // inputs;
+        #     modules = [
+        #       machines/home-hub/configuration.nix
+        #       home-manager.nixosModules.home-manager
+        #       {
+        #         home-manager = {
+        #           users.jacob = import ./home/default.nix;
+        #           useGlobalPkgs = true;
+        #           useUserPackages = true;
+        #           extraSpecialArgs = {
+        #             isWorkstation = false;
+        #             isWsl = false;
+        #           };
+        #         };
+        #       }
+        #     ];
+        #   };
       };
     };
 }
