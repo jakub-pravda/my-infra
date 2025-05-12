@@ -119,20 +119,21 @@
           };
 
         # *** Servers ***
+        #
         # remark: DECOMISSIONED
-        # vpsfree = let
-        #   system = x86_64-linux;
-        #   pkgs = nixpkgs;
-        # in
-        #   pkgs.lib.nixosSystem {
-        #     inherit system;
-        #     pkgs = serverPkgs system pkgs;
-        #     # Make inputs accessible ad module parameters
-        #     specialArgs = {flake-self = self;} // inputs;
-        #     modules = [
-        #       machines/cml-jpr-net/configuration.nix
-        #     ];
-        #   };
+        atlas = let
+          system = x86_64-linux;
+          pkgs = nixpkgs;
+        in
+          pkgs.lib.nixosSystem {
+            inherit system;
+            pkgs = serverPkgs system pkgs;
+            # Make inputs accessible add module parameters
+            specialArgs = {flake-self = self;} // inputs;
+            modules = [
+              machines/atlas/configuration.nix
+            ];
+          };
 
         # remark: DECOMISSIONED
         # home-hub = let
