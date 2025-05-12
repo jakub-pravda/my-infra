@@ -128,6 +128,6 @@
   ];
 
   networking = {
-    hostname = "atlas";
+    hostName = "atlas";
   };
 }
