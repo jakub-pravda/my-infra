@@ -130,6 +130,7 @@
     gnome-tweaks
     gnupg
     libgcc
+    metals
     podman-compose
     shadow-launcher
     vim
