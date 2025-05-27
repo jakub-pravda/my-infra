@@ -166,6 +166,7 @@ in {
       EDITOR = "nvim";
       VISUAL = "nvim";
       PAGER = "less";
+      JAVA_HOME="pkgs.jdk17";
 
       # For python development
       #LD_LIBRARY_PATH = $LD_LIBRARY_PATH:pkgs.lib.makeLibraryPath [pkgs.stdenv.cc.cc];
