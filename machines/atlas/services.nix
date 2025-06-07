@@ -4,7 +4,7 @@
   ...
 }: {
   config.services.influxdb = {
-    enable = false;
-    package = pkgs.influxdb;
+    enable = true;
+    package = pkgs.influxdb3;
   };
 }
