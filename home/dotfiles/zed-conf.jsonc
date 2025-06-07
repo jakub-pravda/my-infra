@@ -31,5 +31,16 @@
     "mode": "system",
     "light": "One Light",
     "dark": "One Dark"
+  },
+  "lsp": {
+    "metals": {
+      "settings": {
+        "inlayHints": {
+          "inferredTypes": {
+            "enable": true
+          }
+        }
+      }
+    }
   }
 }
