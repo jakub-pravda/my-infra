@@ -5,6 +5,6 @@
 }: {
   config.services.influxdb = {
     enable = true;
-    package = pkgs.influxdb3; 
+    package = pkgs.influxdb3;
   };
 }
