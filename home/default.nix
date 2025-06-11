@@ -9,6 +9,8 @@
   username = "jacob";
   dotFiles = pkgs.callPackage "${my-infra-private}/dotfiles.nix" {inherit pkgs;};
 
+  pkgsDefaultJava = pkgs.jdk17;
+
   # Following packages, programs definition is a minimal definition shared across all machines, whether it's a server or a workstation
   defaultPackages = with pkgs; [
     # Monitoring tools
@@ -69,7 +71,7 @@
         rustup
 
         # Scala development
-        jdk17_headless
+        metals
         sbt
         scala_3
         scala-cli
@@ -166,7 +168,7 @@ in {
       EDITOR = "nvim";
       VISUAL = "nvim";
       PAGER = "less";
-      JAVA_HOME = "pkgs.jdk17";
+      JAVA_HOME = pkgsDefaultJava;
 
       # For python development
       #LD_LIBRARY_PATH = $LD_LIBRARY_PATH:pkgs.lib.makeLibraryPath [pkgs.stdenv.cc.cc];
