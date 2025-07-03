@@ -104,7 +104,9 @@ $ sudo chown -R $USER:nixbld /nix/var/nix/profiles/per-user/$USER
 And run the switch again.
 
 ## Troubleshooting
-### Zigbee2mqtt
+### 
+
+2mqtt
 
 When...
 

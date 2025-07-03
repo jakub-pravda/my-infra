@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 tasks:
   fmt:
@@ -7,12 +7,19 @@ tasks:
 
   statix-check:
     cmds:
-      # vpsadminos.nix is copied from vpsfree provider, better to keep it as it as, so that's the reason why I ignore it here
-      - nix develop -c statix check -i machines/cml-jpr-net/vpsadminos.nix
+      - nix develop -c statix check -i machines/cml-jpr-net/vpsadminos.nix machines/atlas/hardware-configuration.nix
 
-  dry-build-machines:
+  dry-build-atlas:
+    deps:
+      - task: dry-build
+        vars: { SYSTEM: atlas }
+
+  dry-build-wheatley:
+    deps:
+      - task: dry-build
+        vars: { SYSTEM: wheatley }
+
+  dry-build:
     cmds:
-      - nix build --dry-run .#nixosConfigurations.vpsfree.config.system.build.toplevel -L
-      - nix build --dry-run .#nixosConfigurations.home-hub.config.system.build.toplevel -L
-      - nix build --dry-run .#nixosConfigurations.wheatley.config.system.build.toplevel -L
-
+      - nix build --dry-run .#nixosConfigurations.{{.SYSTEM}}.config.system.build.toplevel -L
+    prefix: build-{{.SYSTEM}}
