@@ -10,7 +10,7 @@ jobs:
     - uses: cachix/install-nix-action@v22
       with:
         github_access_token: ${{ secrets.GITHUB_TOKEN }}
-    - run: nix flake check
+    - run: nix flake check --all-systems
   statix_check:
     runs-on: ubuntu-latest
     steps:
@@ -19,3 +19,12 @@ jobs:
       with:
         github_access_token: ${{ secrets.GITHUB_TOKEN }}
     - run: nix develop -c task statix-check
+  system-dry-build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: cachix/install-nix-action@v22
+      with:
+        github_access_token: ${{ secrets.GITHUB_TOKEN }}
+    - run: nix develop -c dry-build-wheatley
+    - run: nix develop -c dry-build-atlas

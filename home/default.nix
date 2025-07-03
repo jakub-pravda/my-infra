@@ -169,10 +169,6 @@ in {
       VISUAL = "nvim";
       PAGER = "less";
       JAVA_HOME = pkgsDefaultJava;
-
-      # For python development
-      #LD_LIBRARY_PATH = $LD_LIBRARY_PATH:pkgs.lib.makeLibraryPath [pkgs.stdenv.cc.cc];
-      JAVA_HOME = pkgsDefaultJava;
     };
   };
 
