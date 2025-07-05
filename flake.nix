@@ -17,30 +17,40 @@
     };
   };
 
-  outputs = {self, ...} @ inputs:
-    with inputs; let
+  outputs =
+    { self, ... }@inputs:
+    with inputs;
+    let
       # system arch variables
       x86_64-linux = "x86_64-linux";
       aarch64-linux = "aarch64-linux";
 
-      supportedSystems = [x86_64-linux aarch64-linux];
-      forEachSupportedSystem = f:
-        nixpkgs.lib.genAttrs supportedSystems (system:
+      supportedSystems = [
+        x86_64-linux
+        aarch64-linux
+      ];
+      forEachSupportedSystem =
+        f:
+        nixpkgs.lib.genAttrs supportedSystems (
+          system:
           f {
-            pkgs = import nixpkgs {inherit system;};
-          });
+            pkgs = import nixpkgs { inherit system; };
+          }
+        );
 
       # Packages definition
 
       # remark: myPkgs are here to test shadow-pc package
-      myPkgs = system:
+      myPkgs =
+        system:
         import nixpkgs-my {
           inherit system;
           # Allow unfree packages (shadow pc)
           config.allowUnfree = true;
         };
 
-      desktopPkgs = system: pkgs:
+      desktopPkgs =
+        system: pkgs:
         import pkgs {
           inherit system;
           config.allowUnfree = true;
@@ -51,7 +61,8 @@
           ];
         };
 
-      serverPkgs = system: pkgs:
+      serverPkgs =
+        system: pkgs:
         import pkgs {
           inherit system;
           config.allowUnfree = false;
@@ -62,18 +73,22 @@
             })
           ];
         };
-    in {
-      devShells = forEachSupportedSystem ({pkgs}: {
-        default = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            (poetry.override {python3 = python312;})
-            go-task
-            nixfmt-classic
-            statix
-            vulnix
-          ];
-        };
-      });
+    in
+    {
+      devShells = forEachSupportedSystem (
+        { pkgs }:
+        {
+          default = pkgs.mkShell {
+            buildInputs = with pkgs; [
+              (poetry.override { python3 = python312; })
+              go-task
+              nixfmt-classic
+              statix
+              vulnix
+            ];
+          };
+        }
+      );
 
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
 
@@ -81,7 +96,7 @@
       homeConfigurations = {
         wsl = home-manager.lib.homeManagerConfiguration {
           pkgs = desktopPkgs x86_64-linux nixpkgs-unstable;
-          modules = [./home];
+          modules = [ ./home ];
           extraSpecialArgs = {
             inherit my-infra-private;
             isWorkstation = true;
@@ -92,14 +107,17 @@
 
       nixosConfigurations = {
         # *** Workstations ***
-        wheatley = let
-          system = x86_64-linux;
-          pkgs = nixpkgs-unstable;
-        in
+        wheatley =
+          let
+            system = x86_64-linux;
+            pkgs = nixpkgs-unstable;
+          in
           pkgs.lib.nixosSystem {
             inherit system;
             pkgs = desktopPkgs system pkgs;
-            specialArgs = {flake-self = self;} // inputs;
+            specialArgs = {
+              flake-self = self;
+            } // inputs;
             modules = [
               machines/wheatley/configuration.nix
               home-manager.nixosModules.home-manager
@@ -119,29 +137,35 @@
           };
 
         # *** Servers ***
-        vpsfree = let
-          system = x86_64-linux;
-          pkgs = nixpkgs;
-        in
+        vpsfree =
+          let
+            system = x86_64-linux;
+            pkgs = nixpkgs;
+          in
           pkgs.lib.nixosSystem {
             inherit system;
             pkgs = serverPkgs system pkgs;
             # Make inputs accessible ad module parameters
-            specialArgs = {flake-self = self;} // inputs;
+            specialArgs = {
+              flake-self = self;
+            } // inputs;
             modules = [
               machines/cml-jpr-net/configuration.nix
             ];
           };
 
-        home-hub = let
-          system = aarch64-linux;
-          pkgs = nixpkgs;
-        in
+        home-hub =
+          let
+            system = aarch64-linux;
+            pkgs = nixpkgs;
+          in
           pkgs.lib.nixosSystem {
             inherit system;
             pkgs = serverPkgs system pkgs;
             # Make inputs accessible ad module parameters
-            specialArgs = {flake-self = self;} // inputs;
+            specialArgs = {
+              flake-self = self;
+            } // inputs;
             modules = [
               machines/home-hub/configuration.nix
               home-manager.nixosModules.home-manager

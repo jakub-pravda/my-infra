@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   imports = [
     ./hardware-configuration.nix
     ./users.nix
@@ -9,7 +10,8 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-    initrd.luks.devices."luks-4e20ad04-f84e-4f9c-ac1d-ef95612eb7a6".device = "/dev/disk/by-uuid/4e20ad04-f84e-4f9c-ac1d-ef95612eb7a6";
+    initrd.luks.devices."luks-4e20ad04-f84e-4f9c-ac1d-ef95612eb7a6".device =
+      "/dev/disk/by-uuid/4e20ad04-f84e-4f9c-ac1d-ef95612eb7a6";
   };
 
   networking = {
@@ -24,7 +26,10 @@
 
   time.timeZone = "Europe/Prague";
 
-  nix.settings.trusted-users = ["root" "jacob"];
+  nix.settings.trusted-users = [
+    "root"
+    "jacob"
+  ];
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
@@ -77,11 +82,18 @@
             with pythonPackages; [
               ipykernel
               imbalanced-learn
+              langchain
+              langchain-community
+              langchain-openai
               lightgbm
               matplotlib
               pandas
+              pip
+              qdrant-client
               seaborn
+              setuptools
               scikit-learn
+              wheel
             ]);
         in {
           displayName = "Python 3 for machine learning";
@@ -153,7 +165,9 @@
       vpl-gpu-rt
     ];
   };
-  environment.sessionVariables = {LIBVA_DRIVER_NAME = "iHD";};
+  environment.sessionVariables = {
+    LIBVA_DRIVER_NAME = "iHD";
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
