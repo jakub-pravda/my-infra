@@ -11,6 +11,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    sops-nix.url = "github:Mic92/sops-nix";
     my-infra-private = {
       url = "git+ssh://git@github.com/jakub-pravda/my-infra-private.git";
       flake = false;
@@ -23,12 +24,17 @@
       x86_64-linux = "x86_64-linux";
       aarch64-linux = "aarch64-linux";
 
-      supportedSystems = [x86_64-linux aarch64-linux];
+      supportedSystems = [
+        x86_64-linux
+        aarch64-linux
+      ];
       forEachSupportedSystem = f:
-        nixpkgs.lib.genAttrs supportedSystems (system:
-          f {
-            pkgs = import nixpkgs {inherit system;};
-          });
+        nixpkgs.lib.genAttrs supportedSystems (
+          system:
+            f {
+              pkgs = import nixpkgs {inherit system;};
+            }
+        );
 
       # Packages definition
 
@@ -63,17 +69,19 @@
           ];
         };
     in {
-      devShells = forEachSupportedSystem ({pkgs}: {
-        default = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            (poetry.override {python3 = python312;})
-            go-task
-            nixfmt-classic
-            statix
-            vulnix
-          ];
-        };
-      });
+      devShells = forEachSupportedSystem (
+        {pkgs}: {
+          default = pkgs.mkShell {
+            buildInputs = with pkgs; [
+              (poetry.override {python3 = python312;})
+              go-task
+              nixfmt-classic
+              statix
+              vulnix
+            ];
+          };
+        }
+      );
 
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
 
@@ -99,7 +107,11 @@
           pkgs.lib.nixosSystem {
             inherit system;
             pkgs = desktopPkgs system pkgs;
-            specialArgs = {flake-self = self;} // inputs;
+            specialArgs =
+              {
+                flake-self = self;
+              }
+              // inputs;
             modules = [
               machines/wheatley/configuration.nix
               home-manager.nixosModules.home-manager
@@ -129,10 +141,8 @@
             inherit system;
             pkgs = serverPkgs system pkgs;
             # Make inputs accessible add module parameters
-            specialArgs = {flake-self = self;} // inputs;
-            modules = [
-              machines/atlas/configuration.nix
-            ];
+            specialArgs = {inherit inputs;};
+            modules = [machines/atlas/configuration.nix];
           };
 
         # remark: DECOMISSIONED
