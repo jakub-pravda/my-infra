@@ -12,6 +12,7 @@ jobs:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
       - run: nix flake check --all-systems
   statix_check:
+    needs: flake_check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -20,6 +21,7 @@ jobs:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
       - run: nix develop -c task statix-check
   system-dry-build:
+    needs: flake_check
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
