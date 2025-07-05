@@ -1,0 +1,9 @@
+keys:
+  - &admin_wheatley age1hepvwy94qj7w3y337j6fx4f743m2tt4v0ujgqpj7j0njl7xs4ygs6da7p9
+  - &server_atlas age1qc3583zml9ypsxh0lfp04a2j9qa029pyethy8t54q7lthurm7a9qt5q5xu
+creation_rules:
+  - path_regex: secrets/secrets.yaml$
+    key_groups:
+      - age:
+          - *admin_wheatley
+          - *server_atlas
