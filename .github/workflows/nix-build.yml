@@ -4,7 +4,7 @@ on:
   push:
 jobs:
   flake_check:
-    runs-on: ubuntu-latest
+    runs-on: [ self-hosted ]
     steps:
       - uses: actions/checkout@v3
       - uses: cachix/install-nix-action@v22
@@ -13,7 +13,7 @@ jobs:
       - run: nix flake check --all-systems
   statix_check:
     needs: flake_check
-    runs-on: ubuntu-latest
+    runs-on: [ self-hosted ]
     steps:
       - uses: actions/checkout@v3
       - uses: cachix/install-nix-action@v22
@@ -22,7 +22,7 @@ jobs:
       - run: nix develop -c task statix-check
   system-dry-build:
     needs: flake_check
-    runs-on: ubuntu-latest
+    runs-on: [ self-hosted ]
     steps:
     - uses: actions/checkout@v3
     - uses: cachix/install-nix-action@v22
