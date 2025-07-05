@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   imports = [
     ./hardware-configuration.nix
     ./users.nix
@@ -10,8 +9,7 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-    initrd.luks.devices."luks-4e20ad04-f84e-4f9c-ac1d-ef95612eb7a6".device =
-      "/dev/disk/by-uuid/4e20ad04-f84e-4f9c-ac1d-ef95612eb7a6";
+    initrd.luks.devices."luks-4e20ad04-f84e-4f9c-ac1d-ef95612eb7a6".device = "/dev/disk/by-uuid/4e20ad04-f84e-4f9c-ac1d-ef95612eb7a6";
   };
 
   networking = {
