@@ -56,18 +56,16 @@
 
         # Python development
         poetry
-        (python312.withPackages (
-          ps:
-            with ps; [
-              black
-              flake8
-              mypy
-              pip
-              pylint
-              pytest
-              ruff
-            ]
-        ))
+        (python312.withPackages (ps:
+          with ps; [
+            black
+            flake8
+            mypy
+            pip
+            pylint
+            pytest
+            ruff
+          ]))
 
         # Rust development
         rustup
@@ -121,29 +119,9 @@ in {
           text = ''
             ${config}
 
-              ${dotFiles.sshDotfile}
+            ${dotFiles.sshDotfile}
           '';
         };
-
-      gitConfig = let
-        config =
-          if isCI
-          then ""
-          else builtins.readFile ./dotfiles/gitconfig;
-      in
-        pkgs.writeTextFile {
-          name = "gitconfig";
-          text = ''
-            ${config}
-
-            ${dotFiles.gitconfigDotfile}
-          '';
-        };
-
-      awsConfig = pkgs.writeTextFile {
-        name = "awsconfig";
-        text = dotFiles.awsConfigDotfile;
-      };
 
       gitConfig = let
         config = builtins.readFile ./dotfiles/gitconfig;
@@ -157,12 +135,9 @@ in {
           '';
         };
 
-      kittyThemeConfig = pkgs.writeTextFile {
-        name = "kitty";
-        text =
-          if isCI
-          then "# CI dummy kitty theme"
-          else builtins.readFile ./dotfiles/kitty-theme.conf;
+      awsConfig = pkgs.writeTextFile {
+        name = "awsconfig";
+        text = dotFiles.awsConfigDotfile;
       };
 
       kittyConfig = pkgs.writeTextFile {
@@ -194,6 +169,9 @@ in {
       VISUAL = "nvim";
       PAGER = "less";
       JAVA_HOME = pkgsDefaultJava;
+
+      # For python development
+      #LD_LIBRARY_PATH = $LD_LIBRARY_PATH:pkgs.lib.makeLibraryPath [pkgs.stdenv.cc.cc];
     };
   };
 
