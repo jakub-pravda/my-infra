@@ -24,7 +24,13 @@
 
   time.timeZone = "Europe/Prague";
 
-  nix.settings.trusted-users = ["root" "jacob"];
+  nix.settings = {
+    allowed-users = ["jacob"];
+    trusted-users = [
+      "root"
+      "jacob"
+    ];
+  };
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';

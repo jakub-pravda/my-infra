@@ -6,6 +6,4 @@ _: {
     extraGroups = ["docker" "wheel" "networkmanager"];
     openssh.authorizedKeys.keyFiles = [./keyfile];
   };
-
-  nix.settings.allowed-users = ["jacob"];
 }

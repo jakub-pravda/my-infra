@@ -7,7 +7,6 @@ jobs:
     runs-on: [ self-hosted ]
     steps:
       - uses: actions/checkout@v3
-      - uses: cachix/install-nix-action@v22
         with:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
       - run: nix flake check --all-systems
@@ -25,8 +24,7 @@ jobs:
     runs-on: [ self-hosted ]
     steps:
     - uses: actions/checkout@v3
-    - uses: cachix/install-nix-action@v22
       with:
         github_access_token: ${{ secrets.GITHUB_TOKEN }}
-    - run: nix develop -c dry-build-wheatley
-    - run: nix develop -c dry-build-atlas
+    - run: nix develop -c task dry-build-wheatley
+    - run: nix develop -c task dry-build-atlas
