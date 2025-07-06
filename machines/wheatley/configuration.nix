@@ -24,10 +24,13 @@
 
   time.timeZone = "Europe/Prague";
 
-  nix.settings.trusted-users = [
-    "root"
-    "jacob"
-  ];
+  nix.settings = {
+    allowed-users = ["jacob"];
+    trusted-users = [
+      "root"
+      "jacob"
+    ];
+  };
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
@@ -80,18 +83,11 @@
             with pythonPackages; [
               ipykernel
               imbalanced-learn
-              langchain
-              langchain-community
-              langchain-openai
               lightgbm
               matplotlib
               pandas
-              pip
-              qdrant-client
               seaborn
-              setuptools
               scikit-learn
-              wheel
             ]);
         in {
           displayName = "Python 3 for machine learning";
@@ -163,9 +159,7 @@
       vpl-gpu-rt
     ];
   };
-  environment.sessionVariables = {
-    LIBVA_DRIVER_NAME = "iHD";
-  };
+  environment.sessionVariables = {LIBVA_DRIVER_NAME = "iHD";};
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
