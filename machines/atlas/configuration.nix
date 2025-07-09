@@ -1,7 +1,6 @@
 {
   config,
   inputs,
-  lib,
   pkgs,
   ...
 }: {
@@ -32,9 +31,24 @@
     experimental-features = nix-command flakes
   '';
 
+  nix.gc = {
+    automatic = true;
+    dates = "03:00";
+  };
+
+  system.autoUpgrade = {
+    enable = true;
+    allowReboot = true;
+    rebootWindow = {
+      lower = "01:00";
+      upper = "02:00";
+    };
+    flake = "github:jakub-pravda/my-infra";
+    dates = "00:30";
+  };
+
   environment.systemPackages = with pkgs; [
     git
-    #influxdb3
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
   ];
