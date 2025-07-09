@@ -2,8 +2,8 @@
   pkgs,
   lib,
   my-infra-private,
-  isWorkstation,
-  isWsl,
+  isWorkstation ? false,
+  isWsl ? false,
   ...
 }: let
   username = "jacob";
