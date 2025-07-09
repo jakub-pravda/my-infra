@@ -2,7 +2,7 @@
   description = "My machines";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-my.url = "github:jakub-pravda/nixpkgs/shadow-pc";
 
@@ -123,7 +123,6 @@
                   extraSpecialArgs = {
                     inherit my-infra-private;
                     isWorkstation = true;
-                    isWsl = false;
                   };
                 };
               }
@@ -131,8 +130,6 @@
           };
 
         # *** Servers ***
-        #
-        # remark: DECOMISSIONED
         atlas = let
           system = x86_64-linux;
           pkgs = nixpkgs;
@@ -142,7 +139,9 @@
             pkgs = serverPkgs system pkgs;
             # Make inputs accessible add module parameters
             specialArgs = {inherit inputs;};
-            modules = [machines/atlas/configuration.nix];
+            modules = [
+              machines/atlas/configuration.nix
+            ];
           };
 
         # remark: DECOMISSIONED

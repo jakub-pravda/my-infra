@@ -7,6 +7,7 @@
 }: {
   imports = [
     ./hardware-configuration.nix
+    ./shared.nix
     ../../users/jacob
     ../../users/github
     inputs.sops-nix.nixosModules.sops
@@ -58,6 +59,9 @@
     };
     openssh.enable = true;
   };
+
+  # TODO enable system autoupgrade
+  # TODO use home manager shell
 
   networking = {
     hostName = "atlas";
