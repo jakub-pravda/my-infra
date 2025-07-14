@@ -69,6 +69,7 @@
       enable = true;
       url = "https://github.com/jakub-pravda/my-infra/";
       tokenFile = config.sops.secrets."services/github/atlas_runner_pat".path;
+      # remark: github user has access to the private nixos configuration
       user = "github";
     };
     openssh.enable = true;
