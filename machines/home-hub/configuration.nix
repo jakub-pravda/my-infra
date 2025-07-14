@@ -1,9 +1,5 @@
-{
-  config,
-  pkgs,
-  ...
-}: let
-  machineName = "home-hub";
+{ config, pkgs, ... }:
+let machineName = "home-hub";
 in {
   imports = [
     # Include the results of the hardware scan.

@@ -1,23 +1,17 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-with lib; let
+{ config, lib, pkgs, ... }:
+with lib;
+let
   cfg = config.services.iot-cml;
   influxdbCfg = config.services.iot-cml-influxdb;
 in {
-  imports = [
-    ./containers.nix
-    ./influxdb.nix
-  ];
+  imports = [ ./containers.nix ./influxdb.nix ];
 
   options.services.iot-cml = {
     enable = mkEnableOption "iot-cml";
 
     hubConfigs = mkOption {
-      type = types.listOf (types.submodule (import ../../../submodules/iot-hub-host-options.nix));
+      type = types.listOf
+        (types.submodule (import ../../../submodules/iot-hub-host-options.nix));
       description = "List of hubs configured to this CML";
     };
 
@@ -54,7 +48,7 @@ in {
           postgresVersion = 903;
           sslmode = "disable";
         };
-        secureJsonData = {password = "quest";};
+        secureJsonData = { password = "quest"; };
       };
 
       influxDb2 = {
@@ -70,7 +64,8 @@ in {
         };
         secureJsonData = {
           # TODO nix-token, read from agenix
-          token = "miKY5m8w7UftYNeQLNyhofri2Hrbvaxg5CbMQUMpe7tbFNoaJJiCTGMV1NAEg9GMXNJzeGHRT5awIpM7jG2HGw==";
+          token =
+            "miKY5m8w7UftYNeQLNyhofri2Hrbvaxg5CbMQUMpe7tbFNoaJJiCTGMV1NAEg9GMXNJzeGHRT5awIpM7jG2HGw==";
         };
       };
 
@@ -86,7 +81,7 @@ in {
       };
       provision = {
         enable = true;
-        datasources.settings.datasources = [questDb influxDb2];
+        datasources.settings.datasources = [ questDb influxDb2 ];
       };
     };
   };

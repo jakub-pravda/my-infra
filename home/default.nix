@@ -1,13 +1,8 @@
-{
-  pkgs,
-  lib,
-  my-infra-private,
-  isWorkstation,
-  isWsl,
-  ...
-}: let
+{ pkgs, lib, my-infra-private, isWorkstation ? false, isWsl ? false, ... }:
+let
   username = "jacob";
-  dotFiles = pkgs.callPackage "${my-infra-private}/dotfiles.nix" {inherit pkgs;};
+  dotFiles =
+    pkgs.callPackage "${my-infra-private}/dotfiles.nix" { inherit pkgs; };
 
   pkgsDefaultJava = pkgs.jdk17;
 
@@ -36,67 +31,52 @@
   ];
 
   workstationPackages = with pkgs;
-    (
-      if isWorkstation
-      then [
-        # Nix
-        nil
-        nixpkgs-fmt
+    (if isWorkstation then [
+      # Nix
+      nil
+      nixpkgs-fmt
 
-        # Provisioning tools
-        awscli2
-        azure-cli
-        tfswitch
+      # Provisioning tools
+      awscli2
+      azure-cli
+      tfswitch
 
-        # Development
-        jetbrains.idea-community
+      # Development
+      jetbrains.idea-community
 
-        # Golang development
-        go
+      # Golang development
+      go
 
-        # Python development
-        poetry
-        (python312.withPackages (ps:
-          with ps; [
-            black
-            flake8
-            mypy
-            pip
-            pylint
-            pytest
-            ruff
-          ]))
+      # Python development
+      poetry
+      (python312.withPackages
+        (ps: with ps; [ black flake8 mypy pip pylint pytest ruff ]))
 
-        # Rust development
-        rustup
+      # Rust development
+      rustup
 
-        # Scala development
-        metals
-        sbt
-        scala_3
-        scala-cli
-      ]
-      else []
-    )
-    ++
+      # Scala development
+      metals
+      sbt
+      scala_3
+      scala-cli
+    ] else
+      [ ]) ++
     # Workstation packages
-    (
-      if isWorkstation && !isWsl
-      then [
-        # Productivity tools
-        firefox
-        google-chrome
-        libreoffice
-        spotify
+    (if isWorkstation && !isWsl then [
+      # Productivity tools
+      firefox
+      google-chrome
+      libreoffice
+      spotify
 
-        # Note taking
-        obsidian
+      # Note taking
+      obsidian
 
-        # Development
-        zed-editor
-      ]
-      else []
-    );
+      # Development
+      zed-editor
+    ] else
+      [ ]);
 in {
   home = {
     inherit username;
@@ -104,36 +84,30 @@ in {
     packages = defaultPackages ++ workstationPackages;
     stateVersion = "22.05";
 
-    shellAliases = {
-      htop = "btm";
-    };
+    shellAliases = { htop = "btm"; };
 
     # Manage dotfiles (on workstations only)
     file = let
       # store private and public configs together
-      sshConfig = let
-        config = builtins.readFile ./dotfiles/sshconfig;
-      in
-        pkgs.writeTextFile {
-          name = "sshconfig";
-          text = ''
-            ${config}
+      sshConfig = let config = builtins.readFile ./dotfiles/sshconfig;
+      in pkgs.writeTextFile {
+        name = "sshconfig";
+        text = ''
+          ${config}
 
-            ${dotFiles.sshDotfile}
-          '';
-        };
+          ${dotFiles.sshDotfile}
+        '';
+      };
 
-      gitConfig = let
-        config = builtins.readFile ./dotfiles/gitconfig;
-      in
-        pkgs.writeTextFile {
-          name = "gitconfig";
-          text = ''
-            ${config}
+      gitConfig = let config = builtins.readFile ./dotfiles/gitconfig;
+      in pkgs.writeTextFile {
+        name = "gitconfig";
+        text = ''
+          ${config}
 
-            ${dotFiles.gitconfigDotfile}
-          '';
-        };
+          ${dotFiles.gitconfigDotfile}
+        '';
+      };
 
       awsConfig = pkgs.writeTextFile {
         name = "awsconfig";
@@ -154,15 +128,14 @@ in {
         name = "zed";
         text = builtins.readFile ./dotfiles/zed-conf.jsonc;
       };
-    in
-      lib.mkIf isWorkstation {
-        ".ssh/config".source = sshConfig;
-        ".gitconfig".source = gitConfig;
-        ".aws/config".source = awsConfig;
-        "/home/jacob/.config/kitty/kitty.conf".source = kittyConfig;
-        "/home/jacob/.config/kitty/kitty-theme.conf".source = kittyThemeConfig;
-        "/home/jacob/.config/zed/settings.json".source = zedConfig;
-      };
+    in lib.mkIf isWorkstation {
+      ".ssh/config".source = sshConfig;
+      ".gitconfig".source = gitConfig;
+      ".aws/config".source = awsConfig;
+      "/home/jacob/.config/kitty/kitty.conf".source = kittyConfig;
+      "/home/jacob/.config/kitty/kitty-theme.conf".source = kittyThemeConfig;
+      "/home/jacob/.config/zed/settings.json".source = zedConfig;
+    };
 
     sessionVariables = {
       EDITOR = "nvim";
@@ -212,14 +185,7 @@ in {
       oh-my-zsh = {
         enable = true;
         theme = "eastwood";
-        plugins = [
-          "aliases"
-          "colorize"
-          "docker"
-          "git"
-          "sudo"
-          "systemd"
-        ];
+        plugins = [ "aliases" "colorize" "docker" "git" "sudo" "systemd" ];
       };
     };
     # *** Workstation only programs ***

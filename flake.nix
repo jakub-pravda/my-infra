@@ -2,7 +2,7 @@
   description = "My machines";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-my.url = "github:jakub-pravda/nixpkgs/shadow-pc";
 
@@ -11,29 +11,24 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    sops-nix.url = "github:Mic92/sops-nix";
     my-infra-private = {
       url = "git+ssh://git@github.com/jakub-pravda/my-infra-private.git";
       flake = false;
     };
   };
 
-  outputs = {self, ...} @ inputs:
-    with inputs; let
+  outputs = { self, ... }@inputs:
+    with inputs;
+    let
       # system arch variables
       x86_64-linux = "x86_64-linux";
       aarch64-linux = "aarch64-linux";
 
-      supportedSystems = [
-        x86_64-linux
-        aarch64-linux
-      ];
+      supportedSystems = [ x86_64-linux aarch64-linux ];
       forEachSupportedSystem = f:
-        nixpkgs.lib.genAttrs supportedSystems (
-          system:
-            f {
-              pkgs = import nixpkgs {inherit system;};
-            }
-        );
+        nixpkgs.lib.genAttrs supportedSystems
+        (system: f { pkgs = import nixpkgs { inherit system; }; });
 
       # Packages definition
 
@@ -49,11 +44,7 @@
         import pkgs {
           inherit system;
           config.allowUnfree = true;
-          overlays = [
-            (_: _: {
-              inherit ((myPkgs system)) shadow-launcher;
-            })
-          ];
+          overlays = [ (_: _: { inherit ((myPkgs system)) shadow-launcher; }) ];
         };
 
       serverPkgs = system: pkgs:
@@ -68,19 +59,17 @@
           ];
         };
     in {
-      devShells = forEachSupportedSystem (
-        {pkgs}: {
-          default = pkgs.mkShell {
-            buildInputs = with pkgs; [
-              (poetry.override {python3 = python312;})
-              go-task
-              nixfmt-classic
-              statix
-              vulnix
-            ];
-          };
-        }
-      );
+      devShells = forEachSupportedSystem ({ pkgs }: {
+        default = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            (poetry.override { python3 = python312; })
+            go-task
+            nixfmt-classic
+            statix
+            vulnix
+          ];
+        };
+      });
 
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
 
@@ -88,7 +77,7 @@
       homeConfigurations = {
         wsl = home-manager.lib.homeManagerConfiguration {
           pkgs = desktopPkgs x86_64-linux nixpkgs-unstable;
-          modules = [./home];
+          modules = [ ./home ];
           extraSpecialArgs = {
             inherit my-infra-private;
             isWorkstation = true;
@@ -102,81 +91,66 @@
         wheatley = let
           system = x86_64-linux;
           pkgs = nixpkgs-unstable;
-        in
-          pkgs.lib.nixosSystem {
-            inherit system;
-            pkgs = desktopPkgs system pkgs;
-            specialArgs =
-              {
-                flake-self = self;
-              }
-              // inputs;
-            modules = [
-              machines/wheatley/configuration.nix
-              home-manager.nixosModules.home-manager
-              {
-                home-manager = {
-                  users.jacob = import ./home/default.nix;
-                  useGlobalPkgs = true;
-                  useUserPackages = true;
-                  extraSpecialArgs = {
-                    inherit my-infra-private;
-                    isWorkstation = true;
-                    isWsl = false;
-                  };
+        in pkgs.lib.nixosSystem {
+          inherit system;
+          pkgs = desktopPkgs system pkgs;
+          specialArgs = { flake-self = self; } // inputs;
+          modules = [
+            machines/wheatley/configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                users.jacob = import ./home/default.nix;
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = {
+                  inherit my-infra-private;
+                  isWorkstation = true;
+                  isWsl = false;
                 };
-              }
-            ];
-          };
+              };
+            }
+          ];
+        };
 
         # *** Servers ***
-        vpsfree = let
+        atlas = let
           system = x86_64-linux;
           pkgs = nixpkgs;
-        in
-          pkgs.lib.nixosSystem {
-            inherit system;
-            pkgs = serverPkgs system pkgs;
-            # Make inputs accessible ad module parameters
-            specialArgs =
-              {
-                flake-self = self;
-              }
-              // inputs;
-            modules = [
-              machines/cml-jpr-net/configuration.nix
-            ];
-          };
+        in pkgs.lib.nixosSystem {
+          inherit system;
+          pkgs = serverPkgs system pkgs;
+          # Make inputs accessible add module parameters
+          specialArgs = { inherit inputs; };
+          modules = [ machines/atlas/configuration.nix ];
+        };
 
-        home-hub = let
-          system = aarch64-linux;
-          pkgs = nixpkgs;
-        in
-          pkgs.lib.nixosSystem {
-            inherit system;
-            pkgs = serverPkgs system pkgs;
-            # Make inputs accessible ad module parameters
-            specialArgs =
-              {
-                flake-self = self;
-              }
-              // inputs;
-            modules = [
-              machines/home-hub/configuration.nix
-              home-manager.nixosModules.home-manager
-              {
-                home-manager = {
-                  users.jacob = import ./home/default.nix;
-                  useGlobalPkgs = true;
-                  useUserPackages = true;
-                  extraSpecialArgs = {
-                    isWorkstation = false;
-                    isWsl = false;
-                  };
-                };
-              }
-            ];
-          };
+        # remark: DECOMISSIONED
+        # home-hub = let
+        #   system = aarch64-linux;
+        #   pkgs = nixpkgs;
+        # in
+        #   pkgs.lib.nixosSystem {
+        #     inherit system;
+        #     pkgs = serverPkgs system pkgs;
+        #     # Make inputs accessible ad module parameters
+        #     specialArgs = {flake-self = self;} // inputs;
+        #     modules = [
+        #       machines/home-hub/configuration.nix
+        #       home-manager.nixosModules.home-manager
+        #       {
+        #         home-manager = {
+        #           users.jacob = import ./home/default.nix;
+        #           useGlobalPkgs = true;
+        #           useUserPackages = true;
+        #           extraSpecialArgs = {
+        #             isWorkstation = false;
+        #             isWsl = false;
+        #           };
+        #         };
+        #       }
+        #     ];
+        #   };
       };
     };
 }

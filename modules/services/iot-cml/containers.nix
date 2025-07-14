@@ -1,10 +1,6 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-with lib; let
+{ config, lib, pkgs, ... }:
+with lib;
+let
   dockerIotNetworkName = "iot-network";
 
   # mosquitto must be accessible from nodes
@@ -12,9 +8,9 @@ with lib; let
 
   hubNames = map (hubConfig: hubConfig.id) cmlNodeCfg.hubConfigs;
   telegrafQuestFeederConfig =
-    pkgs.callPackage ./conf/telegraf-iot-quest-feeder.nix {inherit pkgs;}
+    pkgs.callPackage ./conf/telegraf-iot-quest-feeder.nix { inherit pkgs; }
     hubNames;
-  mosquittoConf = pkgs.callPackage ./conf/mosquitto.nix {inherit pkgs;};
+  mosquittoConf = pkgs.callPackage ./conf/mosquitto.nix { inherit pkgs; };
 
   # images
   mosquittoVersion = "eclipse-mosquitto:2.0.18";
@@ -45,15 +41,17 @@ in {
     virtualisation.oci-containers.containers = {
       telegraf-iot-quest-feeder = {
         image = "${telegrafImageVersion}";
-        volumes = ["${telegrafQuestFeederConfig}:/etc/telegraf/telegraf.conf:ro"];
-        extraOptions = ["--network=${dockerIotNetworkName}"];
+        volumes =
+          [ "${telegrafQuestFeederConfig}:/etc/telegraf/telegraf.conf:ro" ];
+        extraOptions = [ "--network=${dockerIotNetworkName}" ];
       };
 
       quest-db = {
         image = "${questDbVersion}";
-        ports = ["127.0.0.1:9000:9000" "127.0.0.1:9009:9009" "127.0.0.1:8812:8812"];
-        volumes = ["${questDbDataPath}:/var/lib/questdb"];
-        extraOptions = ["--network=${dockerIotNetworkName}"];
+        ports =
+          [ "127.0.0.1:9000:9000" "127.0.0.1:9009:9009" "127.0.0.1:8812:8812" ];
+        volumes = [ "${questDbDataPath}:/var/lib/questdb" ];
+        extraOptions = [ "--network=${dockerIotNetworkName}" ];
       };
 
       mosquitto = {
@@ -68,7 +66,7 @@ in {
           "${mosqittoDataPath}/data:/mosquitto/data"
           "${mosqittoDataPath}/log:/mosquitto/log"
         ];
-        extraOptions = ["--network=${dockerIotNetworkName}"];
+        extraOptions = [ "--network=${dockerIotNetworkName}" ];
       };
     };
   };
