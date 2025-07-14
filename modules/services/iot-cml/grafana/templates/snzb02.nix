@@ -1,4 +1,5 @@
-{pkgs, ...}: dataSourceUid: title: topic:
+{ pkgs, ... }:
+dataSourceUid: title: topic:
 pkgs.writeText "template" ''
   {
     "annotations": {

@@ -1,4 +1,4 @@
-{...}: {
+{ ... }: {
   imports = [
     ./auto-update.nix
     ./flake-update.nix

@@ -1,5 +1,5 @@
 # TODO move me to shared module
-{pkgs, ...}: {
+{ pkgs, ... }: {
   programs = {
     # *** Default programs ***
     neovim.enable = true;
@@ -12,14 +12,7 @@
       ohMyZsh = {
         enable = true;
         theme = "eastwood";
-        plugins = [
-          "aliases"
-          "colorize"
-          "docker"
-          "git"
-          "sudo"
-          "systemd"
-        ];
+        plugins = [ "aliases" "colorize" "docker" "git" "sudo" "systemd" ];
       };
     };
   };

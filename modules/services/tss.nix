@@ -1,10 +1,6 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-with lib; let
+{ config, lib, pkgs, ... }:
+with lib;
+let
   cfg = config.services.trv-sensor-sync;
   topicSyncCron = "*/15 * * * *";
 in {
@@ -25,15 +21,15 @@ in {
   config = mkIf cfg.enable {
     systemd.services."iot-tss" = {
       description = "TRV sensor synchronizer";
-      wantedBy = ["multi-user.target"];
-      after = ["network.target"];
+      wantedBy = [ "multi-user.target" ];
+      after = [ "network.target" ];
       serviceConfig = {
         Restart = "always";
         ExecStart = ''
           "${pkgs.go-home}/bin/tss" \
             --broker mqtt://${cfg.mosquittoBroker}:${
-            toString cfg.mosquittoPort
-          } \
+              toString cfg.mosquittoPort
+            } \
             --cron '${topicSyncCron}' \
             --sync '{ "sensor-topic": "myhome-kr/livingroom/son-sns-01", "trv-topic": "myhome-kr/livingroom/danfoss-thermo-01" }' \
             --sync '{ "sensor-topic": "myhome-kr/bedroom/son-sns-03", "trv-topic": "myhome-kr/bedroom/danfoss-thermo-02" }'

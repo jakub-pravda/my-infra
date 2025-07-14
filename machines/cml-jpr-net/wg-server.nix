@@ -1,4 +1,5 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   externalInterface = "venet0@if816";
   wgInterfaceName = "wg0";
   inetPrefix = "10.100.0.1/24";
@@ -6,13 +7,13 @@ in {
   networking.nat = {
     inherit externalInterface;
     enable = true;
-    internalInterfaces = [wgInterfaceName];
+    internalInterfaces = [ wgInterfaceName ];
   };
 
   networking.wireguard.interfaces = {
     "${wgInterfaceName}" = {
       # tunnel interface ip range
-      ips = [inetPrefix];
+      ips = [ inetPrefix ];
       listenPort = 51820;
 
       # This allows the wireguard server to route your traffic to the internet and hence be like a VPN
@@ -31,7 +32,7 @@ in {
         # my home kralupska NODE
         {
           publicKey = "i3qL42QskKg2sRBnAuwfmu7aofACIbo1STurn8kOAWg=";
-          allowedIPs = ["10.100.0.2/32"];
+          allowedIPs = [ "10.100.0.2/32" ];
         }
       ];
     };

@@ -1,15 +1,13 @@
-{pkgs, ...}: {
-  imports = [
-    ./hardware-configuration.nix
-    ./users.nix
-  ];
+{ pkgs, ... }: {
+  imports = [ ./hardware-configuration.nix ./users.nix ];
 
   boot = {
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-    initrd.luks.devices."luks-4e20ad04-f84e-4f9c-ac1d-ef95612eb7a6".device = "/dev/disk/by-uuid/4e20ad04-f84e-4f9c-ac1d-ef95612eb7a6";
+    initrd.luks.devices."luks-4e20ad04-f84e-4f9c-ac1d-ef95612eb7a6".device =
+      "/dev/disk/by-uuid/4e20ad04-f84e-4f9c-ac1d-ef95612eb7a6";
   };
 
   networking = {
@@ -25,11 +23,8 @@
   time.timeZone = "Europe/Prague";
 
   nix.settings = {
-    allowed-users = ["jacob"];
-    trusted-users = [
-      "root"
-      "jacob"
-    ];
+    allowed-users = [ "jacob" ];
+    trusted-users = [ "root" "jacob" ];
   };
   nix.extraOptions = ''
     experimental-features = nix-command flakes
@@ -99,8 +94,10 @@
             "{connection_file}"
           ];
           language = "python";
-          logo32 = "${env}/${env.sitePackages}/ipykernel/resources/logo-32x32.png";
-          logo64 = "${env}/${env.sitePackages}/ipykernel/resources/logo-64x64.png";
+          logo32 =
+            "${env}/${env.sitePackages}/ipykernel/resources/logo-32x32.png";
+          logo64 =
+            "${env}/${env.sitePackages}/ipykernel/resources/logo-64x64.png";
         };
       };
     };
@@ -153,13 +150,9 @@
   # GPU drivers
   hardware.graphics = {
     enable = true;
-    extraPackages = with pkgs; [
-      intel-media-driver
-      libvdpau-va-gl
-      vpl-gpu-rt
-    ];
+    extraPackages = with pkgs; [ intel-media-driver libvdpau-va-gl vpl-gpu-rt ];
   };
-  environment.sessionVariables = {LIBVA_DRIVER_NAME = "iHD";};
+  environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

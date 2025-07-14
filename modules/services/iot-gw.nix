@@ -1,17 +1,11 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-with lib; let
+{ config, lib, pkgs, ... }:
+with lib;
+let
   cfg = config.services.iot-gw;
-  devicesMap =
-    map (device: {
-      name = device.id;
-      value = {friendly_name = "${device.location}/${device.name}";};
-    })
-    cfg.hubConfig.devices;
+  devicesMap = map (device: {
+    name = device.id;
+    value = { friendly_name = "${device.location}/${device.name}"; };
+  }) cfg.hubConfig.devices;
 in {
   options.services.iot-gw = {
     enable = mkEnableOption "iot-gw";
@@ -24,8 +18,7 @@ in {
     };
 
     hubConfig = mkOption {
-      type =
-        types.submodule (import ../../submodules/iot-hub-host-options.nix);
+      type = types.submodule (import ../../submodules/iot-hub-host-options.nix);
       description = ''
         List of IoT devices to be configured on the gateway.
       '';
@@ -110,23 +103,19 @@ in {
       # mosquitto settings
       mosquitto = {
         enable = true;
-        listeners = [
-          {
-            acl = ["pattern readwrite #"];
-            address = cfg.mosquittoHost;
-            port = cfg.mosquittoPort;
-            omitPasswordAuth = true;
-            settings.allow_anonymous = true;
-          }
-        ];
+        listeners = [{
+          acl = [ "pattern readwrite #" ];
+          address = cfg.mosquittoHost;
+          port = cfg.mosquittoPort;
+          omitPasswordAuth = true;
+          settings.allow_anonymous = true;
+        }];
         bridges."cml" = {
-          addresses = [
-            {
-              address = cfg.cmlHost.hostInternal;
-              port = cfg.cmlHost.mosquittoPort;
-            }
-          ];
-          topics = ["${cfg.hubConfig.id}/#"];
+          addresses = [{
+            address = cfg.cmlHost.hostInternal;
+            port = cfg.cmlHost.mosquittoPort;
+          }];
+          topics = [ "${cfg.hubConfig.id}/#" ];
         };
       };
     };

@@ -18,23 +18,17 @@
     };
   };
 
-  outputs = {self, ...} @ inputs:
-    with inputs; let
+  outputs = { self, ... }@inputs:
+    with inputs;
+    let
       # system arch variables
       x86_64-linux = "x86_64-linux";
       aarch64-linux = "aarch64-linux";
 
-      supportedSystems = [
-        x86_64-linux
-        aarch64-linux
-      ];
+      supportedSystems = [ x86_64-linux aarch64-linux ];
       forEachSupportedSystem = f:
-        nixpkgs.lib.genAttrs supportedSystems (
-          system:
-            f {
-              pkgs = import nixpkgs {inherit system;};
-            }
-        );
+        nixpkgs.lib.genAttrs supportedSystems
+        (system: f { pkgs = import nixpkgs { inherit system; }; });
 
       # Packages definition
 
@@ -50,11 +44,7 @@
         import pkgs {
           inherit system;
           config.allowUnfree = true;
-          overlays = [
-            (_: _: {
-              inherit ((myPkgs system)) shadow-launcher;
-            })
-          ];
+          overlays = [ (_: _: { inherit ((myPkgs system)) shadow-launcher; }) ];
         };
 
       serverPkgs = system: pkgs:
@@ -69,19 +59,17 @@
           ];
         };
     in {
-      devShells = forEachSupportedSystem (
-        {pkgs}: {
-          default = pkgs.mkShell {
-            buildInputs = with pkgs; [
-              (poetry.override {python3 = python312;})
-              go-task
-              nixfmt-classic
-              statix
-              vulnix
-            ];
-          };
-        }
-      );
+      devShells = forEachSupportedSystem ({ pkgs }: {
+        default = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            (poetry.override { python3 = python312; })
+            go-task
+            nixfmt-classic
+            statix
+            vulnix
+          ];
+        };
+      });
 
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
 
@@ -89,7 +77,7 @@
       homeConfigurations = {
         wsl = home-manager.lib.homeManagerConfiguration {
           pkgs = desktopPkgs x86_64-linux nixpkgs-unstable;
-          modules = [./home];
+          modules = [ ./home ];
           extraSpecialArgs = {
             inherit my-infra-private;
             isWorkstation = true;
@@ -103,47 +91,39 @@
         wheatley = let
           system = x86_64-linux;
           pkgs = nixpkgs-unstable;
-        in
-          pkgs.lib.nixosSystem {
-            inherit system;
-            pkgs = desktopPkgs system pkgs;
-            specialArgs =
-              {
-                flake-self = self;
-              }
-              // inputs;
-            modules = [
-              machines/wheatley/configuration.nix
-              home-manager.nixosModules.home-manager
-              {
-                home-manager = {
-                  users.jacob = import ./home/default.nix;
-                  useGlobalPkgs = true;
-                  useUserPackages = true;
-                  extraSpecialArgs = {
-                    inherit my-infra-private;
-                    isWorkstation = true;
-                    isWsl = false;
-                  };
+        in pkgs.lib.nixosSystem {
+          inherit system;
+          pkgs = desktopPkgs system pkgs;
+          specialArgs = { flake-self = self; } // inputs;
+          modules = [
+            machines/wheatley/configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                users.jacob = import ./home/default.nix;
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = {
+                  inherit my-infra-private;
+                  isWorkstation = true;
+                  isWsl = false;
                 };
-              }
-            ];
-          };
+              };
+            }
+          ];
+        };
 
         # *** Servers ***
         atlas = let
           system = x86_64-linux;
           pkgs = nixpkgs;
-        in
-          pkgs.lib.nixosSystem {
-            inherit system;
-            pkgs = serverPkgs system pkgs;
-            # Make inputs accessible add module parameters
-            specialArgs = {inherit inputs;};
-            modules = [
-              machines/atlas/configuration.nix
-            ];
-          };
+        in pkgs.lib.nixosSystem {
+          inherit system;
+          pkgs = serverPkgs system pkgs;
+          # Make inputs accessible add module parameters
+          specialArgs = { inherit inputs; };
+          modules = [ machines/atlas/configuration.nix ];
+        };
 
         # remark: DECOMISSIONED
         # home-hub = let

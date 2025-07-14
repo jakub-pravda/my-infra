@@ -1,4 +1,4 @@
-{config, ...}: {
+{ config, ... }: {
   config = {
     # shared nix config
     nix = {
