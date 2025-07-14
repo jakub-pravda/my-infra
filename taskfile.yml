@@ -1,9 +1,9 @@
 version: "3"
 
 tasks:
-  fmt:
+  nix-fmt:
     cmds:
-      - nix fmt
+      - find . -type f -name "*.nix" -print0 | xargs -0 nixfmt
 
   statix-check:
     cmds:
