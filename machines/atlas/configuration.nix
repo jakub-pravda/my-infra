@@ -1,9 +1,4 @@
-{
-  config,
-  inputs,
-  pkgs,
-  ...
-}: {
+{ config, inputs, pkgs, ... }: {
   imports = [
     ./hardware-configuration.nix
     ./shared.nix
@@ -14,26 +9,20 @@
 
   boot.loader.grub.enable = true;
 
-  nix.settings = {
-    allowed-users = [
-      "jacob"
-      "github"
-      "github-runner-atlas-ci-runner"
-    ];
-    trusted-users = [
-      "root"
-      "jacob"
-      "github"
-    ];
-  };
+  nix = {
+    settings = {
+      allowed-users = [ "jacob" "github" "github-runner-atlas-ci-runner" ];
+      trusted-users = [ "root" "jacob" "github" ];
+    };
 
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-  '';
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
 
-  nix.gc = {
-    automatic = true;
-    dates = "03:00";
+    gc = {
+      automatic = true;
+      dates = "03:00";
+    };
   };
 
   system.autoUpgrade = {
@@ -59,9 +48,10 @@
   sops = {
     defaultSopsFile = ../../secrets/secrets.yaml;
     defaultSopsFormat = "yaml";
-    age.keyFile = "/home/jacob/.config/sops/age/keys.txt"; # TODO per environment
+    age.keyFile =
+      "/home/jacob/.config/sops/age/keys.txt"; # TODO per environment
 
-    secrets."services/github/atlas_runner_pat" = {};
+    secrets."services/github/atlas_runner_pat" = { };
   };
 
   services = {
@@ -78,7 +68,5 @@
   # TODO enable system autoupgrade
   # TODO use home manager shell
 
-  networking = {
-    hostName = "atlas";
-  };
+  networking = { hostName = "atlas"; };
 }
