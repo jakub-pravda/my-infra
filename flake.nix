@@ -123,6 +123,7 @@
                   extraSpecialArgs = {
                     inherit my-infra-private;
                     isWorkstation = true;
+                    isWsl = false;
                   };
                 };
               }
