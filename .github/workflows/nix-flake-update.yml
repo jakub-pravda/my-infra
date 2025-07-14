@@ -1,0 +1,19 @@
+name: "Periodic flake update"
+on:
+  schedule:
+    # schedule: At 01:00 on Monday
+    - cron:  '0 1 * * 1'
+jobs:
+  flake_update:
+    runs-on: [ self-hosted ]
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        github_access_token: ${{ secrets.GITHUB_TOKEN }}
+    - run: nix flake update
+    - uses: EndBug/add-and-commit@v9
+      with:
+        add: 'flake.lock'
+        author_name: GitHub Actions
+        author_email: jacfal.tech@protonmail.com
+        message: "Github Actions: Update flake.lock"
