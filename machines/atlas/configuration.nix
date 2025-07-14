@@ -65,7 +65,7 @@
   };
 
   services = {
-    github-runners."atlas-ci-runner" = {
+    github-runners."atlas-ci" = {
       enable = true;
       url = "https://github.com/jakub-pravda/my-infra/";
       tokenFile = config.sops.secrets."services/github/atlas_runner_pat".path;
