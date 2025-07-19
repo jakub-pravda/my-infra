@@ -142,9 +142,7 @@
   ];
 
   # Gaming
-  programs.steam = {
-    enable = true;
-  };
+  programs.steam = { enable = true; };
 
   # GPU drivers
   hardware.graphics = {
