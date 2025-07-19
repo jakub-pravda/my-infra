@@ -144,7 +144,6 @@
   # Gaming
   programs.steam = {
     enable = true;
-    remotePlay.openFirewall = true;
   };
 
   # GPU drivers
