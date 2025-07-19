@@ -1,4 +1,10 @@
-{ config, inputs, pkgs, ... }: {
+{
+  config,
+  inputs,
+  pkgs,
+  ...
+}:
+{
   imports = [
     ./hardware-configuration.nix
     ./containers.nix
@@ -12,8 +18,16 @@
 
   nix = {
     settings = {
-      allowed-users = [ "jacob" "github" "github-runner-atlas-ci-runner" ];
-      trusted-users = [ "root" "jacob" "github" ];
+      allowed-users = [
+        "jacob"
+        "github"
+        "github-runner-atlas-ci-runner"
+      ];
+      trusted-users = [
+        "root"
+        "jacob"
+        "github"
+      ];
     };
 
     extraOptions = ''
@@ -49,8 +63,7 @@
   sops = {
     defaultSopsFile = ../../secrets/secrets.yaml;
     defaultSopsFormat = "yaml";
-    age.keyFile =
-      "/home/jacob/.config/sops/age/keys.txt"; # TODO per environment
+    age.keyFile = "/home/jacob/.config/sops/age/keys.txt"; # TODO per environment
 
     secrets."services/github/atlas_runner_pat" = { };
   };
@@ -65,9 +78,9 @@
     };
     openssh.enable = true;
   };
+  containerOptions.containerUser = "jacob";
 
-  # TODO enable system autoupgrade
-  # TODO use home manager shell
-
-  networking = { hostName = "atlas"; };
+  networking = {
+    hostName = "atlas";
+  };
 }
