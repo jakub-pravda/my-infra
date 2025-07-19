@@ -1,6 +1,7 @@
 { config, inputs, pkgs, ... }: {
   imports = [
     ./hardware-configuration.nix
+    ./containers.nix
     ./shared.nix
     ../../users/jacob
     ../../users/github
