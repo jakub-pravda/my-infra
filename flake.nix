@@ -13,7 +13,8 @@
     };
     sops-nix.url = "github:Mic92/sops-nix";
     my-infra-private = {
-      url = "git+ssh://git@github.com/jakub-pravda/my-infra-private.git?ref=main";
+      url =
+        "git+ssh://git@github.com/jakub-pravda/my-infra-private.git?ref=main";
       flake = false;
     };
   };
