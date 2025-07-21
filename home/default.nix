@@ -167,7 +167,7 @@ in {
       enableCompletion = true;
       syntaxHighlighting.enable = true;
 
-      initExtra = ''
+      initContent = ''
         # Nix
         if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
           . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
@@ -191,27 +191,28 @@ in {
     # *** Workstation only programs ***
     vscode = {
       enable = isWorkstation && !isWsl;
-      enableExtensionUpdateCheck = true;
-      enableUpdateCheck = true;
-
-      extensions = with pkgs.vscode-extensions; [
-        charliermarsh.ruff
-        github.copilot
-        github.copilot-chat
-        golang.go
-        jnoortheen.nix-ide
-        matangover.mypy
-        ms-python.python
-        ms-toolsai.jupyter
-        rust-lang.rust-analyzer
-        scala-lang.scala
-        scalameta.metals
-        streetsidesoftware.code-spell-checker
-        tamasfe.even-better-toml
-        timonwong.shellcheck
-        vscodevim.vim
-        vscode-icons-team.vscode-icons
-      ];
+      profiles.default = {
+        enableExtensionUpdateCheck = true;
+        enableUpdateCheck = true;
+        extensions = with pkgs.vscode-extensions; [
+          charliermarsh.ruff
+          github.copilot
+          github.copilot-chat
+          golang.go
+          jnoortheen.nix-ide
+          matangover.mypy
+          ms-python.python
+          ms-toolsai.jupyter
+          rust-lang.rust-analyzer
+          scala-lang.scala
+          scalameta.metals
+          streetsidesoftware.code-spell-checker
+          tamasfe.even-better-toml
+          timonwong.shellcheck
+          vscodevim.vim
+          vscode-icons-team.vscode-icons
+        ];
+      };
     };
   };
 }

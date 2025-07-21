@@ -49,19 +49,16 @@
   services = {
     xserver = {
       enable = true;
-
-      # Enable the Gnome Desktop Environment
-      displayManager.gdm = {
-        enable = true;
-        wayland = true;
-      };
-      desktopManager.gnome.enable = true;
-
       # Configure keymap in X11
       xkb = {
         layout = "us";
         variant = "";
       };
+    };
+    desktopManager.gnome.enable = true;    # Enable the Gnome Desktop Environment
+    displayManager.gdm = {
+      enable = true;
+      wayland = true;
     };
 
     jupyterhub = {

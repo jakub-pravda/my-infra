@@ -1,5 +1,6 @@
 name: "Periodic flake update"
 on:
+  workflow_dispatch:
   schedule:
     # schedule: At 01:00 on Monday
     - cron:  '0 1 * * 1'
