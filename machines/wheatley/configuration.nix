@@ -55,7 +55,7 @@
         variant = "";
       };
     };
-    desktopManager.gnome.enable = true;    # Enable the Gnome Desktop Environment
+    desktopManager.gnome.enable = true; # Enable the Gnome Desktop Environment
     displayManager.gdm = {
       enable = true;
       wayland = true;
