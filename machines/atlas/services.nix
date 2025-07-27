@@ -10,8 +10,7 @@
       user = "github";
     };
     # *** Traefik config ***
-    traefik = let 
-      dataDir = "/var/lib/traefik";
+    traefik = let dataDir = "/var/lib/traefik";
     in {
       enable = true;
       inherit dataDir;
@@ -26,8 +25,8 @@
           filePath = "${dataDir}/traefik.log";
           format = "json";
         };
-        entryPoints = { 
-          web = { 
+        entryPoints = {
+          web = {
             address = "195.201.240.89:80";
             http = {
               redirections = {
@@ -47,9 +46,7 @@
               email = "jakub.pravda@pm.me";
               storage = "${dataDir}/acme.json";
               caServer = "https://acme-v02.api.letsencrypt.org/directory";
-              httpChallenge = {
-                entryPoint = "web";
-              };
+              httpChallenge = { entryPoint = "web"; };
             };
           };
         };
@@ -60,9 +57,7 @@
             router1 = {
               entryPoints = [ "web" "websecure" ];
               rule = "Host(`jakubpravda.net`) && PathPrefix(`/`)";
-              tls = {
-                certResolver = "letsencrypt";
-              };
+              tls = { certResolver = "letsencrypt"; };
               service = "web-blog";
             };
           };
