@@ -1,5 +1,4 @@
-{ config, ...}:
-{
+{ config, ... }: {
   services = {
     openssh.enable = true;
     # *** GITLAB runners ***
@@ -16,7 +15,7 @@
       dataDir = "/var/lib/traefik";
       staticConfigOptions = {
         api = { };
-        accessLog = { 
+        accessLog = {
           filePath = "/var/lib/traefik/access.log";
           format = "json";
         };
@@ -25,17 +24,13 @@
           filePath = "/var/lib/traefik/traefik.log";
           format = "json";
         };
-        entryPoints = {
-          http = {
-            address = "195.201.240.89:80";
-          };
-        };
+        entryPoints = { http = { address = "195.201.240.89:80"; }; };
       };
       dynamicConfigOptions = {
         http = {
           routers = {
             router1 = {
-              entryPoints = ["http"];
+              entryPoints = [ "http" ];
               rule = "PathPrefix(`/`)";
               service = "web-blog";
             };
@@ -43,11 +38,7 @@
           services = {
             web-blog = {
               loadBalancer = {
-                servers = [
-                  {
-                    url = "http://localhost:3000";
-                  }
-                ];
+                servers = [{ url = "http://localhost:3000"; }];
               };
             };
           };
