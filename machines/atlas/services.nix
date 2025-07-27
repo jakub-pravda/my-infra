@@ -10,28 +10,59 @@
       user = "github";
     };
     # *** Traefik config ***
-    traefik = {
-      enable = true;
+    traefik = let 
       dataDir = "/var/lib/traefik";
+    in {
+      enable = true;
+      inherit dataDir;
       staticConfigOptions = {
         api = { };
         accessLog = {
-          filePath = "/var/lib/traefik/access.log";
+          filePath = "${dataDir}/access.log";
           format = "json";
         };
         log = {
           level = "DEBUG";
-          filePath = "/var/lib/traefik/traefik.log";
+          filePath = "${dataDir}/traefik.log";
           format = "json";
         };
-        entryPoints = { http = { address = "195.201.240.89:80"; }; };
+        entryPoints = { 
+          web = { 
+            address = "195.201.240.89:80";
+            http = {
+              redirections = {
+                entryPoint = {
+                  to = "websecure";
+                  scheme = "https";
+                  permanent = true;
+                };
+              };
+            };
+          };
+          websecure = { address = "195.201.240.89:443"; };
+        };
+        certificatesResolvers = {
+          letsencrypt = {
+            acme = {
+              email = "jakub.pravda@pm.me";
+              storage = "${dataDir}/acme.json";
+              caServer = "https://acme-v02.api.letsencrypt.org/directory";
+              httpChallenge = {
+                entryPoint = "web";
+              };
+            };
+          };
+        };
       };
       dynamicConfigOptions = {
         http = {
           routers = {
             router1 = {
-              entryPoints = [ "http" ];
-              rule = "PathPrefix(`/`)";
+              entryPoints = [ "web" "websecure" ];
+              rule = "Host(`jakubpravda.net`) && PathPrefix(`/`)";
+              tls = {
+                certResolver = "letsencrypt";
+              };
               service = "web-blog";
             };
           };
