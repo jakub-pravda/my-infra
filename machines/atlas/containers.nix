@@ -1,4 +1,6 @@
-{ lib, config, ... }: {
+
+{ lib, config, ... }:
+{
 
   options.containerOptions = {
     containerUser = lib.mkOption {
@@ -14,7 +16,6 @@
         backend = "podman";
         containers = {
           "web-blog" = {
-            user = config.containerOptions.containerUser;
             image = "ghcr.io/jakub-pravda/web-blog:29fe671";
             ports = [ "127.0.0.1:3000:3000" ];
           };
