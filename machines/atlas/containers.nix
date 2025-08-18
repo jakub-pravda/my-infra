@@ -14,7 +14,7 @@
         backend = "podman";
         containers = {
           "web-blog" = {
-            image = "ghcr.io/jakub-pravda/web-blog:29fe671";
+            image = "ghcr.io/jakub-pravda/web-blog:a0f7a93";
             ports = [ "127.0.0.1:3000:3000" ];
           };
         };
