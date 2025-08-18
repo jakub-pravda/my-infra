@@ -1,6 +1,8 @@
 { config, inputs, pkgs, ... }: {
   imports = [
     ./hardware-configuration.nix
+    ./containers.nix
+    ./services.nix
     ./shared.nix
     ../../users/jacob
     ../../users/github
@@ -23,6 +25,11 @@
       automatic = true;
       dates = "03:00";
     };
+  };
+
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 80 443 ];
   };
 
   system.autoUpgrade = {
@@ -53,20 +60,7 @@
 
     secrets."services/github/atlas_runner_pat" = { };
   };
-
-  services = {
-    github-runners."atlas-ci" = {
-      enable = true;
-      url = "https://github.com/jakub-pravda/my-infra/";
-      tokenFile = config.sops.secrets."services/github/atlas_runner_pat".path;
-      # remark: github user has access to the private nixos configuration
-      user = "github";
-    };
-    openssh.enable = true;
-  };
-
-  # TODO enable system autoupgrade
-  # TODO use home manager shell
+  containerOptions.containerUser = "jacob";
 
   networking = { hostName = "atlas"; };
 }
