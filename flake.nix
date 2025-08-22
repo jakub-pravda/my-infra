@@ -83,6 +83,7 @@
             inherit my-infra-private;
             isWorkstation = true;
             isWsl = true;
+            usePrivateConfig = false;
           };
         };
       };
@@ -108,6 +109,7 @@
                   inherit my-infra-private;
                   isWorkstation = true;
                   isWsl = false;
+                  usePrivateConfig = false;
                 };
               };
             }

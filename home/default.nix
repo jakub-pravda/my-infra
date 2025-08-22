@@ -1,7 +1,7 @@
-{ pkgs, lib, my-infra-private, isWorkstation ? false, isWsl ? false, ... }:
+{ pkgs, lib, my-infra-private, usePrivateConfig, isWorkstation ? false, isWsl ? false, ... }:
 let
   username = "jacob";
-  dotFiles =
+  privateDotFiles =
     pkgs.callPackage "${my-infra-private}/dotfiles.nix" { inherit pkgs; };
 
   pkgsDefaultJava = pkgs.jdk17;
@@ -89,29 +89,31 @@ in {
     # Manage dotfiles (on workstations only)
     file = let
       # store private and public configs together
-      sshConfig = let config = builtins.readFile ./dotfiles/sshconfig;
+      sshConfig = let 
+        config = builtins.readFile ./dotfiles/sshconfig;
+        privateSshConfig = if usePrivateConfig then privateDotFiles.sshDotfile else "";
       in pkgs.writeTextFile {
         name = "sshconfig";
         text = ''
           ${config}
-
-          ${dotFiles.sshDotfile}
+          ${privateSshConfig}
         '';
       };
 
-      gitConfig = let config = builtins.readFile ./dotfiles/gitconfig;
+      gitConfig = let
+        config = builtins.readFile ./dotfiles/gitconfig;
+        privateGitconfigDotfile = if usePrivateConfig then privateDotFiles.gitconfigDotfile else "";
       in pkgs.writeTextFile {
         name = "gitconfig";
         text = ''
           ${config}
-
-          ${dotFiles.gitconfigDotfile}
+          ${privateGitconfigDotfile}
         '';
       };
 
-      awsConfig = pkgs.writeTextFile {
+      privateAwsConfig = pkgs.writeTextFile {
         name = "awsconfig";
-        text = dotFiles.awsConfigDotfile;
+        text = if usePrivateConfig then privateDotFiles.awsConfigDotfile else "";
       };
 
       kittyConfig = pkgs.writeTextFile {
@@ -131,7 +133,7 @@ in {
     in lib.mkIf isWorkstation {
       ".ssh/config".source = sshConfig;
       ".gitconfig".source = gitConfig;
-      ".aws/config".source = awsConfig;
+      ".aws/config".source = privateAwsConfig;
       "/home/jacob/.config/kitty/kitty.conf".source = kittyConfig;
       "/home/jacob/.config/kitty/kitty-theme.conf".source = kittyThemeConfig;
       "/home/jacob/.config/zed/settings.json".source = zedConfig;
