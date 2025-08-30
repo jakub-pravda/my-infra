@@ -4,15 +4,16 @@ on:
   push:
 jobs:
   flake_check:
-    runs-on: [ self-hosted ]
+    runs-on: [ ubuntu-24.04 ]
     steps:
       - uses: actions/checkout@v3
+      - uses: cachix/install-nix-action@v22
         with:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
       - run: nix flake check --all-systems
   statix_check:
     needs: flake_check
-    runs-on: [ self-hosted ]
+    runs-on: [ ubuntu-24.04 ]
     steps:
       - uses: actions/checkout@v3
       - uses: cachix/install-nix-action@v22
@@ -21,9 +22,10 @@ jobs:
       - run: nix develop -c task statix-check
   system-dry-build:
     needs: flake_check
-    runs-on: [ self-hosted ]
+    runs-on: [ ubuntu-24.04 ]
     steps:
     - uses: actions/checkout@v3
+    - uses: cachix/install-nix-action@v22
       with:
         github_access_token: ${{ secrets.GITHUB_TOKEN }}
     - run: nix develop -c task dry-build-wheatley
