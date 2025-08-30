@@ -1,9 +1,6 @@
-{ pkgs, lib, my-infra-private, isWorkstation ? false, isWsl ? false, ... }:
+{ pkgs, lib, isWorkstation ? false, isWsl ? false, ... }:
 let
   username = "jacob";
-  dotFiles =
-    pkgs.callPackage "${my-infra-private}/dotfiles.nix" { inherit pkgs; };
-
   pkgsDefaultJava = pkgs.jdk17;
 
   # Following packages, programs definition is a minimal definition shared across all machines, whether it's a server or a workstation
@@ -94,8 +91,6 @@ in {
         name = "sshconfig";
         text = ''
           ${config}
-
-          ${dotFiles.sshDotfile}
         '';
       };
 
@@ -104,15 +99,13 @@ in {
         name = "gitconfig";
         text = ''
           ${config}
-
-          ${dotFiles.gitconfigDotfile}
         '';
       };
 
-      awsConfig = pkgs.writeTextFile {
-        name = "awsconfig";
-        text = dotFiles.awsConfigDotfile;
-      };
+      # awsConfig = pkgs.writeTextFile {
+      #   name = "awsconfig";
+      #   text = "";
+      # };
 
       kittyConfig = pkgs.writeTextFile {
         name = "kitty";
@@ -131,7 +124,6 @@ in {
     in lib.mkIf isWorkstation {
       ".ssh/config".source = sshConfig;
       ".gitconfig".source = gitConfig;
-      ".aws/config".source = awsConfig;
       "/home/jacob/.config/kitty/kitty.conf".source = kittyConfig;
       "/home/jacob/.config/kitty/kitty-theme.conf".source = kittyThemeConfig;
       "/home/jacob/.config/zed/settings.json".source = zedConfig;
