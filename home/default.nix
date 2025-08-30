@@ -86,8 +86,7 @@ in {
     # Manage dotfiles (on workstations only)
     file = let
       # store private and public configs together
-      sshConfig = let 
-        config = builtins.readFile ./dotfiles/sshconfig;
+      sshConfig = let config = builtins.readFile ./dotfiles/sshconfig;
       in pkgs.writeTextFile {
         name = "sshconfig";
         text = ''
@@ -95,8 +94,7 @@ in {
         '';
       };
 
-      gitConfig = let
-        config = builtins.readFile ./dotfiles/gitconfig;
+      gitConfig = let config = builtins.readFile ./dotfiles/gitconfig;
       in pkgs.writeTextFile {
         name = "gitconfig";
         text = ''
