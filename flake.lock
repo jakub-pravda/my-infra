@@ -77,23 +77,6 @@
         "type": "github"
       }
     },
-    "my-infra-private": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1748337981,
-        "narHash": "sha256-s36bKqjlRvGzA8czGzEganyfeExl7544Na4JlZh8DAA=",
-        "ref": "main",
-        "rev": "eef3f660ad6d7a9bd0b433716096908e64b3f159",
-        "revCount": 24,
-        "type": "git",
-        "url": "ssh://git@github.com/jakub-pravda/my-infra-private.git"
-      },
-      "original": {
-        "ref": "main",
-        "type": "git",
-        "url": "ssh://git@github.com/jakub-pravda/my-infra-private.git"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1658285632,
@@ -194,7 +177,6 @@
       "inputs": {
         "go-home": "go-home",
         "home-manager": "home-manager",
-        "my-infra-private": "my-infra-private",
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-my": "nixpkgs-my",
         "nixpkgs-unstable": "nixpkgs-unstable",

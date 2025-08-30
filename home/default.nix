@@ -1,9 +1,6 @@
-{ pkgs, lib, my-infra-private, usePrivateConfig, isWorkstation ? false, isWsl ? false, ... }:
+{ pkgs, lib, isWorkstation ? false, isWsl ? false, ... }:
 let
   username = "jacob";
-  privateDotFiles =
-    pkgs.callPackage "${my-infra-private}/dotfiles.nix" { inherit pkgs; };
-
   pkgsDefaultJava = pkgs.jdk17;
 
   # Following packages, programs definition is a minimal definition shared across all machines, whether it's a server or a workstation
@@ -91,30 +88,26 @@ in {
       # store private and public configs together
       sshConfig = let 
         config = builtins.readFile ./dotfiles/sshconfig;
-        privateSshConfig = if usePrivateConfig then privateDotFiles.sshDotfile else "";
       in pkgs.writeTextFile {
         name = "sshconfig";
         text = ''
           ${config}
-          ${privateSshConfig}
         '';
       };
 
       gitConfig = let
         config = builtins.readFile ./dotfiles/gitconfig;
-        privateGitconfigDotfile = if usePrivateConfig then privateDotFiles.gitconfigDotfile else "";
       in pkgs.writeTextFile {
         name = "gitconfig";
         text = ''
           ${config}
-          ${privateGitconfigDotfile}
         '';
       };
 
-      privateAwsConfig = pkgs.writeTextFile {
-        name = "awsconfig";
-        text = if usePrivateConfig then privateDotFiles.awsConfigDotfile else "";
-      };
+      # awsConfig = pkgs.writeTextFile {
+      #   name = "awsconfig";
+      #   text = "";
+      # };
 
       kittyConfig = pkgs.writeTextFile {
         name = "kitty";
@@ -133,7 +126,6 @@ in {
     in lib.mkIf isWorkstation {
       ".ssh/config".source = sshConfig;
       ".gitconfig".source = gitConfig;
-      ".aws/config".source = privateAwsConfig;
       "/home/jacob/.config/kitty/kitty.conf".source = kittyConfig;
       "/home/jacob/.config/kitty/kitty-theme.conf".source = kittyThemeConfig;
       "/home/jacob/.config/zed/settings.json".source = zedConfig;
