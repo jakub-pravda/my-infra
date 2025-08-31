@@ -74,7 +74,7 @@
           env = pkgs.python3.withPackages (pythonPackages:
             with pythonPackages; [
               ipykernel
-              imbalanced-learn
+              #imbalanced-learn
               lightgbm
               matplotlib
               pandas

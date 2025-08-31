@@ -35,7 +35,7 @@ let
 
       # Provisioning tools
       awscli2
-      azure-cli
+      #azure-cli
       tfswitch
 
       # Development
