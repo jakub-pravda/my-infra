@@ -133,6 +133,7 @@
     gnupg
     libgcc
     metals
+    openssl
     podman-compose
     shadow-launcher
     vim
