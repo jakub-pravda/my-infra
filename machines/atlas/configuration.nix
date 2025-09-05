@@ -3,6 +3,8 @@
     ./hardware-configuration.nix
     ./containers.nix
     ./services.nix
+    ./prometheus.nix
+    ./prometheus-exporters.nix
     ./shared.nix
     ../../users/jacob
     ../../users/github
