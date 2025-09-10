@@ -5,3 +5,8 @@
         gpgsign = false
 [branch]
         sort = -authordate
+
+[includeIf "gitdir:~/work/"]
+        path = /home/jacob/.gitconfig-blindspot
+[includeIf "gitdir:~/work/skoda-auto/"]
+        path = /home/jacob/.gitconfig-skoda

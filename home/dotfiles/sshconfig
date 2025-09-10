@@ -4,6 +4,12 @@ Host github.com
     User git
     IdentitiesOnly yes
 
+Host github.com
+    HostName github.com
+    IdentityFile ~/.ssh/id_ed25519_github
+    User git
+    IdentitiesOnly yes
+
 # Personal servers
 Host atlas
     Hostname 195.201.240.89
@@ -18,11 +24,88 @@ Host vpsfree
     ForwardAgent yes
     IdentityFile ~/.ssh/id_ed25519
     IdentitiesOnly yes
-    
+
 
 Host home-hub
     Hostname 192.168.1.19
     User jacob
     ForwardAgent yes
     IdentityFile ~/.ssh/id_ed25519
+    IdentitiesOnly yes
+
+
+# *** PRIVATE CONFIG ***
+
+# =================
+# === Blindspot ===
+# =================
+
+Host blindspot01
+    HostName ubnt-blindspot01.awake.aristanetworks.com
+    User blindspot
+
+Host hydra-dev
+    Hostname hydra-dev.awake.aristanetworks.com
+
+Host dev02
+    Hostname dev02.awake.aristanetworks.com
+
+Host fileserver
+    Hostname fileserver.awake.aristanetworks.com
+
+Host dogfood-nano-ssh
+    Hostname small-sensor.awake.aristanetworks.com
+
+Host dogfood-nano-bss-ssh
+    Hostname dell-100mb-16g.awake.aristanetworks.com
+
+Host dogfood-data
+    Hostname dogfood-data.awake.aristanetworks.com
+    ForwardAgent yes
+    LocalForward 18081 localhost:18080
+Host dogfood-rc
+    Hostname dogfood-rc.awake.aristanetworks.com
+Host dogfood-rc-ui
+    LocalForward localhost:8443 localhost:24080
+
+Host git.adastragrp.com
+    HostName git.adastragrp.com
+    IdentityFile ~/.ssh/id_rsa
+    User git
+    IdentitiesOnly yes
+
+# ==========================
+# === Blindspot - Agate ===
+# =========================
+host bastion-agate-dev
+    Hostname 52.178.47.173
+    User bsschatadmin
+
+host bastion-agate-test
+    Hostname 20.126.83.156
+    User bsschatadmin
+
+# ==========================
+# === T-mobile Macedonia ===
+# ==========================
+
+# Airflow UI - port 8080
+# Jupyter lab - port 8000
+# HDFS - port 9870
+# SPark UI - port 4040
+host tmob-hadoop-dev
+    Hostname 10.232.89.168
+    User jakubp
+    LocalForward 8080 localhost:8080
+    LocalForward 8000 localhost:8000
+    LocalForward 9870 localhost:9870
+    LocalForward 4040 localhost:4040
+
+# ==================
+# === Skoda auto ===
+# ==================
+Host devops.skoda.vwgroup.com
+    HostName devops.skoda.vwgroup.com
+    IdentityFile  ~/.ssh/id_rsa_skoda_devops
+    User dmz\dzck09g
     IdentitiesOnly yes
