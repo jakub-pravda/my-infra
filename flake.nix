@@ -24,7 +24,7 @@
       supportedSystems = [ x86_64-linux aarch64-linux ];
       forEachSupportedSystem = f:
         nixpkgs.lib.genAttrs supportedSystems
-        (system: f { pkgs = import nixpkgs { inherit system; }; });
+        (system: f { pkgs = import nixpkgs-unstable { inherit system; }; });
 
       # Packages definition
 
@@ -59,8 +59,10 @@
         default = pkgs.mkShell {
           buildInputs = with pkgs; [
             (poetry.override { python3 = python312; })
+            cue
             go-task
             nixfmt-classic
+            perses
             statix
             vulnix
           ];
