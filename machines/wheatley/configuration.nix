@@ -75,7 +75,7 @@
             with pythonPackages; [
               ipykernel
               #imbalanced-learn
-              lightgbm
+              #lightgbm
               matplotlib
               pandas
               seaborn

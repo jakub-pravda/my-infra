@@ -34,7 +34,7 @@ let
       nixpkgs-fmt
 
       # Provisioning tools
-      awscli2
+      #awscli2
       #azure-cli
       tfswitch
 
