@@ -23,7 +23,8 @@
           # Replace with NixOs service when perses PR merged!
           # https://github.com/NixOS/nixpkgs/pull/411771
           "perses" = {
-            image = "persesdev/perses:main-2025-10-14-7a2570a1-distroless-debug";
+            image =
+              "persesdev/perses:main-2025-10-14-7a2570a1-distroless-debug";
             # ports = [ "127.0.0.1:8082:8080" ];
             extraOptions = [ "--network=host" ];
           };
