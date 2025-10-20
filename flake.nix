@@ -51,6 +51,7 @@
             (_: _: {
               go-home = go-home.packages.${system}.default;
               inherit (nixpkgs-unstable.legacyPackages."${system}") zigbee2mqtt;
+              inherit (nixpkgs-unstable.legacyPackages."${system}") perses;
             })
           ];
         };

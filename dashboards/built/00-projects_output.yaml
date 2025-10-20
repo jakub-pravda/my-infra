@@ -1,0 +1,7 @@
+kind: Project
+metadata:
+  name: BasicMonitoring
+spec:
+  display:
+    name: BasicMonitoring
+    description: Basic monitoring dashboard

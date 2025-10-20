@@ -1,0 +1,43 @@
+kind: Dashboard
+metadata:
+  name: ServerMonitoring
+  createdAt: "0001-01-01T00:00:00Z"
+  project: BasicMonitoring
+  updatedAt: "0001-01-01T00:00:00Z"
+  version: 0
+spec:
+  panels:
+    "0_0":
+      kind: Panel
+      spec:
+        display:
+          name: CPU
+        plugin:
+          kind: TimeSeriesChart
+          spec: {}
+        queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: |2-
+                        (avg without (mode,cpu) (
+                        1 - rate(node_cpu_seconds_total{mode="idle"}[1m])
+                        )) * 100
+                  datasource:
+                    kind: PrometheusDatasource
+                    name: prometheus-local
+  layouts:
+    - kind: Grid
+      spec:
+        display:
+          title: Server Monitoring
+        items:
+          - x: 0
+            "y": 0
+            width: 8
+            height: 6
+            content:
+              $ref: '#/spec/panels/0_0'
+  duration: 1h

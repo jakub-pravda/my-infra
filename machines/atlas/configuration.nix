@@ -1,5 +1,6 @@
 { config, inputs, pkgs, ... }: {
   imports = [
+    ./dashboard-deploy.nix
     ./hardware-configuration.nix
     ./containers.nix
     ./services.nix
@@ -65,4 +66,5 @@
   containerOptions.containerUser = "jacob";
 
   networking = { hostName = "atlas"; };
+  services.perses-dashboard-deploy.enable = true;
 }
