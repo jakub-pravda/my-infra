@@ -132,6 +132,7 @@
     gnome-tweaks
     gnupg
     libgcc
+    minikube
     metals
     openssl
     podman-compose
