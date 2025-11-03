@@ -8,7 +8,7 @@ let
     # Monitoring tools
     atop
     bottom
-    du-dust
+    dust
     duf
     procs
 
