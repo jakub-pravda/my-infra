@@ -8,7 +8,7 @@ let
     # Monitoring tools
     atop
     bottom
-    du-dust
+    dust
     duf
     procs
 
@@ -25,6 +25,9 @@ let
     # System tools
     openssh
     tmux
+    
+    # AI
+    claude-code
   ];
 
   workstationPackages = with pkgs;
@@ -71,6 +74,7 @@ let
       obsidian
 
       # Development
+      helix
       zed-editor
     ] else
       [ ]);

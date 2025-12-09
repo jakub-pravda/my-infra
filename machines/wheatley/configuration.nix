@@ -131,7 +131,7 @@
   environment.systemPackages = with pkgs; [
     gnome-tweaks
     gnupg
-    libgcc
+    gcc
     minikube
     metals
     openssl
