@@ -25,7 +25,7 @@ let
     # System tools
     openssh
     tmux
-    
+
     # AI
     claude-code
   ];
