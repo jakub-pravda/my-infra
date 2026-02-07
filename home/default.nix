@@ -41,10 +41,7 @@ let
       #azure-cli
       tfswitch
 
-      # Development
-      jetbrains.idea-community
-
-      # Golang development
+     # Golang development
       go
 
       # Python development
@@ -75,7 +72,11 @@ let
 
       # Development
       helix
+      jetbrains.idea-oss
       zed-editor
+
+      typos-lsp
+      
     ] else
       [ ]);
 in {
@@ -125,17 +126,24 @@ in {
         name = "zed";
         text = builtins.readFile ./dotfiles/zed-conf.jsonc;
       };
+
+      helixConfigLanguages = pkgs.writeTextFile {
+        name = "helix";
+        text = builtins.readFile ./dotfiles/hx-languages.toml;
+      };
+      
     in lib.mkIf isWorkstation {
       ".ssh/config".source = sshConfig;
       ".gitconfig".source = gitConfig;
       "/home/jacob/.config/kitty/kitty.conf".source = kittyConfig;
       "/home/jacob/.config/kitty/kitty-theme.conf".source = kittyThemeConfig;
       "/home/jacob/.config/zed/settings.json".source = zedConfig;
+      "/home/jacob/.config/helix/languages.toml".source = helixConfigLanguages;
     };
 
     sessionVariables = {
-      EDITOR = "nvim";
-      VISUAL = "nvim";
+      EDITOR = "hx";
+      VISUAL = "hx";
       PAGER = "less";
       JAVA_HOME = pkgsDefaultJava;
 

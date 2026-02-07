@@ -1,0 +1,6 @@
+[language-server.typos]
+command = "typos-lsp"
+
+[[language]]
+name = "markdown"
+language-servers = ["marksman", "typos"]
