@@ -41,7 +41,7 @@ let
       #azure-cli
       tfswitch
 
-     # Golang development
+      # Golang development
       go
 
       # Python development
@@ -76,7 +76,7 @@ let
       zed-editor
 
       typos-lsp
-      
+
     ] else
       [ ]);
 in {
@@ -131,7 +131,7 @@ in {
         name = "helix";
         text = builtins.readFile ./dotfiles/hx-languages.toml;
       };
-      
+
     in lib.mkIf isWorkstation {
       ".ssh/config".source = sshConfig;
       ".gitconfig".source = gitConfig;
