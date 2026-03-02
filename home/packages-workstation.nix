@@ -32,6 +32,7 @@ with pkgs; [
   bitwarden-desktop
   firefox
   google-chrome
+  kitty
   libreoffice
   spotify
 
