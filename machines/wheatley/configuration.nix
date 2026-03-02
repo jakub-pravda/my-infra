@@ -74,8 +74,6 @@
           env = pkgs.python3.withPackages (pythonPackages:
             with pythonPackages; [
               ipykernel
-              #imbalanced-learn
-              #lightgbm
               matplotlib
               pandas
               seaborn
@@ -129,14 +127,15 @@
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
+    claude-code
     gnome-tweaks
     gnupg
     gcc
+    kitty
     minikube
     metals
     openssl
     podman-compose
-    shadow-launcher
     vim
   ];
 

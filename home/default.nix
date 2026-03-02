@@ -1,145 +1,22 @@
-{ pkgs, lib, isWorkstation ? false, isWsl ? false, ... }:
+{ pkgs, lib, username ? "jacob", additionalPackages ? [ ]
+, additionalPrograms ? { }, configFiles ? { }, ... }:
 let
-  username = "jacob";
-  pkgsDefaultJava = pkgs.jdk17;
+  homeDirectory = "/home/${username}";
+  pkgsDefaultJava = pkgs.jdk21;
 
-  # Following packages, programs definition is a minimal definition shared across all machines, whether it's a server or a workstation
-  defaultPackages = with pkgs; [
-    # Monitoring tools
-    atop
-    bottom
-    dust
-    duf
-    procs
-
-    # Networking tools
-    curl
-    grpcurl
-    wireshark
-    whois
-
-    # Development tools
-    git
-    kitty
-
-    # System tools
-    openssh
-    tmux
-
-    # AI
-    claude-code
-  ];
-
-  workstationPackages = with pkgs;
-    (if isWorkstation then [
-      # Nix
-      nil
-      nixpkgs-fmt
-
-      # Provisioning tools
-      #awscli2
-      #azure-cli
-      tfswitch
-
-      # Golang development
-      go
-
-      # Python development
-      poetry
-      (python312.withPackages
-        (ps: with ps; [ black flake8 mypy pip pylint pytest ruff ]))
-
-      # Rust development
-      rustup
-
-      # Scala development
-      metals
-      sbt
-      scala_3
-      scala-cli
-    ] else
-      [ ]) ++
-    # Workstation packages
-    (if isWorkstation && !isWsl then [
-      # Productivity tools
-      firefox
-      google-chrome
-      libreoffice
-      spotify
-
-      # Note taking
-      obsidian
-
-      # Development
-      helix
-      jetbrains.idea-oss
-      zed-editor
-
-      typos-lsp
-
-    ] else
-      [ ]);
+  defaultPackages = import ./packages.nix { inherit pkgs lib; };
 in {
   home = {
     inherit username;
-    homeDirectory = "/home/${username}";
-    packages = defaultPackages ++ workstationPackages;
-    stateVersion = "22.05";
+    inherit homeDirectory;
+    packages = defaultPackages ++ additionalPackages;
+    stateVersion = "24.11";
 
     shellAliases = { htop = "btm"; };
 
     # Manage dotfiles (on workstations only)
-    file = let
-      # store private and public configs together
-      sshConfig = let config = builtins.readFile ./dotfiles/sshconfig;
-      in pkgs.writeTextFile {
-        name = "sshconfig";
-        text = ''
-          ${config}
-        '';
-      };
-
-      gitConfig = let config = builtins.readFile ./dotfiles/gitconfig;
-      in pkgs.writeTextFile {
-        name = "gitconfig";
-        text = ''
-          ${config}
-        '';
-      };
-
-      # awsConfig = pkgs.writeTextFile {
-      #   name = "awsconfig";
-      #   text = "";
-      # };
-
-      kittyConfig = pkgs.writeTextFile {
-        name = "kitty";
-        text = builtins.readFile ./dotfiles/kitty.conf;
-      };
-
-      kittyThemeConfig = pkgs.writeTextFile {
-        name = "kitty";
-        text = builtins.readFile ./dotfiles/kitty-theme.conf;
-      };
-
-      zedConfig = pkgs.writeTextFile {
-        name = "zed";
-        text = builtins.readFile ./dotfiles/zed-conf.jsonc;
-      };
-
-      helixConfigLanguages = pkgs.writeTextFile {
-        name = "helix";
-        text = builtins.readFile ./dotfiles/hx-languages.toml;
-      };
-
-    in lib.mkIf isWorkstation {
-      ".ssh/config".source = sshConfig;
-      ".gitconfig".source = gitConfig;
-      "/home/jacob/.config/kitty/kitty.conf".source = kittyConfig;
-      "/home/jacob/.config/kitty/kitty-theme.conf".source = kittyThemeConfig;
-      "/home/jacob/.config/zed/settings.json".source = zedConfig;
-      "/home/jacob/.config/helix/languages.toml".source = helixConfigLanguages;
-    };
+    # file = import ./configs.nix { inherit pkgs; };
+    file = configFiles;
 
     sessionVariables = {
       EDITOR = "hx";
@@ -152,17 +29,8 @@ in {
     };
   };
 
-  programs = {
+  programs = lib.recursiveUpdate {
     home-manager.enable = true;
-
-    # *** Default programs ***
-    git = {
-      enable = true;
-      userEmail = "me@jakubpravda.net";
-      userName = "Jakub Pravda";
-    };
-
-    neovim.enable = true;
 
     zsh = {
       enable = true;
@@ -192,31 +60,5 @@ in {
         plugins = [ "aliases" "colorize" "docker" "git" "sudo" "systemd" ];
       };
     };
-    # *** Workstation only programs ***
-    vscode = {
-      enable = isWorkstation && !isWsl;
-      profiles.default = {
-        enableExtensionUpdateCheck = true;
-        enableUpdateCheck = true;
-        extensions = with pkgs.vscode-extensions; [
-          charliermarsh.ruff
-          github.copilot
-          github.copilot-chat
-          golang.go
-          jnoortheen.nix-ide
-          matangover.mypy
-          ms-python.python
-          ms-toolsai.jupyter
-          rust-lang.rust-analyzer
-          scala-lang.scala
-          scalameta.metals
-          streetsidesoftware.code-spell-checker
-          tamasfe.even-better-toml
-          timonwong.shellcheck
-          vscodevim.vim
-          vscode-icons-team.vscode-icons
-        ];
-      };
-    };
-  };
+  } additionalPrograms;
 }

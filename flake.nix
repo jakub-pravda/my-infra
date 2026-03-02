@@ -69,27 +69,31 @@
 
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
 
-      # Separate home configuration for non NixOs machines
-      homeConfigurations = {
-        wsl = home-manager.lib.homeManagerConfiguration {
-          pkgs = desktopPkgs x86_64-linux nixpkgs-unstable;
-          modules = [ ./home ];
-          extraSpecialArgs = {
-            inherit my-infra-private;
-            isWorkstation = true;
-            isWsl = true;
-          };
-        };
+      homeModules = {
+        default = ./home/default.nix;
+        appConfigs = ./home/config-app.nix;
+        systemConfigs = ./home/config-system.nix;
       };
 
       nixosConfigurations = {
         # *** Workstations ***
         wheatley = let
           system = x86_64-linux;
-          pkgs = nixpkgs-unstable;
-        in pkgs.lib.nixosSystem {
+          nixpkgs = nixpkgs-unstable;
+
+          pkgs = desktopPkgs system nixpkgs;
+
+          username = "jacob";
+          additionalPrograms = { };
+          additionalPackages =
+            import ./home/packages-workstation.nix { inherit pkgs; };
+
+          appConfigs = import ./home/config-app.nix { inherit pkgs; };
+          systemConfigs = import ./home/config-system.nix { inherit pkgs; };
+
+        in nixpkgs.lib.nixosSystem {
           inherit system;
-          pkgs = desktopPkgs system pkgs;
+          inherit pkgs;
           specialArgs = { flake-self = self; } // inputs;
           modules = [
             machines/wheatley/configuration.nix
@@ -100,9 +104,11 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 extraSpecialArgs = {
-                  inherit my-infra-private;
-                  isWorkstation = true;
-                  isWsl = false;
+                  inherit username;
+                  inherit additionalPackages;
+                  inherit additionalPrograms;
+                  configFiles =
+                    nixpkgs.lib.recursiveUpdate appConfigs systemConfigs;
                 };
               };
             }
@@ -120,33 +126,6 @@
           specialArgs = { inherit inputs; };
           modules = [ machines/atlas/configuration.nix ];
         };
-
-        # remark: DECOMISSIONED
-        # home-hub = let
-        #   system = aarch64-linux;
-        #   pkgs = nixpkgs;
-        # in
-        #   pkgs.lib.nixosSystem {
-        #     inherit system;
-        #     pkgs = serverPkgs system pkgs;
-        #     # Make inputs accessible ad module parameters
-        #     specialArgs = {flake-self = self;} // inputs;
-        #     modules = [
-        #       machines/home-hub/configuration.nix
-        #       home-manager.nixosModules.home-manager
-        #       {
-        #         home-manager = {
-        #           users.jacob = import ./home/default.nix;
-        #           useGlobalPkgs = true;
-        #           useUserPackages = true;
-        #           extraSpecialArgs = {
-        #             isWorkstation = false;
-        #             isWsl = false;
-        #           };
-        #         };
-        #       }
-        #     ];
-        #   };
       };
     };
 }
