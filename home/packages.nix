@@ -11,7 +11,6 @@ with pkgs;
   # Networking tools
   curl
   grpcurl
-  wireshark
   whois
 
   # Development tools
