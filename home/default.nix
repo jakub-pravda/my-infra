@@ -1,7 +1,10 @@
 { pkgs, lib, username ? "jacob", additionalPackages ? [ ]
-, additionalPrograms ? { }, configFiles ? { }, isDarwin ? false, ... }:
+, additionalPrograms ? { }, configFiles ? { }, ... }:
 let
-  homeDirectory = "/home/${username}";
+  isDarwin = lib.strings.hasSuffix "darwin" pkgs.system;
+
+  homeDirectory =
+    if isDarwin then "/Users/${username}" else "/home/${username}";
   pkgsDefaultJava = pkgs.jdk21;
 
   defaultPackages = import ./packages.nix { inherit pkgs lib isDarwin; };
