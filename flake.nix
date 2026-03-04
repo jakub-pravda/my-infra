@@ -109,6 +109,7 @@
                   inherit additionalPrograms;
                   configFiles =
                     nixpkgs.lib.recursiveUpdate appConfigs systemConfigs;
+                  isDarwin = false;
                 };
               };
             }

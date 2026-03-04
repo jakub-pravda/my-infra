@@ -1,8 +1,8 @@
-{ pkgs, lib, isWorkstation ? false, ... }:
+{ pkgs, lib, isDarwin }:
 # Default packages accessible across all workstations
-with pkgs; [
+with pkgs;
+[
   # Monitoring tools
-  atop
   bottom
   dust
   duf
@@ -21,4 +21,10 @@ with pkgs; [
   # System tools
   openssh
   tmux
-]
+] ++ (if !isDarwin then
+  [
+    # Packages not available for Darwin platform
+    atop
+  ]
+else
+  [ ])

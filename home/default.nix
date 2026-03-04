@@ -1,10 +1,10 @@
 { pkgs, lib, username ? "jacob", additionalPackages ? [ ]
-, additionalPrograms ? { }, configFiles ? { }, ... }:
+, additionalPrograms ? { }, configFiles ? { }, isDarwin ? false, ... }:
 let
   homeDirectory = "/home/${username}";
   pkgsDefaultJava = pkgs.jdk21;
 
-  defaultPackages = import ./packages.nix { inherit pkgs lib; };
+  defaultPackages = import ./packages.nix { inherit pkgs lib isDarwin; };
 in {
   home = {
     inherit username;
