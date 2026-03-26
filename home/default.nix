@@ -60,7 +60,16 @@ in {
       oh-my-zsh = {
         enable = true;
         theme = "eastwood";
-        plugins = [ "aliases" "colorize" "docker" "git" "sudo" "systemd" ];
+        plugins = [
+          "aliases"
+          "colorize"
+          "docker"
+          "gcloud"
+          "git"
+          "kubectl"
+          "sudo"
+          "systemd"
+        ];
       };
     };
   } additionalPrograms;
