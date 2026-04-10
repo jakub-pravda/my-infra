@@ -13,6 +13,7 @@ with pkgs; [
 
   # Golang development
   go
+  gopls
 
   # Python development
   poetry
@@ -30,6 +31,7 @@ with pkgs; [
 
   # Productivity tools
   bitwarden-desktop
+  brave
   firefox
   google-chrome
   kitty

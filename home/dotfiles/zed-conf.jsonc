@@ -9,10 +9,17 @@
 {
   "disable_ai": false,
   "show_edit_predictions": false,
+  "cim_mode": true,
   "autosave": {
     "after_delay": {
       "milliseconds": 2000,
     },
+  },
+  "agent": {
+    "default_model": {
+      "provider": "zed.dev",
+      "model": "claude-sonnet-4-5"
+    }
   },
   "assistant": {
     "default_model": {
@@ -27,8 +34,8 @@
   "telemetry": {
     "metrics": false,
   },
-  "ui_font_size": 16,
-  "buffer_font_size": 16,
+  "ui_font_size": 20,
+  "buffer_font_size": 18,
   "theme": {
     "mode": "system",
     "light": "One Light",

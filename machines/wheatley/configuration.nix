@@ -12,11 +12,6 @@
 
   networking = {
     hostName = "wheatley";
-    extraHosts = ''
-      127.0.10.1 mongo-cluster-1
-      127.0.10.2 mongo-cluster-2
-      127.0.10.3 mongo-cluster-3
-    '';
     networkmanager.enable = true;
   };
 
