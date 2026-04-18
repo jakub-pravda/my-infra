@@ -1,7 +1,7 @@
 { pkgs, lib, isDarwin }:
 # Default packages accessible across all workstations
 with pkgs;
-[  
+[
   # Monitoring tools
   bottom
   dust
