@@ -1,55 +1,55 @@
-// Zed settings
-//
-// For information on how to configure Zed, see the Zed
-// documentation: https://zed.dev/docs/configuring-zed
-//
-// To see all of Zed's default settings without changing your
-// custom settings, run `zed: open default settings` from the
-// command palette (cmd-shift-p / ctrl-shift-p)
 {
   "disable_ai": false,
-  "show_edit_predictions": false,
-  "cim_mode": true,
+
+  "base_keymap": "VSCode",
+
+  "vim_mode": true,
+  "helix_mode": true,
+
   "autosave": {
     "after_delay": {
-      "milliseconds": 2000,
-    },
-  },
-  "agent": {
-    "default_model": {
-      "provider": "zed.dev",
-      "model": "claude-sonnet-4-5"
+      "milliseconds": 2000
     }
   },
+
   "assistant": {
-    "default_model": {
-      "provider": "copilot_chat",
-      "model": "o3-mini",
-    },
-    "version": "2",
+    "enabled": false
   },
-  "features": {
-    "edit_prediction_provider": "zed",
+
+  "edit_predictions": {
+    "provider": "none"
   },
+
+  "show_edit_predictions": false,
+
+  "agent_servers": {
+    "claude-acp": {
+      "type": "registry"
+    }
+  },
+
   "telemetry": {
-    "metrics": false,
+    "metrics": false
   },
-  "ui_font_size": 20,
+
+  "ui_font_size": 24,
   "buffer_font_size": 18,
+
   "theme": {
     "mode": "system",
     "light": "One Light",
-    "dark": "One Dark",
+    "dark": "VSCode Dark Modern"
   },
+
   "lsp": {
     "metals": {
       "settings": {
         "inlayHints": {
           "inferredTypes": {
-            "enable": true,
-          },
-        },
-      },
-    },
-  },
+            "enable": true
+          }
+        }
+      }
+    }
+  }
 }
