@@ -1,4 +1,4 @@
-{ lib, config, ... }: {
+{ lib, ... }: {
 
   options.containerOptions = {
     containerUser = lib.mkOption {

@@ -142,7 +142,10 @@
     enable = true;
     extraPackages = with pkgs; [ intel-media-driver libvdpau-va-gl vpl-gpu-rt ];
   };
-  environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
+  environment.sessionVariables = {
+    LIBVA_DRIVER_NAME = "iHD";
+    LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [ pkgs.stdenv.cc.cc ];
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

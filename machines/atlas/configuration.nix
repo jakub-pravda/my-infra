@@ -1,11 +1,9 @@
-{ config, inputs, pkgs, ... }: {
+{ inputs, pkgs, ... }: {
   imports = [
     ./hardware-configuration.nix
     ./containers.nix
     ./services.nix
-    ./shared.nix
     ../../users/jacob
-    ../../users/github
     inputs.sops-nix.nixosModules.sops
   ];
 
@@ -13,8 +11,8 @@
 
   nix = {
     settings = {
-      allowed-users = [ "jacob" "github" "github-runner-atlas-ci-runner" ];
-      trusted-users = [ "root" "jacob" "github" ];
+      allowed-users = [ "jacob" ];
+      trusted-users = [ "root" "jacob" ];
     };
 
     extraOptions = ''
@@ -27,9 +25,22 @@
     };
   };
 
+  time.timeZone = "Europe/London";
+  i18n.defaultLocale = "en_US.UTF-8";
+  console.keyMap = "us";
+
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 80 443 ];
+    allowedTCPPorts = [ 22 80 443 ];
+  };
+
+  services.openssh = {
+    enable = true;
+    settings = {
+      PermitRootLogin = "no";
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+    };
   };
 
   system.autoUpgrade = {
@@ -43,14 +54,9 @@
     dates = "00:30";
   };
 
-  environment.systemPackages = with pkgs; [
-    git
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-  ];
+  environment.systemPackages = with pkgs; [ git vim ];
 
-  system.stateVersion = "25.05"; # Do not change this!
-  boot.loader.grub.device = "/dev/nvme0n1";
+  system.stateVersion = "25.11"; # Do not change this!
 
   sops = {
     defaultSopsFile = ../../secrets/secrets.yaml;
