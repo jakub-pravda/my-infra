@@ -106,13 +106,20 @@
       pulse.enable = true;
     };
 
+    # temporary fix - no sound from BT headphones
+    pipewire.wireplumber = {
+      enable = true;
+      extraConfig."10-bluetooth-codecs" = {
+        "monitor.bluez.properties" = {
+          # Disable LDAC, optionally restrict to SBC/AAC/aptX etc.
+          "bluez5.codecs" = [ "sbc" "aac" "aptx" "aptx_hd" ];
+        };
+      };
+    };
+
     # Additional services
     netdata.enable = true;
   };
-
-  # Enable zsh
-  programs.zsh.enable = true;
-  users.defaultUserShell = pkgs.zsh;
 
   # Virtualisation
   virtualisation.podman = {
@@ -134,8 +141,13 @@
     vim
   ];
 
-  # Gaming
-  programs.steam = { enable = true; };
+  programs = {
+    hyprland.enable = true;
+    steam.enable = true;
+    zsh.enable = true;
+  };
+
+  users.defaultUserShell = pkgs.zsh;
 
   # GPU drivers
   hardware.graphics = {
