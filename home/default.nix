@@ -32,45 +32,48 @@ in {
     };
   };
 
-  programs = lib.recursiveUpdate {
-    home-manager.enable = true;
+  programs = lib.mkMerge [
+    {
+      home-manager.enable = true;
 
-    zsh = {
-      enable = true;
-
-      autosuggestion.enable = true;
-      enableCompletion = true;
-      syntaxHighlighting.enable = true;
-
-      initContent = ''
-        # Nix
-        if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
-          . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
-        fi
-
-        # ssh agent
-        eval $(ssh-agent -s)
-        if [ -e ~/.ssh/id_ed25519_github ]; then
-          ssh-add ~/.ssh/id_ed25519_github
-        fi
-
-        export PATH="$HOME/bin:$PATH"
-      '';
-
-      oh-my-zsh = {
+      zsh = {
         enable = true;
-        theme = "eastwood";
-        plugins = [
-          "aliases"
-          "colorize"
-          "docker"
-          "gcloud"
-          "git"
-          "kubectl"
-          "sudo"
-          "systemd"
-        ];
+
+        autosuggestion.enable = true;
+        enableCompletion = true;
+        syntaxHighlighting.enable = true;
+
+        initContent = ''
+          # Nix
+          if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+            . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+          fi
+
+          # ssh agent
+          eval $(ssh-agent -s)
+          if [ -e ~/.ssh/id_ed25519_github ]; then
+            ssh-add ~/.ssh/id_ed25519_github
+          fi
+
+          export PATH="$HOME/bin:$PATH"
+        '';
+
+        oh-my-zsh = {
+          enable = true;
+          theme = "eastwood";
+          plugins = [
+            "aliases"
+            "colorize"
+            "docker"
+            "gcloud"
+            "git"
+            "kubectl"
+            "sudo"
+            "systemd"
+          ];
+        };
       };
-    };
-  } additionalPrograms;
+    }
+    additionalPrograms
+  ];
 }
