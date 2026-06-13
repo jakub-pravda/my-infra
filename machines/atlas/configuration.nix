@@ -7,8 +7,6 @@
     inputs.sops-nix.nixosModules.sops
   ];
 
-  boot.loader.grub.enable = true;
-
   nix = {
     settings = {
       allowed-users = [ "jacob" ];
