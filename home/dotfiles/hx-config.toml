@@ -4,3 +4,6 @@ theme="jetbrains_dark"
 focus-lost = true            # save when Helix loses focus
 after-delay.enable = true    # save after a delay
 after-delay.timeout = 3000   # delay in ms (3s here)
+
+[editor.soft-wrap]
+enable = true
