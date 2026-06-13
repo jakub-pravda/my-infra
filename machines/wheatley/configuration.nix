@@ -54,9 +54,7 @@
       };
     };
     desktopManager.gnome.enable = true; # Enable the Gnome Desktop Environment
-    displayManager.gdm = {
-      enable = true;
-    };
+    displayManager.gdm = { enable = true; };
 
     jupyterhub = {
       enable = true;
