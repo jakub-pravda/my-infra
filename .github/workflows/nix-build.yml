@@ -19,7 +19,7 @@ jobs:
       - uses: cachix/install-nix-action@v31
         with:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
-      - run: nix develop -c task statix-check
+      - run: nix develop -c task nix:statix
   system-dry-build:
     needs: flake_check
     runs-on: [ ubuntu-24.04 ]
@@ -28,5 +28,5 @@ jobs:
     - uses: cachix/install-nix-action@v31
       with:
         github_access_token: ${{ secrets.GITHUB_TOKEN }}
-    - run: nix develop -c task dry-build-wheatley
-    - run: nix develop -c task dry-build-atlas
+    - run: nix develop -c task build:wheatley
+    - run: nix develop -c task build:hetz01
