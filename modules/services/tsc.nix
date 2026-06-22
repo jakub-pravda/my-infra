@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   cfg = config.services.trv-temp-scheduler;
@@ -6,11 +11,13 @@ let
   livingRoomScheduler = {
     topic = "myhome-kr/livingroom/danfoss-thermo-01";
     defaultTemperature = 21;
-    timeTable = [{
-      start = "22:00";
-      end = "06:00";
-      temperature = 18;
-    }];
+    timeTable = [
+      {
+        start = "22:00";
+        end = "06:00";
+        temperature = 18;
+      }
+    ];
   };
 
   bedroomScheduler = {
@@ -29,7 +36,8 @@ let
       }
     ];
   };
-in {
+in
+{
   options.services.trv-temp-scheduler = {
     enable = mkEnableOption "trv-temp-scheduler";
 
@@ -54,8 +62,7 @@ in {
         ExecStart = ''
           "${pkgs.go-home}/bin/tsc" ${
             cli.toGNUCommandLineShell { } {
-              broker =
-                "mqtt://${cfg.mosquittoBroker}:${toString cfg.mosquittoPort}";
+              broker = "mqtt://${cfg.mosquittoBroker}:${toString cfg.mosquittoPort}";
               scheduler = [
                 (builtins.toJSON livingRoomScheduler)
                 (builtins.toJSON bedroomScheduler)

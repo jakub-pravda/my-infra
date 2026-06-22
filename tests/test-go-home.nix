@@ -16,7 +16,9 @@
 #   '';
 # })
 {
-  nodes = { machine = { config, pkgs, ... }: { pkgs.redis.enable = true; }; };
+  nodes = {
+    machine = { config, pkgs, ... }: { pkgs.redis.enable = true; };
+  };
 
   testScript = ''
     start_all()

@@ -3,8 +3,11 @@ with lib;
 let
   cfg = config.services.my-nginx;
   wikiCfg = config.services.jacfal-wiki;
-in {
-  options.services.my-nginx = { enable = mkEnableOption "my-nginx"; };
+in
+{
+  options.services.my-nginx = {
+    enable = mkEnableOption "my-nginx";
+  };
 
   config = mkIf cfg.enable {
     security.acme = {

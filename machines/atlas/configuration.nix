@@ -10,7 +10,10 @@
   nix = {
     settings = {
       allowed-users = [ "jacob" ];
-      trusted-users = [ "root" "jacob" ];
+      trusted-users = [
+        "root"
+        "jacob"
+      ];
     };
 
     extraOptions = ''
@@ -29,7 +32,11 @@
 
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 22 80 443 ];
+    allowedTCPPorts = [
+      22
+      80
+      443
+    ];
   };
 
   services.openssh = {
@@ -52,19 +59,23 @@
     dates = "00:30";
   };
 
-  environment.systemPackages = with pkgs; [ git vim ];
+  environment.systemPackages = with pkgs; [
+    git
+    vim
+  ];
 
   system.stateVersion = "25.11"; # Do not change this!
 
   sops = {
     defaultSopsFile = ../../secrets/secrets.yaml;
     defaultSopsFormat = "yaml";
-    age.keyFile =
-      "/home/jacob/.config/sops/age/keys.txt"; # TODO per environment
+    age.keyFile = "/home/jacob/.config/sops/age/keys.txt"; # TODO per environment
 
     secrets."services/github/atlas_runner_pat" = { };
   };
   containerOptions.containerUser = "jacob";
 
-  networking = { hostName = "atlas"; };
+  networking = {
+    hostName = "atlas";
+  };
 }

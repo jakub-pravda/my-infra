@@ -52,8 +52,10 @@
     iot-cml = {
       enable = true;
       hubConfigs =
-        let utils = pkgs.callPackage ../../machines/shared/utils.nix { };
-        in utils.getAllHubConfigs ../../machines;
+        let
+          utils = pkgs.callPackage ../../machines/shared/utils.nix { };
+        in
+        utils.getAllHubConfigs ../../machines;
       wireguardInterfaceIp = "10.100.0.1";
     };
 

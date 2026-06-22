@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   dockerIotNetworkName = "iot-network";
@@ -7,9 +12,9 @@ let
   cmlNodeCfg = config.services.iot-cml;
 
   hubNames = map (hubConfig: hubConfig.id) cmlNodeCfg.hubConfigs;
-  telegrafQuestFeederConfig =
-    pkgs.callPackage ./conf/telegraf-iot-quest-feeder.nix { inherit pkgs; }
-    hubNames;
+  telegrafQuestFeederConfig = pkgs.callPackage ./conf/telegraf-iot-quest-feeder.nix {
+    inherit pkgs;
+  } hubNames;
   mosquittoConf = pkgs.callPackage ./conf/mosquitto.nix { inherit pkgs; };
 
   # images
@@ -20,7 +25,8 @@ let
   # volumes
   questDbDataPath = "/var/lib/questdb-docker-vol";
   mosqittoDataPath = "/var/lib/mosquitto-docker-vol";
-in {
+in
+{
   config = mkIf cmlNodeCfg.enable {
     system.activationScripts = {
       dockerEnvInit = {
@@ -41,15 +47,17 @@ in {
     virtualisation.oci-containers.containers = {
       telegraf-iot-quest-feeder = {
         image = "${telegrafImageVersion}";
-        volumes =
-          [ "${telegrafQuestFeederConfig}:/etc/telegraf/telegraf.conf:ro" ];
+        volumes = [ "${telegrafQuestFeederConfig}:/etc/telegraf/telegraf.conf:ro" ];
         extraOptions = [ "--network=${dockerIotNetworkName}" ];
       };
 
       quest-db = {
         image = "${questDbVersion}";
-        ports =
-          [ "127.0.0.1:9000:9000" "127.0.0.1:9009:9009" "127.0.0.1:8812:8812" ];
+        ports = [
+          "127.0.0.1:9000:9000"
+          "127.0.0.1:9009:9009"
+          "127.0.0.1:8812:8812"
+        ];
         volumes = [ "${questDbDataPath}:/var/lib/questdb" ];
         extraOptions = [ "--network=${dockerIotNetworkName}" ];
       };
@@ -57,9 +65,7 @@ in {
       mosquitto = {
         image = "${mosquittoVersion}";
         ports = [
-          "${cmlNodeCfg.wireguardInterfaceIp}:${
-            toString cmlNodeCfg.mosquittoPort
-          }:1883"
+          "${cmlNodeCfg.wireguardInterfaceIp}:${toString cmlNodeCfg.mosquittoPort}:1883"
         ];
         volumes = [
           "${mosquittoConf}:/mosquitto/config/mosquitto.conf"

@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
-let machineName = "home-hub";
-in {
+let
+  machineName = "home-hub";
+in
+{
   imports = [
     # Include the results of the hardware scan.
     ../shared

@@ -1,7 +1,8 @@
-{ inputs, pkgs, ... }: 
+{ inputs, pkgs, ... }:
 let
   mainUser = "jacob";
-in {
+in
+{
   imports = [
     ./hardware-configuration.nix
     ./containers.nix
@@ -20,7 +21,10 @@ in {
   nix = {
     settings = {
       allowed-users = [ mainUser ];
-      trusted-users = [ "root" mainUser ];
+      trusted-users = [
+        "root"
+        mainUser
+      ];
     };
 
     extraOptions = ''
@@ -41,7 +45,11 @@ in {
     hostName = "hetz01";
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 22 80 443 ];
+      allowedTCPPorts = [
+        22
+        80
+        443
+      ];
     };
     networkmanager.enable = true;
   };
@@ -66,7 +74,10 @@ in {
     dates = "00:30";
   };
 
-  environment.systemPackages = with pkgs; [ git vim ];
+  environment.systemPackages = with pkgs; [
+    git
+    vim
+  ];
 
   system.stateVersion = "25.11"; # Do not change this!
   containerOptions.containerUser = mainUser;

@@ -1,7 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
-let cfg = config.services.auto-update;
-in {
+let
+  cfg = config.services.auto-update;
+in
+{
   options.services.auto-update = {
     enable = mkEnableOption "auto-update";
 
@@ -28,7 +35,9 @@ in {
     };
 
     systemd.services."auto-update" = {
-      serviceConfig = { Type = "oneshot"; };
+      serviceConfig = {
+        Type = "oneshot";
+      };
       path = [ pkgs.nixos-rebuild ];
       script = ''
         nixos-rebuild switch --flake github:${cfg.myInfraGithubRepo}#${cfg.flakeToUse}

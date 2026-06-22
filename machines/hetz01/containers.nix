@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 {
   options.containerOptions = {
@@ -7,7 +12,7 @@
       description = "User for running containers";
     };
   };
-  
+
   # Runtime
   virtualisation.podman = {
     enable = true;
@@ -16,11 +21,13 @@
   };
 
   # Enable container name DNS for all Podman networks.
-  networking.firewall.interfaces = let
-    matchAll = if !config.networking.nftables.enable then "podman+" else "podman*";
-  in {
-    "${matchAll}".allowedUDPPorts = [ 53 ];
-  };
+  networking.firewall.interfaces =
+    let
+      matchAll = if !config.networking.nftables.enable then "podman+" else "podman*";
+    in
+    {
+      "${matchAll}".allowedUDPPorts = [ 53 ];
+    };
 
   virtualisation.oci-containers.backend = "podman";
 
@@ -60,7 +67,7 @@
       "--network=langfuse_default"
     ];
   };
-  
+
   systemd.services."podman-langfuse-clickhouse" = {
     serviceConfig = {
       Restart = lib.mkOverride 90 "always";
@@ -82,7 +89,7 @@
       "podman-compose-langfuse-root.target"
     ];
   };
-  
+
   virtualisation.oci-containers.containers."langfuse-langfuse-web" = {
     image = "docker.io/langfuse/langfuse:3";
     environment = {
@@ -161,7 +168,7 @@
       "--network=langfuse_default"
     ];
   };
-  
+
   systemd.services."podman-langfuse-langfuse-web" = {
     serviceConfig = {
       Restart = lib.mkOverride 90 "always";
@@ -179,7 +186,7 @@
       "podman-compose-langfuse-root.target"
     ];
   };
-  
+
   virtualisation.oci-containers.containers."langfuse-langfuse-worker" = {
     image = "docker.io/langfuse/langfuse-worker:3";
     environment = {
@@ -248,7 +255,7 @@
       "--network=langfuse_default"
     ];
   };
-  
+
   systemd.services."podman-langfuse-langfuse-worker" = {
     serviceConfig = {
       Restart = lib.mkOverride 90 "always";
@@ -266,7 +273,7 @@
       "podman-compose-langfuse-root.target"
     ];
   };
-  
+
   virtualisation.oci-containers.containers."langfuse-minio" = {
     image = "cgr.dev/chainguard/minio";
     environment = {
@@ -280,7 +287,10 @@
       "9090:9000/tcp"
       "127.0.0.1:9091:9001/tcp"
     ];
-    cmd = [ "-c" "mkdir -p /data/langfuse && minio server --address \":9000\" --console-address \":9001\" /data" ];
+    cmd = [
+      "-c"
+      "mkdir -p /data/langfuse && minio server --address \":9000\" --console-address \":9001\" /data"
+    ];
     log-driver = "journald";
     extraOptions = [
       "--entrypoint=[\"sh\"]"
@@ -293,7 +303,7 @@
       "--network=langfuse_default"
     ];
   };
-  
+
   systemd.services."podman-langfuse-minio" = {
     serviceConfig = {
       Restart = lib.mkOverride 90 "always";
@@ -313,7 +323,7 @@
       "podman-compose-langfuse-root.target"
     ];
   };
-  
+
   virtualisation.oci-containers.containers."langfuse-postgres" = {
     image = "docker.io/postgres:17";
     environment = {
@@ -339,7 +349,7 @@
       "--network=langfuse_default"
     ];
   };
-  
+
   systemd.services."podman-langfuse-postgres" = {
     serviceConfig = {
       Restart = lib.mkOverride 90 "always";
@@ -367,7 +377,12 @@
     ports = [
       "127.0.0.1:6379:6379/tcp"
     ];
-    cmd = [ "--requirepass" "myredissecret" "--maxmemory-policy" "noeviction" ];
+    cmd = [
+      "--requirepass"
+      "myredissecret"
+      "--maxmemory-policy"
+      "noeviction"
+    ];
     log-driver = "journald";
     extraOptions = [
       "--health-cmd=[\"redis-cli\", \"ping\"]"
@@ -378,7 +393,7 @@
       "--network=langfuse_default"
     ];
   };
-  
+
   systemd.services."podman-langfuse-redis" = {
     serviceConfig = {
       Restart = lib.mkOverride 90 "always";

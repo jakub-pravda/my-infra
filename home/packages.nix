@@ -1,4 +1,8 @@
-{ pkgs, lib, isDarwin }:
+{
+  pkgs,
+  lib,
+  isDarwin,
+}:
 # Default packages accessible across all workstations
 with pkgs;
 [
@@ -23,10 +27,13 @@ with pkgs;
 
   # AI/ML
   ollama
-] ++ (if !isDarwin then
-  [
-    # Packages not available for Darwin platform
-    atop
-  ]
-else
-  [ ])
+]
+++ (
+  if !isDarwin then
+    [
+      # Packages not available for Darwin platform
+      atop
+    ]
+  else
+    [ ]
+)

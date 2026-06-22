@@ -4,29 +4,39 @@
 { lib, modulesPath, ... }:
 
 {
-  imports =
-    [ (modulesPath + "/profiles/qemu-guest.nix")
-    ];
+  imports = [
+    (modulesPath + "/profiles/qemu-guest.nix")
+  ];
 
-  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod" ];
+  boot.initrd.availableKernelModules = [
+    "ahci"
+    "xhci_pci"
+    "virtio_pci"
+    "virtio_scsi"
+    "sd_mod"
+    "sr_mod"
+  ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/fc0766df-7604-400e-a192-f14e400ce2d3";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/fc0766df-7604-400e-a192-f14e400ce2d3";
+    fsType = "ext4";
+  };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/7210-C786";
-      fsType = "vfat";
-      options = [ "fmask=0022" "dmask=0022" ];
-    };
-
-  swapDevices =
-    [ { device = "/dev/disk/by-uuid/b55a191d-1510-4199-84d0-a7dbaac26219"; }
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/7210-C786";
+    fsType = "vfat";
+    options = [
+      "fmask=0022"
+      "dmask=0022"
     ];
+  };
+
+  swapDevices = [
+    { device = "/dev/disk/by-uuid/b55a191d-1510-4199-84d0-a7dbaac26219"; }
+  ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }

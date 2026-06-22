@@ -4,7 +4,8 @@ let
   bedroomLocation = "bedroom";
   hallLocation = "hall";
   outsideLocation = "outside";
-in {
+in
+{
   id = "myhome-kr";
   devices = [
     # living room

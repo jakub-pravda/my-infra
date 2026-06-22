@@ -3,7 +3,10 @@ _: {
     isNormalUser = true;
     home = "/home/jacob";
     description = "Jacob";
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+    ];
   };
 
   nix.settings.allowed-users = [ "jacob" ];
