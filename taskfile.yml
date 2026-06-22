@@ -1,25 +1,35 @@
 version: "3"
 
 tasks:
-  nix-fmt:
+  default:
+    desc: List all available tasks
+    cmds:
+      - task --list
+
+  nix:fmt:
+    desc: Format all .nix files with nixfmt
     cmds:
       - find . -type f -name "*.nix" -print0 | xargs -0 nixfmt
 
-  statix-check:
+  nix:statix:
+    desc: Run statix static analysis on NixOS configurations
     cmds:
       - nix develop -c statix check -i machines/cml-jpr-net/vpsadminos.nix machines/atlas/hardware-configuration.nix
 
-  dry-build-atlas:
+  build:hetz01:
+    desc: Dry-run build for the hetz01 NixOS configuration
     deps:
-      - task: dry-build
-        vars: { SYSTEM: atlas }
+      - task: build:dry
+        vars: { SYSTEM: hetz01 }
 
-  dry-build-wheatley:
+  build:wheatley:
+    desc: Dry-run build for the Wheatley NixOS configuration
     deps:
-      - task: dry-build
+      - task: build:dry
         vars: { SYSTEM: wheatley }
 
-  dry-build:
+  build:dry:
+    desc: Dry-run build for a given NixOS system (SYSTEM=<name>)
     cmds:
       - nix build --dry-run .#nixosConfigurations.{{.SYSTEM}}.config.system.build.toplevel -L
     prefix: build-{{.SYSTEM}}
