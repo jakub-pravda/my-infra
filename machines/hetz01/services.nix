@@ -58,7 +58,7 @@
           services = {
             web-blog = {
               loadBalancer = {
-                servers = [{ url = "http://localhost:3000"; }];
+                servers = [{ url = "http://localhost:3001"; }];
               };
             };
           };
