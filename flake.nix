@@ -60,7 +60,7 @@
           buildInputs = with pkgs; [
             (poetry.override { python3 = python312; })
             go-task
-            nixfmt-classic
+            nixfmt
             statix
             vulnix
           ];
@@ -116,7 +116,7 @@
         };
 
         # *** Servers ***
-        atlas = let
+        hetz01 = let
           system = x86_64-linux;
           pkgs = nixpkgs;
         in pkgs.lib.nixosSystem {
@@ -124,7 +124,7 @@
           pkgs = serverPkgs system pkgs;
           # Make inputs accessible add module parameters
           specialArgs = { inherit inputs; };
-          modules = [ machines/atlas/configuration.nix ];
+          modules = [ machines/hetz01/configuration.nix ];
         };
       };
     };
