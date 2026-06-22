@@ -3,7 +3,7 @@ let
   mainUser = "jacob";
 in {
   imports = [
-    #./hardware-configuration.nix
+    ./hardware-configuration.nix
     ./containers.nix
     ./services.nix
     ../../users/jacob
