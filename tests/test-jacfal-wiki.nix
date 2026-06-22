@@ -1,4 +1,7 @@
-{ pkgs ? import <nixpkgs> { }, ... }:
+{
+  pkgs ? import <nixpkgs> { },
+  ...
+}:
 pkgs.nixosTest {
   name = "jacfal-wiki";
   nodes = {

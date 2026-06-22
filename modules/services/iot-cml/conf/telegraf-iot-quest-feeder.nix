@@ -4,9 +4,16 @@ let
   hubNamesSubscribeAll = map (hubName: ''"${hubName}/#"'') hubNameList;
   hubNamesFormatted = builtins.concatStringsSep "," hubNamesSubscribeAll;
 
-  allowedGeneralFields = [ "battery" "linkquality" ];
+  allowedGeneralFields = [
+    "battery"
+    "linkquality"
+  ];
 
-  allowedTempSensorFields = [ "humidity" "temperature" "pressure" ];
+  allowedTempSensorFields = [
+    "humidity"
+    "temperature"
+    "pressure"
+  ];
 
   allowedTrvFields = [
     "external_measured_room_sensor"
@@ -21,9 +28,9 @@ let
     allowedTrvFields
   ];
 
-  allowedFieldsConfig =
-    builtins.concatStringsSep "," (map (field: ''"${field}"'') allowedFields);
-in pkgs.writeText "telegraf-iot-quest-feeder.conf" ''
+  allowedFieldsConfig = builtins.concatStringsSep "," (map (field: ''"${field}"'') allowedFields);
+in
+pkgs.writeText "telegraf-iot-quest-feeder.conf" ''
   # https://github.com/influxdata/telegraf/blob/release-1.14/plugins/inputs/mqtt_consumer/README.md
   [[inputs.mqtt_consumer]]
     servers = [ "tcp://mosquitto:1883" ]

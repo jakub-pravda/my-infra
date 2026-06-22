@@ -1,9 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   cfg = config.services.trv-sensor-sync;
   topicSyncCron = "*/15 * * * *";
-in {
+in
+{
   options.services.trv-sensor-sync = {
     enable = mkEnableOption "trv-sesnsor-sync";
 
@@ -27,9 +33,7 @@ in {
         Restart = "always";
         ExecStart = ''
           "${pkgs.go-home}/bin/tss" \
-            --broker mqtt://${cfg.mosquittoBroker}:${
-              toString cfg.mosquittoPort
-            } \
+            --broker mqtt://${cfg.mosquittoBroker}:${toString cfg.mosquittoPort} \
             --cron '${topicSyncCron}' \
             --sync '{ "sensor-topic": "myhome-kr/livingroom/son-sns-01", "trv-topic": "myhome-kr/livingroom/danfoss-thermo-01" }' \
             --sync '{ "sensor-topic": "myhome-kr/bedroom/son-sns-03", "trv-topic": "myhome-kr/bedroom/danfoss-thermo-02" }'

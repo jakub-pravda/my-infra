@@ -3,7 +3,8 @@ let
   externalInterface = "venet0@if816";
   wgInterfaceName = "wg0";
   inetPrefix = "10.100.0.1/24";
-in {
+in
+{
   networking.nat = {
     inherit externalInterface;
     enable = true;

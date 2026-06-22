@@ -11,9 +11,16 @@ let
   # subscribe config
   hubNamesSubscribeAll = map (hubName: "${hubName}/#") hubNameList;
 
-  allowedGeneralFields = [ "battery" "linkquality" ];
+  allowedGeneralFields = [
+    "battery"
+    "linkquality"
+  ];
 
-  allowedTempSensorFields = [ "humidity" "temperature" "pressure" ];
+  allowedTempSensorFields = [
+    "humidity"
+    "temperature"
+    "pressure"
+  ];
 
   allowedTrvFields = [
     "external_measured_room_sensor"
@@ -27,7 +34,8 @@ let
     allowedTempSensorFields
     allowedTrvFields
   ];
-in {
+in
+{
   options.services.iot-cml-influxdb = {
     enable = mkEnableOption "iot-cml-influxdb";
 
@@ -46,7 +54,9 @@ in {
   config = mkIf cfg.enable {
     services.influxdb2 = {
       enable = true;
-      settings = { http-bind-address = "${cfg.host}:${toString cfg.port}"; };
+      settings = {
+        http-bind-address = "${cfg.host}:${toString cfg.port}";
+      };
     };
 
     # telegraf is responsible for collecting the data from the mqtt broker and sending it to the influxdb instance
@@ -56,9 +66,7 @@ in {
         inputs = {
           mqtt_consumer = {
             servers = [
-              "tcp://${cmlNodeCfg.wireguardInterfaceIp}:${
-                toString cmlNodeCfg.mosquittoPort
-              }"
+              "tcp://${cmlNodeCfg.wireguardInterfaceIp}:${toString cmlNodeCfg.mosquittoPort}"
             ];
             topics = hubNamesSubscribeAll;
             qos = 1;
@@ -73,8 +81,7 @@ in {
             # TODO cahnge to use the token from age file
             # It isn't good approach to have the token hardcoded here, but influx runs completely isolated on localhost
             #  and honestly, I don't know how to pass agenix token to telegraf confifg (as config not support reading from age files)
-            token =
-              "miKY5m8w7UftYNeQLNyhofri2Hrbvaxg5CbMQUMpe7tbFNoaJJiCTGMV1NAEg9GMXNJzeGHRT5awIpM7jG2HGw==";
+            token = "miKY5m8w7UftYNeQLNyhofri2Hrbvaxg5CbMQUMpe7tbFNoaJJiCTGMV1NAEg9GMXNJzeGHRT5awIpM7jG2HGw==";
             organization = "trueorg";
             bucket = "iot";
           };
