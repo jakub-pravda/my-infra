@@ -35,19 +35,37 @@
 
     virtualisation.oci-containers.backend = "podman";
 
+    sops.templates."langfuse-env" = {
+      content = ''
+        CLICKHOUSE_PASSWORD=${config.sops.placeholder."langfuse/clickhouse/password"}
+        DATABASE_URL=postgresql://postgres:${
+          config.sops.placeholder."langfuse/postgres/password"
+        }@postgres:5432/postgres
+        POSTGRES_PASSWORD=${config.sops.placeholder."langfuse/postgres/password"}
+        MINIO_ROOT_PASSWORD=${config.sops.placeholder."langfuse/minio/password"}
+        LANGFUSE_S3_BATCH_EXPORT_SECRET_ACCESS_KEY=${config.sops.placeholder."langfuse/minio/password"}
+        LANGFUSE_S3_EVENT_UPLOAD_SECRET_ACCESS_KEY=${config.sops.placeholder."langfuse/minio/password"}
+        LANGFUSE_S3_MEDIA_UPLOAD_SECRET_ACCESS_KEY=${config.sops.placeholder."langfuse/minio/password"}
+        REDIS_AUTH=${config.sops.placeholder."langfuse/redis/password"}
+        NEXTAUTH_SECRET=${config.sops.placeholder."langfuse/next_auth_secret"}
+        ENCRYPTION_KEY=${config.sops.placeholder."langfuse/encryption_key"}
+        SALT=${config.sops.placeholder."langfuse/salt"}
+      '';
+    };
+
+    sops.templates."langfuse-redis.conf" = {
+      content = ''
+        requirepass ${config.sops.placeholder."langfuse/redis/password"}
+        maxmemory-policy noeviction
+      '';
+    };
+
     # Containers
     services = {
       oci-langfuse = {
         enable = true;
-        clickhouse.password = "clickhouse";
-        postgres.password = "postgres";
-        minio.password = "miniosecret";
-        redis.password = "myredissecret";
-        langfuse = {
-          nextauthSecret = "mysecret";
-          encryptionKey = "0000000000000000000000000000000000000000000000000000000000000000";
-          salt = "mysalt";
-        };
+        environmentFiles = [ config.sops.templates."langfuse-env".path ];
+        redis.configFile = config.sops.templates."langfuse-redis.conf".path;
       };
       oci-web-blog.enable = true;
     };
