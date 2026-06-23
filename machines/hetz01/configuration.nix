@@ -8,7 +8,7 @@ in
     ./containers.nix
     ./services.nix
     ../../users/jacob
-    inputs.sops-nix.nixosModules.sops
+    ./sops
   ];
 
   boot = {

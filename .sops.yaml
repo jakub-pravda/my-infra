@@ -1,9 +1,15 @@
 keys:
   - &admin_wheatley age1hepvwy94qj7w3y337j6fx4f743m2tt4v0ujgqpj7j0njl7xs4ygs6da7p9
   - &server_atlas age1qc3583zml9ypsxh0lfp04a2j9qa029pyethy8t54q7lthurm7a9qt5q5xu
+  - &hetz01_jacob age1az0mggu5n9spq7pe8vc00mwu96tmkurm0r3r9p58ewqklaqas4pql94uff
 creation_rules:
   - path_regex: secrets/secrets.yaml$
     key_groups:
       - age:
           - *admin_wheatley
-          - *server_atlas
+          - *server_atlas  
+  - path_regex: machines/hetz01/sops/secrets.yaml$
+    key_groups:
+      - age:
+          - *admin_wheatley
+          - *hetz01_jacob
