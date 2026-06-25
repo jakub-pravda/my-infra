@@ -30,7 +30,7 @@ with pkgs; [
   scala-cli
 
   # Productivity tools
-  bitwarden-desktop
+  #bitwarden-desktop FIXME - using EOL electron (waiting for fix)
   brave
   firefox
   google-chrome
