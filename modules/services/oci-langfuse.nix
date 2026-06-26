@@ -337,11 +337,11 @@ in
       ]
       ++ lib.optional (
         cfg.redis.configFile != null
-      ) "${cfg.redis.configFile}:/usr/local/etc/redis/redis.conf:ro";
+      ) "${cfg.redis.configFile}:/redis.conf:ro";
       ports = [ "127.0.0.1:6379:6379/tcp" ];
       cmd =
         if cfg.redis.configFile != null then
-          [ "/usr/local/etc/redis/redis.conf" ]
+          [ "/redis.conf" ]
         else
           [
             "--maxmemory-policy"
