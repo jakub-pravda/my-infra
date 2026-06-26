@@ -54,6 +54,8 @@
     };
 
     sops.templates."langfuse-redis.conf" = {
+      mode = "0400";
+      owner = "999"; # redis user id in the container
       content = ''
         requirepass ${config.sops.placeholder."langfuse/redis/password"}
         maxmemory-policy noeviction
