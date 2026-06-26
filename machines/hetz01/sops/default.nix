@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }: {
+{ inputs, pkgs, config, ... }: {
   imports = [
     inputs.sops-nix.nixosModules.sops
   ];
@@ -6,7 +6,7 @@
     sops = {
       defaultSopsFile = ./secrets.yaml;
       defaultSopsFormat = "yaml";
-      age.keyFile = "/home/jacob/.config/sops/age/keys.txt";
+      age.keyFile = "${config.users.users.jacob.home}/.config/sops/age/keys.txt";
       secrets."langfuse/clickhouse/password" = { };
       secrets."langfuse/postgres/password" = { };
       secrets."langfuse/minio/password" = { };
