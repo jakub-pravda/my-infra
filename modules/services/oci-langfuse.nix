@@ -335,9 +335,7 @@ in
       volumes = [
         "langfuse_langfuse_redis_data:/data:rw"
       ]
-      ++ lib.optional (
-        cfg.redis.configFile != null
-      ) "${cfg.redis.configFile}:/redis.conf:ro";
+      ++ lib.optional (cfg.redis.configFile != null) "${cfg.redis.configFile}:/redis.conf:ro";
       ports = [ "127.0.0.1:6379:6379/tcp" ];
       cmd =
         if cfg.redis.configFile != null then
