@@ -13,3 +13,8 @@ creation_rules:
       - age:
           - *admin_wheatley
           - *hetz01_jacob
+  - path_regex: machines/wheatley/sops/secrets.yaml$
+    key_groups:
+      - age:
+          - *admin_wheatley
+  

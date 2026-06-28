@@ -7,6 +7,7 @@
     nixpkgs-my.url = "github:jakub-pravda/nixpkgs/shadow-pc";
 
     go-home.url = "github:jakub-pravda/go-home";
+    bifrost.url = "github:jakub-pravda/bifrost-flake";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -14,10 +15,8 @@
     sops-nix.url = "github:Mic92/sops-nix";
   };
 
-  outputs =
-    { self, ... }@inputs:
-    with inputs;
-    let
+  outputs = {self, ...} @ inputs:
+    with inputs; let
       # system arch variables
       x86_64-linux = "x86_64-linux";
       aarch64-linux = "aarch64-linux";
@@ -26,30 +25,26 @@
         x86_64-linux
         aarch64-linux
       ];
-      forEachSupportedSystem =
-        f: nixpkgs.lib.genAttrs supportedSystems (system: f { pkgs = import nixpkgs { inherit system; }; });
+      forEachSupportedSystem = f: nixpkgs.lib.genAttrs supportedSystems (system: f {pkgs = import nixpkgs {inherit system;};});
 
       # Packages definition
 
       # remark: myPkgs are here to test shadow-pc package
-      myPkgs =
-        system:
+      myPkgs = system:
         import nixpkgs-my {
           inherit system;
           # Allow unfree packages (shadow pc)
           config.allowUnfree = true;
         };
 
-      desktopPkgs =
-        system: pkgs:
+      desktopPkgs = system: pkgs:
         import pkgs {
           inherit system;
           config.allowUnfree = true;
-          overlays = [ (_: _: { inherit ((myPkgs system)) shadow-launcher; }) ];
+          overlays = [(_: _: {inherit ((myPkgs system)) shadow-launcher;})];
         };
 
-      serverPkgs =
-        system: pkgs:
+      serverPkgs = system: pkgs:
         import pkgs {
           inherit system;
           config.allowUnfree = false;
@@ -60,13 +55,12 @@
             })
           ];
         };
-    in
-    {
+    in {
       devShells = forEachSupportedSystem (
-        { pkgs }: {
+        {pkgs}: {
           default = pkgs.mkShell {
             buildInputs = with pkgs; [
-              (poetry.override { python3 = python312; })
+              (poetry.override {python3 = python312;})
               go-task
               nixfmt
               statix
@@ -86,30 +80,30 @@
 
       nixosConfigurations = {
         # *** Workstations ***
-        wheatley =
-          let
-            system = x86_64-linux;
-            nixpkgs = nixpkgs-unstable;
+        wheatley = let
+          system = x86_64-linux;
+          nixpkgs = nixpkgs-unstable;
 
-            pkgs = desktopPkgs system nixpkgs;
+          pkgs = desktopPkgs system nixpkgs;
 
-            username = "jacob";
-            additionalPrograms = { };
-            additionalPackages = import ./home/packages-workstation.nix { inherit pkgs; };
+          username = "jacob";
+          additionalPrograms = {};
+          additionalPackages = import ./home/packages-workstation.nix {inherit pkgs;};
 
-            appConfigs = import ./home/config-app.nix { inherit pkgs; };
-            systemConfigs = import ./home/config-system.nix { inherit pkgs; };
-
-          in
+          appConfigs = import ./home/config-app.nix {inherit pkgs;};
+          systemConfigs = import ./home/config-system.nix {inherit pkgs;};
+        in
           nixpkgs.lib.nixosSystem {
             inherit system;
             inherit pkgs;
-            specialArgs = {
-              flake-self = self;
-            }
-            // inputs;
+            specialArgs =
+              {
+                flake-self = self;
+              }
+              // inputs;
             modules = [
               machines/wheatley/configuration.nix
+              bifrost.nixosModules.default
               home-manager.nixosModules.home-manager
               {
                 home-manager = {
@@ -128,17 +122,16 @@
           };
 
         # *** Servers ***
-        hetz01 =
-          let
-            system = x86_64-linux;
-            pkgs = nixpkgs;
-          in
+        hetz01 = let
+          system = x86_64-linux;
+          pkgs = nixpkgs;
+        in
           pkgs.lib.nixosSystem {
             inherit system;
             pkgs = serverPkgs system pkgs;
             # Make inputs accessible add module parameters
-            specialArgs = { inherit inputs; };
-            modules = [ machines/hetz01/configuration.nix ];
+            specialArgs = {inherit inputs;};
+            modules = [machines/hetz01/configuration.nix];
           };
       };
     };

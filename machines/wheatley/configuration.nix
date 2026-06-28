@@ -1,7 +1,9 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   imports = [
     ./hardware-configuration.nix
     ./users.nix
+    ./sops
+    ./services/bifrost
   ];
 
   boot = {
@@ -12,8 +14,7 @@
       };
       efi.canTouchEfiVariables = true;
     };
-    initrd.luks.devices."luks-4e20ad04-f84e-4f9c-ac1d-ef95612eb7a6".device =
-      "/dev/disk/by-uuid/4e20ad04-f84e-4f9c-ac1d-ef95612eb7a6";
+    initrd.luks.devices."luks-4e20ad04-f84e-4f9c-ac1d-ef95612eb7a6".device = "/dev/disk/by-uuid/4e20ad04-f84e-4f9c-ac1d-ef95612eb7a6";
   };
 
   networking = {
@@ -24,7 +25,7 @@
   time.timeZone = "Europe/Prague";
 
   nix.settings = {
-    allowed-users = [ "jacob" ];
+    allowed-users = ["jacob"];
     trusted-users = [
       "root"
       "jacob"
@@ -73,31 +74,30 @@
         c.JupyterHub.authenticator_class = "dummy"
       '';
       kernels = {
-        python3 =
-          let
-            env = pkgs.python3.withPackages (
-              pythonPackages: with pythonPackages; [
+        python3 = let
+          env = pkgs.python3.withPackages (
+            pythonPackages:
+              with pythonPackages; [
                 ipykernel
                 matplotlib
                 pandas
                 seaborn
                 scikit-learn
               ]
-            );
-          in
-          {
-            displayName = "Python 3 for machine learning";
-            argv = [
-              "${env.interpreter}"
-              "-m"
-              "ipykernel_launcher"
-              "-f"
-              "{connection_file}"
-            ];
-            language = "python";
-            logo32 = "${env}/${env.sitePackages}/ipykernel/resources/logo-32x32.png";
-            logo64 = "${env}/${env.sitePackages}/ipykernel/resources/logo-64x64.png";
-          };
+          );
+        in {
+          displayName = "Python 3 for machine learning";
+          argv = [
+            "${env.interpreter}"
+            "-m"
+            "ipykernel_launcher"
+            "-f"
+            "{connection_file}"
+          ];
+          language = "python";
+          logo32 = "${env}/${env.sitePackages}/ipykernel/resources/logo-32x32.png";
+          logo64 = "${env}/${env.sitePackages}/ipykernel/resources/logo-64x64.png";
+        };
       };
     };
 
@@ -174,7 +174,7 @@
   };
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME = "iHD";
-    LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [ pkgs.stdenv.cc.cc ];
+    LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [pkgs.stdenv.cc.cc];
   };
 
   # This value determines the NixOS release from which the default
