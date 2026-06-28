@@ -1,0 +1,32 @@
+{...}: {
+  "$schema" = "https://www.getbifrost.ai/schema";
+  client = {
+    drop_excess_requests = false;
+  };
+  providers = {
+    openai = {
+      keys = [
+        {
+          name = "openai-key-1";
+          value = "env.OPENAI_API_KEY";
+          models = ["gpt-4o-mini" "gpt-4o"];
+          weight = 1.0;
+        }
+      ];
+    };
+    anthropic = {
+      keys = [
+        {
+          name = "anthropic-key";
+          value = "env.ANTHROPIC_API_KEY";
+          models = ["*"];
+          weight = 1.0;
+        }
+      ];
+    };
+  };
+  config_store = {
+    # All bifrost configuration is set declaratively
+    enabled = false;
+  };
+}
