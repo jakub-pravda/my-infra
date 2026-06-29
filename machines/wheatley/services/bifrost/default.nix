@@ -10,7 +10,7 @@ in {
   };
 
   environment.sessionVariables = {
-    ANTHROPIC_BASE_URL = "http://localhost:${toString bifrostPort}/api/v1";
+    ANTHROPIC_BASE_URL = "http://localhost:${toString bifrostPort}/anthropic";
   };
 
   services.bifrost = {
