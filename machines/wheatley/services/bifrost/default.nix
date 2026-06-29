@@ -1,12 +1,14 @@
-{config, ...}: let
+{ config, ... }:
+let
   bifrostPort = 8080;
-in {
+in
+{
   sops.templates."bifrost.env" = {
     content = ''
       OPENAI_API_KEY=${config.sops.placeholder."api_gw_keys/open_ai"}
       ANTHROPIC_API_KEY=${config.sops.placeholder."api_gw_keys/anthrophic"}
     '';
-    restartUnits = ["bifrost.service"];
+    restartUnits = [ "bifrost.service" ];
   };
 
   environment.sessionVariables = {
@@ -16,7 +18,7 @@ in {
   services.bifrost = {
     enable = true;
     port = bifrostPort;
-    settings = import ./config.nix {};
+    settings = import ./config.nix { };
     environmentFile = config.sops.templates."bifrost.env".path;
   };
 }
