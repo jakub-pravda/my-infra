@@ -9,5 +9,5 @@ _: {
     ];
   };
 
-  nix.settings.allowed-users = ["jacob"];
+  nix.settings.allowed-users = [ "jacob" ];
 }
