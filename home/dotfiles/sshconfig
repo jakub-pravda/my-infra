@@ -5,13 +5,6 @@ Host github.com
     IdentitiesOnly yes
 
 # Personal servers
-Host atlas
-    Hostname 195.201.240.89
-    User jacob
-    ForwardAgent yes
-    IdentityFile ~/.ssh/id_ed25519
-    IdentitiesOnly yes
-
 Host vpsfree
     Hostname 37.205.13.151
     User jacob
