@@ -7,6 +7,15 @@
 with lib;
 let
   cfg = config.services.oci-langfuse;
+
+  images = {
+    clickhouse = "docker.io/clickhouse/clickhouse-server";
+    langfuseWeb = "docker.io/langfuse/langfuse:3";
+    langfuseWorker = "docker.io/langfuse/langfuse-worker:3";
+    minio = "cgr.dev/chainguard/minio";
+    postgres = "docker.io/postgres:17";
+    redis = "docker.io/redis:7";
+  };
 in
 {
   options.services.oci-langfuse = {
@@ -54,7 +63,7 @@ in
 
     # *** LANGFUSE ***
     virtualisation.oci-containers.containers."langfuse-clickhouse" = {
-      image = "docker.io/clickhouse/clickhouse-server";
+      image = images.clickhouse;
       environment = {
         "CLICKHOUSE_DB" = "default";
         "CLICKHOUSE_USER" = cfg.clickhouse.user;
@@ -100,7 +109,7 @@ in
     };
 
     virtualisation.oci-containers.containers."langfuse-langfuse-web" = {
-      image = "docker.io/langfuse/langfuse:3";
+      image = images.langfuseWeb;
       environment = {
         "CLICKHOUSE_CLUSTER_ENABLED" = "false";
         "CLICKHOUSE_MIGRATION_URL" = "clickhouse://clickhouse:9000";
@@ -179,7 +188,7 @@ in
     };
 
     virtualisation.oci-containers.containers."langfuse-langfuse-worker" = {
-      image = "docker.io/langfuse/langfuse-worker:3";
+      image = images.langfuseWorker;
       environment = {
         "CLICKHOUSE_CLUSTER_ENABLED" = "false";
         "CLICKHOUSE_MIGRATION_URL" = "clickhouse://clickhouse:9000";
@@ -249,7 +258,7 @@ in
     };
 
     virtualisation.oci-containers.containers."langfuse-minio" = {
-      image = "cgr.dev/chainguard/minio";
+      image = images.minio;
       environment = {
         "MINIO_ROOT_USER" = cfg.minio.user;
       };
@@ -293,7 +302,7 @@ in
     };
 
     virtualisation.oci-containers.containers."langfuse-postgres" = {
-      image = "docker.io/postgres:17";
+      image = images.postgres;
       environment = {
         "PGTZ" = "UTC";
         "POSTGRES_DB" = cfg.postgres.database;
@@ -331,7 +340,7 @@ in
     };
 
     virtualisation.oci-containers.containers."langfuse-redis" = {
-      image = "docker.io/redis:7";
+      image = images.redis;
       volumes = [
         "langfuse_langfuse_redis_data:/data:rw"
       ]
