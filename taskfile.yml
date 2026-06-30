@@ -14,7 +14,7 @@ tasks:
   nix:statix:
     desc: Run statix static analysis on NixOS configurations
     cmds:
-      - nix develop -c statix check -i machines/cml-jpr-net/vpsadminos.nix machines/hetz01/hardware-configuration.nix
+      - nix develop -c statix check -i machines/cml-jpr-net/vpsadminos.nix -i machines/hetz01/hardware-configuration.nix
 
   build:hetz01:
     desc: Dry-run build for the hetz01 NixOS configuration
