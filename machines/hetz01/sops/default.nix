@@ -12,13 +12,15 @@
       defaultSopsFile = ./secrets.yaml;
       defaultSopsFormat = "yaml";
       age.keyFile = "${config.users.users.jacob.home}/.config/sops/age/keys.txt";
-      secrets."langfuse/clickhouse/password" = { };
-      secrets."langfuse/postgres/password" = { };
-      secrets."langfuse/minio/password" = { };
-      secrets."langfuse/redis/password" = { };
-      secrets."langfuse/next_auth_secret" = { };
-      secrets."langfuse/salt" = { };
-      secrets."langfuse/encryption_key" = { };
+      secrets = {
+        "langfuse/clickhouse/password" = { };
+        "langfuse/postgres/password" = { };
+        "langfuse/minio/password" = { };
+        "langfuse/redis/password" = { };
+        "langfuse/next_auth_secret" = { };
+        "langfuse/salt" = { };
+        "langfuse/encryption_key" = { };
+      };
     };
   };
 }
