@@ -1,6 +1,8 @@
 _:
-let publicKey = "bTCvk4lOEOdiK1sm+rxe+3Nz1fkWp6A/uQEmnEGHGwk=";
-in {
+let
+  publicKey = "bTCvk4lOEOdiK1sm+rxe+3Nz1fkWp6A/uQEmnEGHGwk=";
+in
+{
   networking.wireguard.interfaces = {
     wg0 = {
       ips = [ "10.100.0.2/24" ];

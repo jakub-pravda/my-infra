@@ -1,10 +1,17 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 # Flake update was originally handled by a github actions job, but I haven't found a way how to
 #  grant access to private repo for `nix flake update` from github actions (as access to my-infra
 #  private is needed for the update). So I've moved the update to a systemd timer.
 with lib;
-let cfg = config.services.flake-update;
-in {
+let
+  cfg = config.services.flake-update;
+in
+{
   options.services.flake-update = {
     enable = mkEnableOption "flake-update";
 
@@ -36,7 +43,11 @@ in {
         Type = "oneshot";
         User = "jacob"; # TODO bind service user
       };
-      path = [ pkgs.git pkgs.openssh pkgs.nix ];
+      path = [
+        pkgs.git
+        pkgs.openssh
+        pkgs.nix
+      ];
       script = ''
         set -eu
         TMP_FILE=$(mktemp -d /tmp/XXXX=my-infra)

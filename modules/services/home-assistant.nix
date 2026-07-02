@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   cfg = config.services.my-home-assistant;
@@ -11,9 +16,12 @@ let
       time_zone = "Europe/Prague";
       currency = "CZK";
     };
-    frontend = { themes = "!include_dir_merge_named themes"; };
+    frontend = {
+      themes = "!include_dir_merge_named themes";
+    };
   };
-in {
+in
+{
   options.services.my-home-assistant = {
     enable = mkEnableOption "my-home-assistant";
   };
@@ -22,7 +30,12 @@ in {
     inherit (homeAssisatntCfg) enable;
     config = homeAssistantConfig;
     configDir = "/var/lib/hass";
-    extraComponents =
-      [ "default_config" "met" "radio_browser" "mqtt" "mobile_app" ];
+    extraComponents = [
+      "default_config"
+      "met"
+      "radio_browser"
+      "mqtt"
+      "mobile_app"
+    ];
   };
 }

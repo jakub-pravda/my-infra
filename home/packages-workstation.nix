@@ -1,6 +1,7 @@
 { pkgs }:
 # Default packages accessible across all workstations
-with pkgs; [
+with pkgs;
+[
   # Nix
   nil
   nixpkgs-fmt
@@ -17,8 +18,17 @@ with pkgs; [
 
   # Python development
   poetry
-  (python312.withPackages
-    (ps: with ps; [ black flake8 mypy pip pylint pytest ruff ]))
+  (python312.withPackages (
+    ps: with ps; [
+      black
+      flake8
+      mypy
+      pip
+      pylint
+      pytest
+      ruff
+    ]
+  ))
 
   # Rust development
   rustup

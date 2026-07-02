@@ -1,21 +1,30 @@
-{ pkgs, lib, username ? "jacob", additionalPackages ? [ ]
-, additionalPrograms ? { }, configFiles ? { }, ... }:
+{
+  pkgs,
+  lib,
+  username ? "jacob",
+  additionalPackages ? [ ],
+  additionalPrograms ? { },
+  configFiles ? { },
+  ...
+}:
 let
   isDarwin = lib.strings.hasSuffix "darwin" pkgs.system;
 
-  homeDirectory =
-    if isDarwin then "/Users/${username}" else "/home/${username}";
+  homeDirectory = if isDarwin then "/Users/${username}" else "/home/${username}";
   pkgsDefaultJava = pkgs.jdk21;
 
   defaultPackages = import ./packages.nix { inherit pkgs lib isDarwin; };
-in {
+in
+{
   home = {
     inherit username;
     inherit homeDirectory;
     packages = defaultPackages ++ additionalPackages;
     stateVersion = "24.11";
 
-    shellAliases = { htop = "btm"; };
+    shellAliases = {
+      htop = "btm";
+    };
 
     # Manage dotfiles (on workstations only)
     # file = import ./configs.nix { inherit pkgs; };

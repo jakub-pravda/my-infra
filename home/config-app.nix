@@ -24,7 +24,8 @@ let
     name = "helix";
     text = builtins.readFile ./dotfiles/hx-config.toml;
   };
-in {
+in
+{
   ".config/kitty/kitty.conf".source = kittyConfig;
   ".config/kitty/kitty-theme.conf".source = kittyThemeConfig;
   ".config/zed/settings.json".source = zedConfig;

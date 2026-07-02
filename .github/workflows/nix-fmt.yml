@@ -10,7 +10,7 @@ jobs:
     - uses: cachix/install-nix-action@v31
       with:
         github_access_token: ${{ secrets.GITHUB_TOKEN }}
-    - run: nix develop -c task nix-fmt
+    - run: nix develop -c task nix:fmt
     - uses: EndBug/add-and-commit@v9
       with:
         add: '.'

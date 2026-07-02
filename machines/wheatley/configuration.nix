@@ -1,5 +1,8 @@
 { pkgs, ... }: {
-  imports = [ ./hardware-configuration.nix ./users.nix ];
+  imports = [
+    ./hardware-configuration.nix
+    ./users.nix
+  ];
 
   boot = {
     loader = {
@@ -22,7 +25,10 @@
 
   nix.settings = {
     allowed-users = [ "jacob" ];
-    trusted-users = [ "root" "jacob" ];
+    trusted-users = [
+      "root"
+      "jacob"
+    ];
   };
   nix.extraOptions = ''
     experimental-features = nix-command flakes
@@ -54,7 +60,9 @@
       };
     };
     desktopManager.gnome.enable = true; # Enable the Gnome Desktop Environment
-    displayManager.gdm = { enable = true; };
+    displayManager.gdm = {
+      enable = true;
+    };
 
     jupyterhub = {
       enable = true;
@@ -65,30 +73,31 @@
         c.JupyterHub.authenticator_class = "dummy"
       '';
       kernels = {
-        python3 = let
-          env = pkgs.python3.withPackages (pythonPackages:
-            with pythonPackages; [
-              ipykernel
-              matplotlib
-              pandas
-              seaborn
-              scikit-learn
-            ]);
-        in {
-          displayName = "Python 3 for machine learning";
-          argv = [
-            "${env.interpreter}"
-            "-m"
-            "ipykernel_launcher"
-            "-f"
-            "{connection_file}"
-          ];
-          language = "python";
-          logo32 =
-            "${env}/${env.sitePackages}/ipykernel/resources/logo-32x32.png";
-          logo64 =
-            "${env}/${env.sitePackages}/ipykernel/resources/logo-64x64.png";
-        };
+        python3 =
+          let
+            env = pkgs.python3.withPackages (
+              pythonPackages: with pythonPackages; [
+                ipykernel
+                matplotlib
+                pandas
+                seaborn
+                scikit-learn
+              ]
+            );
+          in
+          {
+            displayName = "Python 3 for machine learning";
+            argv = [
+              "${env.interpreter}"
+              "-m"
+              "ipykernel_launcher"
+              "-f"
+              "{connection_file}"
+            ];
+            language = "python";
+            logo32 = "${env}/${env.sitePackages}/ipykernel/resources/logo-32x32.png";
+            logo64 = "${env}/${env.sitePackages}/ipykernel/resources/logo-64x64.png";
+          };
       };
     };
 
@@ -112,7 +121,12 @@
       extraConfig."10-bluetooth-codecs" = {
         "monitor.bluez.properties" = {
           # Disable LDAC, optionally restrict to SBC/AAC/aptX etc.
-          "bluez5.codecs" = [ "sbc" "aac" "aptx" "aptx_hd" ];
+          "bluez5.codecs" = [
+            "sbc"
+            "aac"
+            "aptx"
+            "aptx_hd"
+          ];
         };
       };
     };
@@ -152,7 +166,11 @@
   # GPU drivers
   hardware.graphics = {
     enable = true;
-    extraPackages = with pkgs; [ intel-media-driver libvdpau-va-gl vpl-gpu-rt ];
+    extraPackages = with pkgs; [
+      intel-media-driver
+      libvdpau-va-gl
+      vpl-gpu-rt
+    ];
   };
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME = "iHD";
