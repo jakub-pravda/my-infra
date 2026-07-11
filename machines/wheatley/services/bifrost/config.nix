@@ -1,4 +1,4 @@
-{ ... }: {
+_: {
   "$schema" = "https://www.getbifrost.ai/schema";
   client = {
     drop_excess_requests = false;
