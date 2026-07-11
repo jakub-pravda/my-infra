@@ -7,7 +7,7 @@
     openai = {
       keys = [
         {
-          name = "openai-key-1";
+          name = "openai-key";
           value = "env.OPENAI_API_KEY";
           models = [
             "gpt-4o-mini"
@@ -28,8 +28,28 @@
       ];
     };
   };
+  governance = {
+    virtual_keys = [
+      {
+        id = "gardenea";
+        name = "Gardenea AI";
+        description = "Gardenea AI keys (local development)";
+        is_active = true;
+        provider_configs = [
+          {
+            provider = "openai";
+            key_ids = ["*"];
+            allowed_models = ["*"];
+          }
+        ];
+      }
+    ];
+  };
   config_store = {
-    # All bifrost configuration is set declaratively
-    enabled = false;
+    enabled = true;
+    type = "sqlite";
+    config = {
+      path = "/var/lib/bifrost/config.db";
+    };
   };
 }

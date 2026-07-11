@@ -12,6 +12,7 @@ in
   };
 
   environment.sessionVariables = {
+    # Set anthrophic base url to bifrost to redirect requests from code assistants (claude code, ...)
     ANTHROPIC_BASE_URL = "http://localhost:${toString bifrostPort}/anthropic";
   };
 
