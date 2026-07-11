@@ -38,8 +38,8 @@
         provider_configs = [
           {
             provider = "openai";
-            key_ids = ["*"];
-            allowed_models = ["*"];
+            key_ids = [ "*" ];
+            allowed_models = [ "*" ];
           }
         ];
       }
