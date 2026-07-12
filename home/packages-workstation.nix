@@ -27,6 +27,7 @@ with pkgs;
       pylint
       pytest
       ruff
+      ty
     ]
   ))
 

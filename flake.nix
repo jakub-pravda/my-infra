@@ -7,6 +7,7 @@
     nixpkgs-my.url = "github:jakub-pravda/nixpkgs/shadow-pc";
 
     go-home.url = "github:jakub-pravda/go-home";
+    bifrost.url = "github:jakub-pravda/bifrost-flake";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -99,7 +100,6 @@
 
             appConfigs = import ./home/config-app.nix { inherit pkgs; };
             systemConfigs = import ./home/config-system.nix { inherit pkgs; };
-
           in
           nixpkgs.lib.nixosSystem {
             inherit system;
@@ -110,6 +110,7 @@
             // inputs;
             modules = [
               machines/wheatley/configuration.nix
+              bifrost.nixosModules.default
               home-manager.nixosModules.home-manager
               {
                 home-manager = {

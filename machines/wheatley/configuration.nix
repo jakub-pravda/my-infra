@@ -2,6 +2,8 @@
   imports = [
     ./hardware-configuration.nix
     ./users.nix
+    ./sops
+    ./services/bifrost
   ];
 
   boot = {
@@ -157,6 +159,7 @@
 
   programs = {
     hyprland.enable = true;
+    nix-ld.enable = true;
     steam.enable = true;
     zsh.enable = true;
   };
