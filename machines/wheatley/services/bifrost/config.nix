@@ -12,6 +12,7 @@ _: {
           models = [
             "gpt-4o-mini"
             "gpt-4o"
+            "gpt-5.4"
           ];
           weight = 1.0;
         }
