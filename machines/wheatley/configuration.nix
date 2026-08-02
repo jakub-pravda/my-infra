@@ -67,7 +67,7 @@
     };
 
     jupyterhub = {
-      enable = true;
+      enable = false;
       host = "127.0.0.1";
       port = 8000;
       extraConfig = ''
@@ -75,9 +75,9 @@
         c.JupyterHub.authenticator_class = "dummy"
       '';
       kernels = {
-        python3 =
+        python312 =
           let
-            env = pkgs.python3.withPackages (
+            env = pkgs.python312.withPackages (
               pythonPackages: with pythonPackages; [
                 ipykernel
                 matplotlib

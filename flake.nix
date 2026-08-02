@@ -67,7 +67,6 @@
         { pkgs }: {
           default = pkgs.mkShell {
             buildInputs = with pkgs; [
-              (poetry.override { python3 = python312; })
               go-task
               nixfmt
               statix

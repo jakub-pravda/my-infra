@@ -17,17 +17,14 @@ with pkgs;
   gopls
 
   # Python development
-  poetry
   (python312.withPackages (
     ps: with ps; [
       black
-      flake8
-      mypy
       pip
-      pylint
       pytest
       ruff
       ty
+      uv
     ]
   ))
 
