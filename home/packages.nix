@@ -26,6 +26,7 @@ with pkgs;
   tmux
 
   # AI/ML
+  docker-sbx
   ollama
   pi-coding-agent
 ]
