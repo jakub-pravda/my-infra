@@ -8,7 +8,6 @@ with pkgs;
 
   # Development
   helix
-  jetbrains.idea-oss
   typos-lsp
   zed-editor
 

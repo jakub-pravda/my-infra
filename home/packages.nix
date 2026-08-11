@@ -27,6 +27,7 @@ with pkgs;
 
   # AI/ML
   ollama
+  pi-coding-agent
 ]
 ++ (
   if !isDarwin then
