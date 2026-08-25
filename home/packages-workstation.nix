@@ -7,7 +7,6 @@ with pkgs;
   nixpkgs-fmt
 
   # Development
-  helix
   typos-lsp
   zed-editor
 
@@ -47,4 +46,9 @@ with pkgs;
 
   # Note taking
   obsidian
+
+  # AI
+  docker-sbx
+  ollama
+  pi-coding-agent
 ]

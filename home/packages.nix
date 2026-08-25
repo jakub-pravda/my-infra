@@ -3,10 +3,12 @@
   lib,
   isDarwin,
 }:
-# Default packages accessible across all workstations
+# Default packages accessible across all servers/workstations
+# Must contains only small system related packages, that can be
+# shared with all environments.
 with pkgs;
 [
-  # Monitoring tools
+  # System monitoring tools
   bottom
   dust
   duf
@@ -14,21 +16,15 @@ with pkgs;
 
   # Networking tools
   curl
-  grpcurl
   whois
 
-  # Development tools
-  git
-  helix
-
-  # System tools
+  # Others
+  git # required by nix
   openssh
   tmux
 
-  # AI/ML
-  docker-sbx
-  ollama
-  pi-coding-agent
+  # Editors
+  helix
 ]
 ++ (
   if !isDarwin then
