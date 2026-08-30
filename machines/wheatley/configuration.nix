@@ -3,7 +3,8 @@
     ./hardware-configuration.nix
     ./users.nix
     ./sops
-    ./services/bifrost
+    ./services/ai-platform
+    ../../modules/services/ai-platform.nix
   ];
 
   boot = {

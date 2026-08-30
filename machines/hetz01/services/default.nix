@@ -1,7 +1,6 @@
 _: {
   imports = [
-    ./bifrost
-    ./librechat
+    ./ai-platform
   ];
 
   services = {

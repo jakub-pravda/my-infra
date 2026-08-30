@@ -7,6 +7,7 @@ in
     ./hardware-configuration.nix
     ./containers.nix
     ./services
+    ../../modules/services/ai-platform.nix
     ../../users/jacob
     ./sops
   ];
