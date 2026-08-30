@@ -53,7 +53,9 @@
         system: pkgs:
         import pkgs {
           inherit system;
-          config.allowUnfree = false;
+          config = {
+            allowUnfree = true;
+          };
           overlays = [
             (_: _: {
               go-home = go-home.packages.${system}.default;

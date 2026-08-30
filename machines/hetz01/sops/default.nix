@@ -21,6 +21,10 @@
         "langfuse/salt" = { };
         "langfuse/encryption_key" = { };
         "bifrost/open_ai" = { };
+        "librechat/creds_key".restartUnits = [ "librechat.service" ];
+        "librechat/creds_iv".restartUnits = [ "librechat.service" ];
+        "librechat/jwt_secret".restartUnits = [ "librechat.service" ];
+        "librechat/jwt_refresh_secret".restartUnits = [ "librechat.service" ];
       };
     };
   };
