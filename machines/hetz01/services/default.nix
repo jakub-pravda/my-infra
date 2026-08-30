@@ -1,4 +1,8 @@
 _: {
+  imports = [
+    ./bifrost
+  ];
+
   services = {
     openssh.enable = true;
     # *** Traefik config ***

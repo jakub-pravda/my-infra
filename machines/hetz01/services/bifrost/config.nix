@@ -1,0 +1,59 @@
+_: {
+  "$schema" = "https://www.getbifrost.ai/schema";
+  client = {
+    drop_excess_requests = false;
+  };
+  providers = {
+    openai = {
+      keys = [
+        {
+          name = "openai-key";
+          value = "env.OPENAI_API_KEY";
+          models = [
+            "gpt-4o-mini"
+            "gpt-4o"
+            "gpt-5.4"
+          ];
+          weight = 1.0;
+        }
+      ];
+    };
+  };
+  governance = {
+    virtual_keys = [
+      {
+        id = "gardenea";
+        name = "Gardenea AI";
+        description = "Gardenea AI agent";
+        is_active = true;
+        provider_configs = [
+          {
+            provider = "openai";
+            key_ids = [ "*" ];
+            allowed_models = [ "*" ];
+          }
+        ];
+      }
+      {
+        id = "librechat";
+        name = "Librechat chat";
+        description = "Librechat chat models";
+        is_active = true;
+        provider_configs = [
+          {
+            provider = "openai";
+            key_ids = [ "*" ];
+            allowed_models = [ "*" ];
+          }
+        ];
+      }
+    ];
+  };
+  config_store = {
+    enabled = true;
+    type = "sqlite";
+    config = {
+      path = "/var/lib/bifrost/config.db";
+    };
+  };
+}

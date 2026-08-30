@@ -70,6 +70,7 @@
               go-task
               nixfmt
               statix
+              sops
               vulnix
             ];
           };
@@ -138,7 +139,10 @@
             pkgs = serverPkgs system pkgs;
             # Make inputs accessible add module parameters
             specialArgs = { inherit inputs; };
-            modules = [ machines/hetz01/configuration.nix ];
+            modules = [
+              machines/hetz01/configuration.nix
+              bifrost.nixosModules.default
+            ];
           };
       };
     };

@@ -20,6 +20,7 @@
         "langfuse/next_auth_secret" = { };
         "langfuse/salt" = { };
         "langfuse/encryption_key" = { };
+        "bifrost/open_ai" = { };
       };
     };
   };

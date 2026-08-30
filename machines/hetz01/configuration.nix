@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ pkgs, ... }:
 let
   mainUser = "jacob";
 in
@@ -6,7 +6,7 @@ in
   imports = [
     ./hardware-configuration.nix
     ./containers.nix
-    ./services.nix
+    ./services
     ../../users/jacob
     ./sops
   ];
