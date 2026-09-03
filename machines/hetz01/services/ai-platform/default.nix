@@ -4,7 +4,7 @@ let
   librechatPort = 3080;
   librechatPublicUrl = "https://ai.jakubpravda.net";
   # The only account permitted to sign in.
-  librechatAdminUsers = [ "jakub.pravda@gmail.com" ];
+  librechatAdminUsers = [ "jkb.pravda@gmail.com" ];
   librechatUsers = [ ];
 in
 {
