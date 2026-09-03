@@ -1,7 +1,18 @@
-{ bifrostPort, ... }:
+{
+  lib,
+  bifrostPort,
+  allowedUsers,
+  ...
+}:
 {
   version = "1.2.1";
   cache = true;
+
+  registration = {
+    socialLogins = [ "google" ];
+    allowedDomains = lib.unique (map (u: builtins.elemAt (builtins.split "@" u) 2) allowedUsers);
+  };
+
   endpoints = {
     custom = [
       {

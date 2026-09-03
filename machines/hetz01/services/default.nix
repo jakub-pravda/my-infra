@@ -1,4 +1,5 @@
-_: {
+{ config, ... }:
+{
   imports = [
     ./ai-platform
   ];
@@ -69,11 +70,29 @@ _: {
                 };
                 service = "web-blog";
               };
+              librechat = {
+                entryPoints = [
+                  "web"
+                  "websecure"
+                ];
+                rule = "Host(`ai.jakubpravda.net`)";
+                tls = {
+                  certResolver = "letsencrypt";
+                };
+                service = "librechat";
+              };
             };
             services = {
               web-blog = {
                 loadBalancer = {
                   servers = [ { url = "http://localhost:3001"; } ];
+                };
+              };
+              librechat = {
+                loadBalancer = {
+                  servers = [
+                    { url = "http://127.0.0.1:${config.services.librechat.env.PORT}"; }
+                  ];
                 };
               };
             };

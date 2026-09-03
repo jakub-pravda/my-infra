@@ -54,7 +54,12 @@
         import pkgs {
           inherit system;
           config = {
-            allowUnfree = true;
+            allowUnfree = false;
+            allowUnfreePredicate =
+              pkg:
+              builtins.elem (nixpkgs.lib.getName pkg) [
+                "mongodb"
+              ];
           };
           overlays = [
             (_: _: {
