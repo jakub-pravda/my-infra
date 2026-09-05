@@ -17,18 +17,18 @@
     custom = [
       {
         name = "Bifrost";
-        # Resolved from the BIFROST_OPENAI_KEY credential at runtime
-        apiKey = "\${BIFROST_OPENAI_KEY}";
+        apiKey = "\${LIBRECHAT_KEY}";
         baseURL = "http://127.0.0.1:${toString bifrostPort}/v1";
         models = {
           default = [
-            "openai/gpt-4o-mini"
-            "openai/gpt-4o"
+            "openai/gpt-5"
+            "anthropic/claude-sonnet-5"
+            "gemini/gemini-3.1-flash-image"
           ];
           fetch = false;
         };
         titleConvo = true;
-        titleModel = "current_model";
+        titleModel = "Sramek copilots";
         modelDisplayLabel = "Bifrost";
       }
     ];

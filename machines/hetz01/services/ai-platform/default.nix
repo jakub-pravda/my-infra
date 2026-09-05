@@ -11,6 +11,8 @@ in
   sops.templates."bifrost.env" = {
     content = ''
       OPENAI_API_KEY=${config.sops.placeholder."bifrost/open_ai"}
+      ANTHROPIC_API_KEY=${config.sops.placeholder."bifrost/anthropic"}
+      GEMINI_API_KEY=${config.sops.placeholder."bifrost/gemini"}
     '';
     restartUnits = [ "bifrost.service" ];
   };
