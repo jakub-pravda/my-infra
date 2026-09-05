@@ -23,7 +23,6 @@
           default = [
             "openai/gpt-5"
             "anthropic/claude-sonnet-5"
-            "gemini/gemini-3.1-flash-image"
           ];
           fetch = false;
         };

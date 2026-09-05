@@ -47,6 +47,9 @@ in
         # seeded user this limits sign-in to defined users.
         ALLOW_SOCIAL_REGISTRATION = false;
         GOOGLE_CALLBACK_URL = "/oauth/google/callback";
+
+        IMAGE_GEN_OAI_BASEURL = "http://127.0.0.1:${toString bifrostPort}/v1";
+        IMAGE_GEN_OAI_MODEL = "gemini/gemini-3.1-flash-image";
       };
 
       credentials = {
@@ -57,6 +60,7 @@ in
         GOOGLE_CLIENT_ID = config.sops.secrets."librechat/google_client_id".path;
         GOOGLE_CLIENT_SECRET = config.sops.secrets."librechat/google_client_secret".path;
         BIFROST_VK_SRAMEK_COPILOT = config.sops.secrets."bifrost/vk_sramek_copilot".path;
+        IMAGE_GEN_OAI_API_KEY = config.sops.secrets."bifrost/vk_sramek_copilot".path;
       };
 
       settings = import ./librechat-settings.nix {
