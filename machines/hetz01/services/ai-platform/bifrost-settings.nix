@@ -71,7 +71,7 @@ _: {
       {
         id = "sramek-copilot";
         virtual_key_id = "librechat-sramek";
-        max_limit = "200.00";
+        max_limit = 200.00;
         reset_duration = "1M";
         calendar_aligned = true;
       }
