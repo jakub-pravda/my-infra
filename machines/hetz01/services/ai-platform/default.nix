@@ -56,8 +56,7 @@ in
         JWT_REFRESH_SECRET = config.sops.secrets."librechat/jwt_refresh_secret".path;
         GOOGLE_CLIENT_ID = config.sops.secrets."librechat/google_client_id".path;
         GOOGLE_CLIENT_SECRET = config.sops.secrets."librechat/google_client_secret".path;
-        # Referenced as ''${BIFROST_OPENAI_KEY} from librechat-settings.nix below
-        BIFROST_OPENAI_KEY = config.sops.secrets."bifrost/open_ai".path;
+        BIFROST_VK_SRAMEK_COPILOT = config.sops.secrets."bifrost/vk_sramek_copilot".path;
       };
 
       settings = import ./librechat-settings.nix {

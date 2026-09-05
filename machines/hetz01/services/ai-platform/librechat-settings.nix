@@ -17,7 +17,7 @@
     custom = [
       {
         name = "Bifrost";
-        apiKey = "\${LIBRECHAT_KEY}";
+        apiKey = "\${BIFROST_VK_SRAMEK_COPILOT}";
         baseURL = "http://127.0.0.1:${toString bifrostPort}/v1";
         models = {
           default = [

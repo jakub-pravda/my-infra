@@ -23,6 +23,7 @@
         "bifrost/open_ai" = { };
         "bifrost/anthropic" = { };
         "bifrost/gemini" = { };
+        "bifrost/vk_sramek_copilot" = { };
         "librechat/creds_key".restartUnits = [ "librechat.service" ];
         "librechat/creds_iv".restartUnits = [ "librechat.service" ];
         "librechat/jwt_secret".restartUnits = [ "librechat.service" ];
