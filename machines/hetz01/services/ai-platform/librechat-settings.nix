@@ -13,6 +13,12 @@
     allowedDomains = lib.unique (map (u: builtins.elemAt (builtins.split "@" u) 2) allowedUsers);
   };
 
+  webSearch = {
+    searchProvider = "tavily";
+    scraperProvider = "tavily";
+    rerankerType = "none";
+  };
+
   endpoints = {
     custom = [
       {

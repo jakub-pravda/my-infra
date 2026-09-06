@@ -59,6 +59,7 @@ in
         JWT_REFRESH_SECRET = config.sops.secrets."librechat/jwt_refresh_secret".path;
         GOOGLE_CLIENT_ID = config.sops.secrets."librechat/google_client_id".path;
         GOOGLE_CLIENT_SECRET = config.sops.secrets."librechat/google_client_secret".path;
+        TAVILY_API_KEY = config.sops.secrets."librechat/tavily_api_key".path;
         BIFROST_VK_SRAMEK_COPILOT = config.sops.secrets."bifrost/vk_sramek_copilot".path;
         IMAGE_GEN_OAI_API_KEY = config.sops.secrets."bifrost/vk_sramek_copilot".path;
       };

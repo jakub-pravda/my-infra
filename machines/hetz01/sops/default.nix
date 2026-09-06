@@ -30,6 +30,7 @@
         "librechat/jwt_refresh_secret".restartUnits = [ "librechat.service" ];
         "librechat/google_client_id".restartUnits = [ "librechat.service" ];
         "librechat/google_client_secret".restartUnits = [ "librechat.service" ];
+        "librechat/tavily_api_key".restartUnits = [ "librechat.service" ];
       };
     };
   };
