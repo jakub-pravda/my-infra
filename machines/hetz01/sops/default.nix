@@ -20,10 +20,10 @@
         "langfuse/next_auth_secret" = { };
         "langfuse/salt" = { };
         "langfuse/encryption_key" = { };
-        "bifrost/open_ai" = { };
-        "bifrost/anthropic" = { };
-        "bifrost/gemini" = { };
-        "bifrost/vk_sramek_copilot" = { };
+        "bifrost/open_ai".restartUnits = [ "bifrost.service" ];
+        "bifrost/anthropic".restartUnits = [ "bifrost.service" ];
+        "bifrost/gemini".restartUnits = [ "bifrost.service" ];
+        "bifrost/vk_sramek_copilot".restartUnits = [ "bifrost.service" ];
         "librechat/creds_key".restartUnits = [ "librechat.service" ];
         "librechat/creds_iv".restartUnits = [ "librechat.service" ];
         "librechat/jwt_secret".restartUnits = [ "librechat.service" ];
