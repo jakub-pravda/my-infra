@@ -53,6 +53,7 @@ in
 
         # Hetzner filestore
         AWS_REGION = "fsn1";
+        AWS_BUCKET_NAME = "thustor-01";
         AWS_ENDPOINT_URL = "https://fsn1.your-objectstorage.com";
       };
 
