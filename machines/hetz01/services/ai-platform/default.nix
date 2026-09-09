@@ -50,6 +50,10 @@ in
 
         IMAGE_GEN_OAI_BASEURL = "http://127.0.0.1:${toString bifrostPort}/v1";
         IMAGE_GEN_OAI_MODEL = "gemini/gemini-3.1-flash-image";
+
+        # Hetzner filestore
+        AWS_REGION = "fsn1";
+        AWS_ENDPOINT_URL = "https://fsn1.your-objectstorage.com";
       };
 
       credentials = {
@@ -60,6 +64,8 @@ in
         GOOGLE_CLIENT_ID = config.sops.secrets."librechat/google_client_id".path;
         GOOGLE_CLIENT_SECRET = config.sops.secrets."librechat/google_client_secret".path;
         TAVILY_API_KEY = config.sops.secrets."librechat/tavily_api_key".path;
+        AWS_ACCESS_KEY_ID = config.sops.secrets."librechat/s3_access_key_id".path;
+        AWS_SECRET_ACCESS_KEY = config.sops.secrets."librechat/s3_access_key".path;
         BIFROST_VK_SRAMEK_COPILOT = config.sops.secrets."bifrost/vk_sramek_copilot".path;
         IMAGE_GEN_OAI_API_KEY = config.sops.secrets."bifrost/vk_sramek_copilot".path;
       };

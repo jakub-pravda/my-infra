@@ -8,6 +8,8 @@
   version = "1.2.1";
   cache = true;
 
+  fileStrategy = "s3";
+
   registration = {
     socialLogins = [ "google" ];
     allowedDomains = lib.unique (map (u: builtins.elemAt (builtins.split "@" u) 2) allowedUsers);

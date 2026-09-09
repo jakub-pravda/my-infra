@@ -27,6 +27,8 @@
         "librechat/creds_key".restartUnits = [ "librechat.service" ];
         "librechat/creds_iv".restartUnits = [ "librechat.service" ];
         "librechat/jwt_secret".restartUnits = [ "librechat.service" ];
+        "librechat/s3_access_key_id".restartUnits = [ "librechat.service" ];
+        "librechat/s3_access_key".restartUnits = [ "librechat.service" ];
         "librechat/jwt_refresh_secret".restartUnits = [ "librechat.service" ];
         "librechat/google_client_id".restartUnits = [ "librechat.service" ];
         "librechat/google_client_secret".restartUnits = [ "librechat.service" ];
