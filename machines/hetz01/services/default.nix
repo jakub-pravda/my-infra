@@ -6,6 +6,7 @@
 
   services = {
     openssh.enable = true;
+    mongodb.enable = true;
     # *** Traefik config ***
     traefik =
       let
