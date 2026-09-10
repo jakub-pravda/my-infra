@@ -33,6 +33,7 @@
         "librechat/google_client_id".restartUnits = [ "librechat.service" ];
         "librechat/google_client_secret".restartUnits = [ "librechat.service" ];
         "librechat/tavily_api_key".restartUnits = [ "librechat.service" ];
+        "librechat/allowed_users".restartUnits = [ "librechat-seed-user.service" ];
       };
     };
   };

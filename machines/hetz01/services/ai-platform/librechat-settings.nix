@@ -1,7 +1,5 @@
 {
-  lib,
   bifrostPort,
-  allowedUsers,
   ...
 }:
 {
@@ -12,7 +10,7 @@
 
   registration = {
     socialLogins = [ "google" ];
-    allowedDomains = lib.unique (map (u: builtins.elemAt (builtins.split "@" u) 2) allowedUsers);
+    allowedDomains = [ "gmail.com" ];
   };
 
   webSearch = {

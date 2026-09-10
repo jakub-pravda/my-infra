@@ -1,11 +1,8 @@
-{ lib, config, ... }:
+{ config, ... }:
 let
   bifrostPort = 8080;
   librechatPort = 3080;
   librechatPublicUrl = "https://ai.jakubpravda.net";
-  # The only account permitted to sign in.
-  librechatAdminUsers = [ "jkb.pravda@gmail.com" ];
-  librechatUsers = [ ];
 in
 {
   sops.templates."bifrost.env" = {
@@ -27,8 +24,7 @@ in
     };
 
     librechat = {
-      adminUsers = librechatAdminUsers;
-      users = librechatUsers;
+      usersFile = config.sops.secrets."librechat/allowed_users".path;
       port = librechatPort;
       env = {
         HOST = "127.0.0.1";
@@ -72,9 +68,7 @@ in
       };
 
       settings = import ./librechat-settings.nix {
-        inherit lib;
         inherit bifrostPort;
-        allowedUsers = librechatAdminUsers ++ librechatUsers;
       };
     };
   };

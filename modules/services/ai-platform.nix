@@ -69,27 +69,13 @@ in
         description = "librechat.yaml content, see services.librechat.settings.";
       };
 
-      adminUsers = mkOption {
-        type = types.listOf types.str;
-        default = [ ];
-        example = [
-          "admin1@gmail.com"
-          "admin2@gmail.com"
-        ];
+      usersFile = mkOption {
+        type = types.nullOr types.path;
+        default = null;
+        example = literalExpression ''config.sops.secrets."librechat/allowed_users".path'';
         description = ''
-          Email addresses of the librechat users with admin permissions.
-        '';
-      };
-
-      users = mkOption {
-        type = types.listOf types.str;
-        default = [ ];
-        example = [
-          "user1@gmail.com"
-          "user2@gmail.com"
-        ];
-        description = ''
-          Email addresses of the ordinary librechat users.
+          Path to a JSON file listing the accounts permitted to sign in, as
+          `[ { email = "..."; role = "ADMIN" | "USER"; } ]`.
         '';
       };
     };
@@ -117,21 +103,11 @@ in
       };
     })
 
-    (mkIf (cfg.librechat.enable && (cfg.librechat.adminUsers != null || cfg.librechat.users != null)) {
+    (mkIf (cfg.librechat.enable && cfg.librechat.usersFile != null) {
       systemd.services.librechat-seed-user =
         let
           mongoUri = config.services.librechat.env.MONGO_URI;
-          allowedUsers =
-            map (email: {
-              inherit email;
-              role = "ADMIN";
-            }) cfg.librechat.adminUsers
-            ++ map (email: {
-              inherit email;
-              role = "USER";
-            }) cfg.librechat.users;
-          seedScript = pkgs.writeText "librechat-seed-user.js" ''
-            const allowedUsers = ${builtins.toJSON allowedUsers};
+          seedBody = pkgs.writeText "librechat-seed-user.js" ''
             const allowedEmails = allowedUsers.map((u) => u.email);
 
             const users = db.getSiblingDB(db.getName()).users;
@@ -176,6 +152,28 @@ in
               );
             });
           '';
+
+          runSeed = pkgs.writeShellScript "librechat-seed-user" ''
+            set -euo pipefail
+
+            roster="$CREDENTIALS_DIRECTORY/users"
+
+            # Fail loudly on a malformed roster rather than seeding a partial
+            # allowlist (which would delete every account not in the fragment).
+            if ! ${lib.getExe pkgs.jq} -e 'type == "array"' "$roster" > /dev/null; then
+              echo "librechat-seed-user: roster is not a JSON array" >&2
+              exit 1
+            fi
+
+            script="$RUNTIME_DIRECTORY/seed.js"
+            {
+              printf 'const allowedUsers = %s;\n' "$(< "$roster")"
+              cat ${seedBody}
+            } > "$script"
+
+            exec ${lib.getExe config.services.mongodb.mongoshPackage} \
+              --quiet ${mongoUri} "$script"
+          '';
         in
         {
           description = "Seed the LibreChat accounts permitted to sign in";
@@ -188,7 +186,16 @@ in
             Type = "oneshot";
             RemainAfterExit = true;
             DynamicUser = true;
-            ExecStart = "${lib.getExe config.services.mongodb.mongoshPackage} --quiet ${mongoUri} ${seedScript}";
+            ExecStart = runSeed;
+
+            # sops drops secrets root-owned under /run/secrets, which a
+            # DynamicUser cannot read. systemd copies the roster into a
+            # tmpfs the unit owns instead.
+            LoadCredential = [ "users:${cfg.librechat.usersFile}" ];
+            # Exempt from ProtectSystem = "strict" below; holds the assembled
+            # script, which contains the roster.
+            RuntimeDirectory = "librechat-seed-user";
+            RuntimeDirectoryMode = "0700";
 
             # Hardening: the unit only needs a loopback mongo connection.
             CapabilityBoundingSet = "";
