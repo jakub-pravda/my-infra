@@ -53,7 +53,14 @@
         system: pkgs:
         import pkgs {
           inherit system;
-          config.allowUnfree = false;
+          config = {
+            allowUnfree = false;
+            allowUnfreePredicate =
+              pkg:
+              builtins.elem (nixpkgs.lib.getName pkg) [
+                "mongodb"
+              ];
+          };
           overlays = [
             (_: _: {
               go-home = go-home.packages.${system}.default;
@@ -70,6 +77,7 @@
               go-task
               nixfmt
               statix
+              sops
               vulnix
             ];
           };
@@ -138,7 +146,10 @@
             pkgs = serverPkgs system pkgs;
             # Make inputs accessible add module parameters
             specialArgs = { inherit inputs; };
-            modules = [ machines/hetz01/configuration.nix ];
+            modules = [
+              machines/hetz01/configuration.nix
+              bifrost.nixosModules.default
+            ];
           };
       };
     };

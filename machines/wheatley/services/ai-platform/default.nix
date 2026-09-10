@@ -16,10 +16,14 @@ in
     ANTHROPIC_BASE_URL = "http://localhost:${toString bifrostPort}/anthropic";
   };
 
-  services.bifrost = {
+  services.ai-platform = {
     enable = true;
-    port = bifrostPort;
-    settings = import ./config.nix { };
-    environmentFile = config.sops.templates."bifrost.env".path;
+    librechat.enable = false;
+
+    bifrost = {
+      port = bifrostPort;
+      settings = import ./bifrost-settings.nix { };
+      environmentFile = config.sops.templates."bifrost.env".path;
+    };
   };
 }
